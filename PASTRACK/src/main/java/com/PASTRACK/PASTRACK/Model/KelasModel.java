@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 public class KelasModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @NotNull
     @Size(max = 50)

@@ -19,25 +19,22 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "student_mata_pelajaran")
+@Table(name = "jadwal")
 
-public class StudentMataPelajaranModel {
+public class JadwalModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, name = "nilai_mata_pelajaran")
-    private Integer nilai_komponen;
+    @ManyToOne
+    @JoinColumn(name = "waktu_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    WaktuKegiatan waktu;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "pelajaran_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    StudentModel student;
-
-    @ManyToOne
-    @JoinColumn(name = "kelas_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    MataPelajaranModel matapelajaran;
+    MataPelajaranModel pelajaran;
 
     
 }

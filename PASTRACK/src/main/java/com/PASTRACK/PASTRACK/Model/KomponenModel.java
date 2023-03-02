@@ -32,7 +32,7 @@ import java.util.List;
 public class KomponenModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String kode;
+    private Long kode;
 
     @NotNull
     @Size(max = 50)

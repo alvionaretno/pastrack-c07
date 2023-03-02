@@ -33,7 +33,7 @@ public class StudentModel extends UserModel implements Serializable {
     private String studentNumber;
 
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
-    @JoinColumn(name = "orangtuaId",referencedColumnName= "id", nullable = false)
+    @JoinColumn(name = "orangtuaId",referencedColumnName= "id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private OrangTuaModel orangtua;
 

@@ -32,7 +32,7 @@ import java.util.List;
 public class MataPelajaranModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @NotNull
     @Size(max = 50)
@@ -74,5 +74,7 @@ public class MataPelajaranModel implements Serializable {
     @OneToMany(mappedBy = "matapelajaran", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List <StudentMataPelajaranModel> nilaiAkhir;
 
-   
+    @OneToMany(mappedBy = "pelajaran", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List <JadwalModel> jadwal;
+
 }
