@@ -39,5 +39,4 @@ public class StudentMataPelajaranModel {
     @OnDelete(action = OnDeleteAction.CASCADE)
     MataPelajaranModel matapelajaran;
 
-    
 }

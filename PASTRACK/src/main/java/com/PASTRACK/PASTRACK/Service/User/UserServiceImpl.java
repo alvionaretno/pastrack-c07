@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.PASTRACK.PASTRACK.Model.UserModel;
 import com.PASTRACK.PASTRACK.Repository.UserDB;
+import com.PASTRACK.PASTRACK.RequestAuthentication.UserRequest;
 
 
 @Service
@@ -28,7 +29,22 @@ public class UserServiceImpl implements UserService {
         return hashedPassword;
     }
     @Override
-    public UserModel addPasien(UserModel user){
+    public UserModel addUser(UserModel user){
         return userDB.save(user);
+    }
+    @Override
+    public String getRoleByUsername(String username) {
+        // TODO Auto-generated method stub
+        return userDB.findByUsername(username).getRole().getRole();
+        // throw new UnsupportedOperationException("Unimplemented method 'getRoleByUsername'");
+    }
+    @Override
+    public UserModel updateUser(String username, UserRequest user) {
+        // TODO Auto-generated method stub
+        UserModel oldUser = getUserByUsername(username);
+        oldUser.setNama(user.getNama());
+        oldUser.setPassword(encrypt(user.getPassword()));
+        return userDB.save(oldUser);
+        
     }
 }

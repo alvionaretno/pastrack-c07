@@ -7,8 +7,10 @@ import lombok.Data;
 public class LoginResponse {
     String username;
     String token;
-    public LoginResponse(String tokenjwt, String username) {
+    String role;
+    public LoginResponse(String tokenjwt, String username, String role) {
         this.username = username;
         this.token = tokenjwt;
+        this.role = role;
     }
 }
