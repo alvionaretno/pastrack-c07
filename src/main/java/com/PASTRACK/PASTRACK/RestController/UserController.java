@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ public class UserController {
     private UserService userService;
 
     @PutMapping(value = "/{username}")
+    @PreAuthorize("hasRole('MURID') or hasRole('GURU') or hasRole('ADMIN') or hasRole('ORANGTUA')")
     private UserModel updateuser(@PathVariable("username") String username, @RequestBody UserRequest user) {
         try{
             return userService.updateUser(username, user);
@@ -39,7 +41,7 @@ public class UserController {
         }
 
     }
-    
+    @PreAuthorize("hasRole('MURID') or hasRole('GURU') or hasRole('ADMIN') or hasRole('ORANGTUA')")
     @GetMapping(value = "/{username}")
     private UserModel getuser(@PathVariable("username") String username){
         try {

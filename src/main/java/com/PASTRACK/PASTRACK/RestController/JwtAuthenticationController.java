@@ -72,7 +72,7 @@ public class JwtAuthenticationController {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         final String jwt = jwtTokenUtil.generateToken((UserDetails) authenticate.getPrincipal());
-        UserDetails user = (UserDetails) authenticate.getPrincipal();
+        // UserDetails user = (UserDetails) authenticate.getPrincipal();
         // UserModel users = userService.getUserByUsername(user.getUsername());
         // System.out.println(authenticate.getPrincipal());
         
