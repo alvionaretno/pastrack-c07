@@ -17,4 +17,5 @@ public interface UserService {
     UserModel addUser(UserModel user);
     String getRoleByUsername(String username);
     UserModel updateUser(String username, UserRequest user);
+    List<UserModel> getAllUser();
 }

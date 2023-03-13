@@ -5,6 +5,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class UserRequest implements Serializable {
+public class UserAllRequest implements Serializable {
+    String username;
     String nama;
+    String role;
 }

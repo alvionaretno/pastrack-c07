@@ -1,5 +1,7 @@
 package com.PASTRACK.PASTRACK.Service.User;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +45,11 @@ public class UserServiceImpl implements UserService {
         // TODO Auto-generated method stub
         UserModel oldUser = getUserByUsername(username);
         oldUser.setNama(user.getNama());
-        oldUser.setPassword(encrypt(user.getPassword()));
         return userDB.save(oldUser);
         
+    }
+    @Override
+    public List<UserModel> getAllUser() {
+        return userDB.findAll();
     }
 }
