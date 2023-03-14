@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.PASTRACK.PASTRACK.Model.OrangTuaModel;
 import com.PASTRACK.PASTRACK.Model.UserModel;
+import com.PASTRACK.PASTRACK.Repository.OrangTuaDB;
 import com.PASTRACK.PASTRACK.Repository.UserDB;
 import com.PASTRACK.PASTRACK.RequestAuthentication.UserRequest;
 
@@ -19,6 +21,9 @@ import com.PASTRACK.PASTRACK.RequestAuthentication.UserRequest;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDB userDB;
+
+    @Autowired
+    private OrangTuaDB orangTuaDB;
 
     @Override
     public UserModel getUserByUsername(String username) {
@@ -51,5 +56,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserModel> getAllUser() {
         return userDB.findAll();
+    }
+    @Override
+    public UserModel addUser(OrangTuaModel user) {
+        // TODO Auto-generated method stub
+        return orangTuaDB.save(user);
+        // throw new UnsupportedOperationException("Unimplemented method 'addUser'");
     }
 }
