@@ -53,6 +53,9 @@ public class MataPelajaranModel implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime akhirTahunAjaran;
 
+    @Column(name = "deskripsi", nullable = true)
+    private String deskripsi;
+
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
     @JoinColumn(name = "peminatanId",referencedColumnName= "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
