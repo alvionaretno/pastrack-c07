@@ -2,6 +2,8 @@ package com.PASTRACK.PASTRACK.Service.User;
 
 import java.util.List;
 
+import org.apache.catalina.User;
+
 import com.PASTRACK.PASTRACK.Model.OrangTuaModel;
 import com.PASTRACK.PASTRACK.Model.UserModel;
 import com.PASTRACK.PASTRACK.RequestAuthentication.UserRequest;
@@ -20,4 +22,5 @@ public interface UserService {
     String getRoleByUsername(String username);
     UserModel updateUser(String username, UserRequest user);
     List<UserModel> getAllUser();
+    UserModel getUserById(String id);
 }
