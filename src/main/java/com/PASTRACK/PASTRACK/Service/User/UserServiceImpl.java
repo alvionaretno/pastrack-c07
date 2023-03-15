@@ -57,6 +57,12 @@ public class UserServiceImpl implements UserService {
     public List<UserModel> getAllUser() {
         return userDB.findAll();
     }
+
+    @Override
+    public UserModel getUserById(String id) {
+        return userDB.findById(id);
+    }
+    
     @Override
     public UserModel addUser(OrangTuaModel user) {
         // TODO Auto-generated method stub
