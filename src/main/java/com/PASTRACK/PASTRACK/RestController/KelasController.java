@@ -4,9 +4,11 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +33,7 @@ public class KelasController {
     private KelasService kelasService;
 
     @PostMapping(value="/")
-    private KelasModel createUser(@Valid @RequestBody KelasModel kelas, BindingResult bindingResult) {
+    private KelasModel createKelas(@Valid @RequestBody KelasModel kelas, BindingResult bindingResult) {
         if(bindingResult.hasFieldErrors()){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
@@ -42,13 +44,26 @@ public class KelasController {
         }
     }
     @PutMapping(value = "/addMurid/{id}")
-    // @PreAuthorize("hasRole('MURID') or hasRole('GURU') or hasRole('ADMIN') or hasRole('ORANGTUA')")
-    private KelasModel updateuser(@PathVariable("id") String id, @RequestBody addMuridRequest[] username) {
+    @PreAuthorize("hasRole('ADMIN')")
+    private KelasModel addMurid(@PathVariable("id") String id, @RequestBody addMuridRequest[] username) {
         try{
             return kelasService.addMurid(id, username);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Username " + username + " not found."
+            );
+        }
+
+    }
+
+    @PutMapping(value = "/addMatpel/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    private KelasModel addMatpel(@PathVariable("id") String id, @RequestBody addMatpelRequest[] listMatpel) {
+        try{
+            return kelasService.addMatpel(id, listMatpel);
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Username " + listMatpel + " not found."
             );
         }
 
