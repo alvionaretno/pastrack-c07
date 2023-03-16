@@ -30,7 +30,7 @@ public class KomponenServiceImpl implements KomponenService {
     private MatpelService matpelService;
     
     @Override
-    public KomponenModel getKomponenByKode(String kode) {
+    public KomponenModel getKomponenByKode(Long kode) {
         return komponenDB.findByKode(kode);
     }
 
@@ -44,6 +44,7 @@ public class KomponenServiceImpl implements KomponenService {
         // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         // LocalDate time = LocalDate.parse(komponenReq.getDueDate(), formatter);
         komponenModel.setDueDate(komponenReq.getDueDate());
+        komponenModel.setBobot(komponenReq.getBobot());
         komponenModel.setAkhirTahunAjaran(matpelModel.getAkhirTahunAjaran());
         komponenModel.setAwalTahunAjaran(matpelModel.getAwalTahunAjaran());
         komponenModel.setMatapelajaran(matpelModel);
@@ -51,5 +52,27 @@ public class KomponenServiceImpl implements KomponenService {
         // matpelDB.save(matpelModel);
         // System.out.println("berhasil");
         return komponenDB.save(komponenModel);
+    }
+
+    @Override
+    public KomponenModel updateKomponen(String idMatpel, String kodeKomponen, addKomponenRequest komponenRequest) {
+        MataPelajaranModel matpelModel = matpelDB.findById(Long.parseLong(idMatpel));
+        KomponenModel updateKomponen = komponenDB.findByKode(Long.parseLong(kodeKomponen));
+        updateKomponen.setTitle(komponenRequest.getNamaKomponen());
+        updateKomponen.setDescription(komponenRequest.getDesc());
+        updateKomponen.setDueDate(komponenRequest.getDueDate());
+        updateKomponen.setBobot(komponenRequest.getBobot());
+        return komponenDB.save(updateKomponen);
+    }
+
+    @Override
+    public addKomponenRequest readKomponen(String kodeKomponen) {
+        KomponenModel komponenModel = komponenDB.findByKode(Long.parseLong(kodeKomponen));
+        addKomponenRequest komponenReq = new addKomponenRequest();
+        komponenReq.setNamaKomponen(komponenModel.getTitle());
+        komponenReq.setDueDate(komponenModel.getDueDate());
+        komponenReq.setBobot(komponenModel.getBobot());
+        komponenReq.setDesc(komponenModel.getDescription());
+        return komponenReq;
     }
 }

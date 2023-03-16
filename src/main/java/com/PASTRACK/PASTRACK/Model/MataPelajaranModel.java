@@ -10,7 +10,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -56,21 +56,25 @@ public class MataPelajaranModel implements Serializable {
     @Column(name = "deskripsi", nullable = true)
     private String deskripsi;
 
+    @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
     @JoinColumn(name = "peminatanId",referencedColumnName= "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private PeminatanModel peminatan;
-
+    
+    @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
     @JoinColumn(name = "guruId",referencedColumnName= "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private GuruModel guru;
-
+    
+    @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = true)
     @JoinColumn(name = "kelasId",referencedColumnName= "id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private KelasModel kelas;
-
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "matapelajaran", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<KomponenModel> listKomponen;
 

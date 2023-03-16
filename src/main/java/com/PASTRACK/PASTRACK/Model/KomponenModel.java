@@ -10,7 +10,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -56,6 +56,10 @@ public class KomponenModel implements Serializable {
     private LocalDateTime dueDate;
 
     @NotNull
+    @Column(nullable = false, name = "bobot")
+    private int bobot;
+
+    @NotNull
     @Column(nullable = false, name = "akhir_tahun_ajaran")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime akhirTahunAjaran;
@@ -65,11 +69,13 @@ public class KomponenModel implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime awalTahunAjaran;
 
+    @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
     @JoinColumn(name = "matapelajaranId",referencedColumnName= "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private MataPelajaranModel matapelajaran;
-
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "komponen", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List <StudentKomponenModel> listNilai;
 }
