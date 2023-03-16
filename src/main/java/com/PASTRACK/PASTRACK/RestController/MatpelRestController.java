@@ -86,7 +86,7 @@ public class MatpelRestController {
             );
         } else {
             KomponenModel newKomponen = komponenService.createKomponen(id, komponen);
-            return ResponseEntity.ok(newKomponen);
+            return ResponseEntity.ok().body(newKomponen);
         }
     }
 
@@ -122,5 +122,28 @@ public class MatpelRestController {
                 HttpStatus.NOT_FOUND,  "not found."
             );
         }
+    }
+
+    @PutMapping(value = "/{idMatpel}/komponen/{kodeKomponen}")
+    @PreAuthorize("hasRole('GURU')")
+    private KomponenModel updateKomponen(@PathVariable("idMatpel") String idMatpel, @PathVariable("kodeKomponen") String kodeKomponen, @Valid @RequestBody addKomponenRequest komponenModel) {
+        try {
+            return komponenService.updateKomponen(idMatpel, kodeKomponen, komponenModel);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Komponen not found");
+        }
+    }
+
+    @GetMapping(value = "/{idMatpel}/komponen/{kodeKomponen}")
+    @PreAuthorize("hasRole('GURU')")
+    private addKomponenRequest retrieveKomponen(@PathVariable("idMatpel") String idMatpel, @PathVariable("kodeKomponen") String kodeKomponen) {
+        try {
+            return komponenService.readKomponen(kodeKomponen);
+        } catch (NullPointerException e) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found"
+            );
+        } 
     }
 }

@@ -7,5 +7,5 @@ import com.PASTRACK.PASTRACK.Model.KomponenModel;
 
 @Repository
 public interface KomponenDB extends JpaRepository<KomponenModel, Long> {
-    KomponenModel findByKode(String kode);
+    KomponenModel findByKode(Long kode);
 }
