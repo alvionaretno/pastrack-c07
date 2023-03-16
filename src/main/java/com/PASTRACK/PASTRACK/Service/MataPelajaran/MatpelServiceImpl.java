@@ -14,6 +14,7 @@ import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import com.PASTRACK.PASTRACK.Model.GuruModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
+import com.PASTRACK.PASTRACK.Repository.GuruDB;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.PeminatanDB;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
@@ -31,8 +32,11 @@ public class MatpelServiceImpl implements MatpelService {
     @Autowired
     private PeminatanDB peminatanDB;
 
+    @Autowired
+    private GuruDB guruDB;
+
     @Override
-    public MataPelajaranModel getNamaMatpelById(String Id) {
+    public MataPelajaranModel getMatpelById(Long Id) {
         return matpelDB.findById(Id);
     }
 
@@ -41,16 +45,18 @@ public class MatpelServiceImpl implements MatpelService {
         GuruModel guru = guruService.getGuruByUsername(username);
         MataPelajaranModel matpelModel = new MataPelajaranModel();
         matpelModel.setNamaMataPelajaran(matpel.getNamaMataPelajaran());
-        matpelModel.setGuru(guru);
         if (matpel.getSemester().equals("GENAP")) {
             matpelModel.setSemester(false);
         } else {
             matpelModel.setSemester(true);
         }
-        matpelModel.setAwalTahunAjaran(matpel.getAwalTahunAjaran());
-        matpelModel.setAkhirTahunAjaran(matpel.getAkhirTahunAjaran());
         PeminatanModel peminatan = peminatanDB.findByNamaPeminatan(matpel.getNamaPeminatan());
         matpelModel.setPeminatan(peminatan);
+        matpelModel.setGuru(guru);
+        matpelModel.setAwalTahunAjaran(matpel.getAwalTahunAjaran());
+        matpelModel.setAkhirTahunAjaran(matpel.getAkhirTahunAjaran());
+        guru.getListMataPelajaran().add(matpelModel);
+        // guruDB.save(guru);
         return matpelDB.save(matpelModel);
     }
 
@@ -64,6 +70,7 @@ public class MatpelServiceImpl implements MatpelService {
             MatpelAllRequest tempMatpel = new MatpelAllRequest();
             tempMatpel.setNamaMataPelajaran(matpel.getNamaMataPelajaran());
             tempMatpel.setSemester(matpel.getSemester());
+            tempMatpel.setDeskripsi(matpel.getDeskripsi());
             tempMatpel.setAwalTahunAjaran(matpel.getAwalTahunAjaran());
             tempMatpel.setAkhirTahunAjaran(matpel.getAkhirTahunAjaran());
             listMatpelRequest.add(tempMatpel);

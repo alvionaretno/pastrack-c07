@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 // import java.util.List;
 import java.util.List;
@@ -43,7 +44,7 @@ public class KomponenModel implements Serializable {
     @NotNull
     @Size(max = 300)
     @Column(name = "description", nullable = false)
-    private String Description;
+    private String description;
 
     @NotNull
     @Column(name = "is_released", nullable = false)
@@ -58,6 +59,11 @@ public class KomponenModel implements Serializable {
     @Column(nullable = false, name = "akhir_tahun_ajaran")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime akhirTahunAjaran;
+
+    @NotNull
+    @Column(nullable = false, name = "awal_tahun_ajaran")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime awalTahunAjaran;
 
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
     @JoinColumn(name = "matapelajaranId",referencedColumnName= "id", nullable = false)

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class MatpelAllRequest implements Serializable {
     String namaMataPelajaran;
     Boolean semester;
+    String deskripsi;
     LocalDateTime awalTahunAjaran;
     LocalDateTime akhirTahunAjaran;
 }

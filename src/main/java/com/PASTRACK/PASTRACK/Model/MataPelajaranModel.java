@@ -66,7 +66,7 @@ public class MataPelajaranModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private GuruModel guru;
 
-    @ManyToOne(fetch= FetchType.EAGER, optional = false)
+    @ManyToOne(fetch= FetchType.EAGER, optional = true)
     @JoinColumn(name = "kelasId",referencedColumnName= "id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private KelasModel kelas;

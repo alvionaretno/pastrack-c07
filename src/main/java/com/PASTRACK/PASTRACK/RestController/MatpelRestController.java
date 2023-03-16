@@ -7,8 +7,10 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,13 +24,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import com.PASTRACK.PASTRACK.Model.GuruModel;
+import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Model.UserModel;
 import com.PASTRACK.PASTRACK.RequestAuthentication.UserRequest;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
+import com.PASTRACK.PASTRACK.Service.Komponen.KomponenService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.Service.User.UserService;
 
@@ -40,8 +46,11 @@ public class MatpelRestController {
     @Autowired
     private MatpelService matpelService;
 
+    @Autowired
+    private KomponenService komponenService;
+
     // Viewall
-    @GetMapping(value = "/{username}")
+    @GetMapping(value = "/guru/{username}")
     @PreAuthorize("hasRole('GURU')")
     private List<MatpelAllRequest> listMataPelajaran(@PathVariable("username") String username, Principal principal) {
         try {
@@ -54,7 +63,7 @@ public class MatpelRestController {
     }
 
     // Create
-    @PostMapping(value = "/add/{username}")
+    @PostMapping(value = "/guru/{username}")
     @PreAuthorize("hasRole('GURU')")
     private MataPelajaranModel createMatpel(@PathVariable("username") String username, @Valid @RequestBody addMatpelRequest matpel, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
@@ -64,6 +73,54 @@ public class MatpelRestController {
         }
         else {
             return matpelService.createMatpel(username, matpel);
+        }
+    }
+
+    // Create
+    @PostMapping(value = "/{id}/komponen")
+    @PreAuthorize("hasRole('GURU')")
+    private ResponseEntity<KomponenModel> createKomponen(@PathVariable("id") String id, @Valid @RequestBody addKomponenRequest komponen, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
+            );
+        } else {
+            KomponenModel newKomponen = komponenService.createKomponen(id, komponen);
+            return ResponseEntity.ok(newKomponen);
+        }
+    }
+
+    @GetMapping(value = "/{idMatpel}/siswa")
+    @PreAuthorize("hasRole('GURU')")
+    private List<StudentModel> getListSiswa(@PathVariable("idMatpel") String idMatpel, Principal principal) {
+        try {
+            MataPelajaranModel matpel = matpelService.getMatpelById(Long.parseLong(idMatpel));
+            if(matpel.getKelas() == null){
+                return new ArrayList<StudentModel>();
+            }else{
+                return matpel.getKelas().getListMurid();
+            }
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,  "not found."
+            );
+        }
+    }
+
+    @GetMapping(value = "/{idMatpel}/komponen")
+    @PreAuthorize("hasRole('GURU')")
+    private List<KomponenModel> getListKomponen(@PathVariable("idMatpel") String idMatpel, Principal principal) {
+        try {
+            MataPelajaranModel matpel = matpelService.getMatpelById(Long.parseLong(idMatpel));
+            if(matpel.getListKomponen() == null){
+                return new ArrayList<KomponenModel>();
+            }else{
+                return matpel.getListKomponen();
+            }
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,  "not found."
+            );
         }
     }
 }
