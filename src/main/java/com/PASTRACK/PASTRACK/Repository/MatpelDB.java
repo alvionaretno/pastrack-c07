@@ -13,8 +13,8 @@ import com.PASTRACK.PASTRACK.Model.GuruModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 
 @Repository
-public interface MatpelDB extends JpaRepository<MataPelajaranModel, Long> {
-    MataPelajaranModel findById(String Id);
+public interface MatpelDB extends JpaRepository<MataPelajaranModel, String> {
+    MataPelajaranModel findById(Long Id);
     @Query("SELECT M FROM MataPelajaranModel M WHERE M.guru = :guru AND M.awalTahunAjaran < :now AND M.akhirTahunAjaran > :now")
     List<MataPelajaranModel> findAllMatpelInGuru(
         @Param("guru") GuruModel guru,
