@@ -23,4 +23,5 @@ public interface UserService {
     UserModel updateUser(String username, UserRequest user);
     List<UserModel> getAllUser();
     UserModel getUserById(String id);
+    UserModel ChangePassword(String password, UserModel user);
 }

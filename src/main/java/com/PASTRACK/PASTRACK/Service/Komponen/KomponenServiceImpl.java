@@ -43,7 +43,7 @@ public class KomponenServiceImpl implements KomponenService {
         komponenModel.setIsReleased(false);
         // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         // LocalDate time = LocalDate.parse(komponenReq.getDueDate(), formatter);
-        komponenModel.setDueDate(komponenReq.getDueDate());
+        komponenModel.setDueDate(komponenReq.getDueDate().atStartOfDay());
         komponenModel.setBobot(komponenReq.getBobot());
         komponenModel.setAkhirTahunAjaran(matpelModel.getAkhirTahunAjaran());
         komponenModel.setAwalTahunAjaran(matpelModel.getAwalTahunAjaran());
@@ -60,7 +60,7 @@ public class KomponenServiceImpl implements KomponenService {
         KomponenModel updateKomponen = komponenDB.findByKode(Long.parseLong(kodeKomponen));
         updateKomponen.setTitle(komponenRequest.getNamaKomponen());
         updateKomponen.setDescription(komponenRequest.getDesc());
-        updateKomponen.setDueDate(komponenRequest.getDueDate());
+        updateKomponen.setDueDate(komponenRequest.getDueDate().atStartOfDay());
         updateKomponen.setBobot(komponenRequest.getBobot());
         return komponenDB.save(updateKomponen);
     }
@@ -70,7 +70,7 @@ public class KomponenServiceImpl implements KomponenService {
         KomponenModel komponenModel = komponenDB.findByKode(Long.parseLong(kodeKomponen));
         addKomponenRequest komponenReq = new addKomponenRequest();
         komponenReq.setNamaKomponen(komponenModel.getTitle());
-        komponenReq.setDueDate(komponenModel.getDueDate());
+        komponenReq.setDueDate(komponenModel.getDueDate().toLocalDate());
         komponenReq.setBobot(komponenModel.getBobot());
         komponenReq.setDesc(komponenModel.getDescription());
         return komponenReq;

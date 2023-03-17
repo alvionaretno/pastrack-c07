@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class addKomponenRequest implements Serializable {
     String namaKomponen;
-    LocalDateTime dueDate;
+    LocalDate dueDate;
     int bobot;
     String desc;
 }

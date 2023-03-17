@@ -69,4 +69,10 @@ public class UserServiceImpl implements UserService {
         return orangTuaDB.save(user);
         // throw new UnsupportedOperationException("Unimplemented method 'addUser'");
     }
+    @Override
+    public UserModel ChangePassword(String password, UserModel user) {
+        // TODO Auto-generated method stub
+        user.setPassword(encrypt(password));
+        return userDB.save(user);
+    }
 }
