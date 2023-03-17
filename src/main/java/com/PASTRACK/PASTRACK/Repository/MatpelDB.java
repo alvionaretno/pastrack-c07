@@ -20,4 +20,8 @@ public interface MatpelDB extends JpaRepository<MataPelajaranModel, String> {
         @Param("guru") GuruModel guru,
         @Param("now") LocalDateTime now
     );
+
+    @Query("SELECT id FROM MataPelajaranModel")
+    Long findIdMatpel();
+
 }

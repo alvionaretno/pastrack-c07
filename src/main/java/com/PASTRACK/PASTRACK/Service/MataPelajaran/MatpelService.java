@@ -4,10 +4,16 @@ import java.util.List;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
 
 public interface MatpelService {
     MataPelajaranModel getMatpelById(Long Id);
     MataPelajaranModel createMatpel(String id, addMatpelRequest matpel);
     // List<MataPelajaranModel> getListMatpel();
     List<MatpelAllRequest> getListMatpelInGuru(String username);
+    //MataPelajaranModel getMatpelByName(String namaMatpel);
+
+    List<MataPelajaranModel> getAllMatpel();
+
+    Long getIdMatpel(addMatpelToKelasRequest matpel);
 }

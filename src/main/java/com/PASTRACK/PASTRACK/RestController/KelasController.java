@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import javax.validation.Valid;
 
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
+import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +46,9 @@ public class KelasController {
     }
     @PutMapping(value = "/addMurid/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMurid(@PathVariable("id") String id, @RequestBody addMuridRequest[] username) {
+    private KelasModel addMuridToKelas(@PathVariable("id") String id, @RequestBody addMuridRequest[] username) {
         try{
-            return kelasService.addMurid(id, username);
+            return kelasService.addMuridToKelas(id, username);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Username " + username + " not found."
@@ -58,12 +59,12 @@ public class KelasController {
 
     @PutMapping(value = "/addMatpel/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMatpel(@PathVariable("id") String id, @RequestBody addMatpelRequest[] listMatpel) {
+    private KelasModel addMatpelToKelas(@PathVariable("id") String id, @RequestBody addMatpelToKelasRequest[] listMatpel) {
         try{
-            return kelasService.addMatpel(id, listMatpel);
+            return kelasService.addMatpelToKelas(id, listMatpel);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Username " + listMatpel + " not found."
+                    HttpStatus.NOT_FOUND, "Mata Pelajaran " + listMatpel + " not found."
             );
         }
 

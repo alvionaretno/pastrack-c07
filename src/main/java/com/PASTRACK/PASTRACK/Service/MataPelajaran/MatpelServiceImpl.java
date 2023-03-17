@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,11 @@ public class MatpelServiceImpl implements MatpelService {
     public MataPelajaranModel getMatpelById(Long Id) {
         return matpelDB.findById(Id);
     }
+
+    //@Override
+    //public MataPelajaranModel getMatpelByName(String name) {
+    //    return matpelDB.findByName(name);
+    //}
 
     @Override
     public MataPelajaranModel createMatpel(String username, addMatpelRequest matpel) {
@@ -81,5 +87,17 @@ public class MatpelServiceImpl implements MatpelService {
             listMatpelRequest.add(tempMatpel);
         }
         return listMatpelRequest;
+    }
+
+    @Override
+    public List<MataPelajaranModel> getAllMatpel() {
+        List<MataPelajaranModel> listMatpel = matpelDB.findAll();
+        return listMatpel;
+    }
+
+    @Override
+    public Long getIdMatpel(addMatpelToKelasRequest matpel) {
+        Long idMatpel = matpelDB.findIdMatpel();
+        return idMatpel;
     }
 }
