@@ -41,10 +41,10 @@ public class PostinganTugasModel implements Serializable {
     @NotNull
     private String deskripsi;
 
-//    @ManyToOne
-//    @JoinColumn(name = "pelajaran_id")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    MataPelajaranModel pelajaran;
+    @ManyToOne
+    @JoinColumn(name = "pelajaran_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    MataPelajaranModel pelajaran;
 
 
 
