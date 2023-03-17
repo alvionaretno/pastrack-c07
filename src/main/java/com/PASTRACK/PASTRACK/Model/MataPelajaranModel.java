@@ -83,6 +83,9 @@ public class MataPelajaranModel implements Serializable {
 
     @OneToMany(mappedBy = "pelajaran", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List <JadwalModel> jadwal;
+    
+    @OneToMany(mappedBy = "pelajaran", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List <PostinganTugasModel> listpostinganTugas;
 
 //
 //    @OneToMany(mappedBy = "pelajaran", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
