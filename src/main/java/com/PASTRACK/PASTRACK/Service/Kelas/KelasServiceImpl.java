@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
@@ -39,6 +40,9 @@ public class KelasServiceImpl implements KelasService {
     @Autowired
     private MatpelService matpelService;
 
+    @Autowired
+    private KelasService kelasService;
+
     @Override
     public List<KelasModel> getAllKelas() {
         List<KelasModel> listKelas = kelasDB.findAll();
@@ -46,9 +50,21 @@ public class KelasServiceImpl implements KelasService {
     }
 
     @Override
-    public KelasModel addKelas(KelasModel kelas) {
-        kelasDB.save(kelas);
-        return kelas;
+    public KelasModel createKelas(addKelasRequest kelas, String usernameGuru) {
+        KelasModel kelasModel = new KelasModel();
+        System.out.println(kelas);
+        kelasModel.setNamaKelas(kelas.getNamaKelas());
+        if (kelas.getSemester().equals("GENAP")) {
+            kelasModel.setSemester(false);
+        } else {
+            kelasModel.setSemester(true);
+        }
+        GuruModel guru = guruService.getGuruByUsername(usernameGuru);
+        kelasModel.setGuru(guru);
+        kelasModel.setAwalTahunAjaran(kelas.getAwalTahunAjaran().atStartOfDay());
+        kelasModel.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran().atStartOfDay());
+        guru.getListKelas().add(kelasModel);
+        return kelasDB.save(kelasModel);
     }
 
     @Override

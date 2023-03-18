@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
@@ -41,19 +42,6 @@ public class KelasRestController {
     private MatpelService matpelService;
 
 
-    //Create Kelas
-    @PostMapping(value="/")
-    private KelasModel createKelas(@Valid @RequestBody KelasModel kelas, BindingResult bindingResult) {
-        if(bindingResult.hasFieldErrors()){
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
-            );
-        }
-        else {
-            return kelasService.addKelas(kelas);
-        }
-    }
-
     //Add Siswa To Kelas
     @PutMapping(value = "/addMurid/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -66,6 +54,19 @@ public class KelasRestController {
             );
         }
 
+    }
+
+    @PostMapping(value = "/{usernameGuru}")
+    @PreAuthorize("hasRole('ADMIN')")
+    private KelasModel createKelas(@Valid @RequestBody addKelasRequest kelas, @PathVariable("usernameGuru") String usernameGuru,BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
+            );
+        }
+        else {
+            return kelasService.createKelas(kelas, usernameGuru);
+        }
     }
 
     //Add Mata Pelajaran To Kelas
