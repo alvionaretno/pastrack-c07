@@ -1,6 +1,5 @@
 package com.PASTRACK.PASTRACK.RestController;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -8,17 +7,13 @@ import java.util.NoSuchElementException;
 import javax.validation.Valid;
 
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
+import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
-import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
-import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
-import com.PASTRACK.PASTRACK.Model.PostinganTugasModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
-import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -71,7 +66,7 @@ public class KelasRestController {
     //Add Mata Pelajaran To Kelas
     @PutMapping(value = "/addMatpel/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMatpelToKelas(@PathVariable("id") String id, @RequestBody addMatpelToKelasRequest[] listMatpel) {
+    private KelasModel addMatpelToKelas(@PathVariable("id") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
         try{
             return kelasService.addMatpelToKelas(id, listMatpel);
         } catch (NoSuchElementException e){

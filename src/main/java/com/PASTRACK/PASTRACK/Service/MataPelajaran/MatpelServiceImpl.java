@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
+import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,7 +98,7 @@ public class MatpelServiceImpl implements MatpelService {
     }
 
     @Override
-    public Long getIdMatpel(addMatpelToKelasRequest matpel) {
+    public Long getIdMatpel(addMatpelKelasRequest matpel) {
         Long idMatpel = matpelDB.findIdMatpel();
         return idMatpel;
     }
