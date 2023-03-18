@@ -69,7 +69,6 @@ public class KelasServiceImpl implements KelasService {
 
     @Override
     public KelasModel addMuridToKelas(String id, addMuridRequest[] username) {
-        // TODO Auto-generated method stub
         Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(id));
         KelasModel kelasObj = kelas.get();
         if (!(kelasObj.getListMataPelajaran() != null)) {
@@ -87,17 +86,16 @@ public class KelasServiceImpl implements KelasService {
 
     @Override
     public KelasModel addMatpelToKelas(String id, addMatpelToKelasRequest[] listMatpel) {
-        // TODO Auto-generated method stub
         Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(id));
         KelasModel kelasObj = kelas.get();
         if (kelasObj.getListMataPelajaran() == null) {
             kelasObj.setListMataPelajaran(new ArrayList<MataPelajaranModel>());
         }
         for (int i = 0; i < listMatpel.length; i++) {
-            //Optional<addMatpelToKelasRequest> mataPelajaran = matpelService.getMatpelById(matpelService.getIdMatpel(listMatpel[i]));
-            //if (listMataPelajaran != null) {
-            //    kelasObj.getListMataPelajaran().add(listMataPelajaran.get());
-            //}
+            Optional<MataPelajaranModel> mataPelajaran = matpelService.getMatpelByName(listMatpel[i].getNamaMatpel());
+            if (mataPelajaran != null) {
+                kelasObj.getListMataPelajaran().add(mataPelajaran.get());
+            }
         }
         kelasDB.save(kelasObj);
         return kelasObj;

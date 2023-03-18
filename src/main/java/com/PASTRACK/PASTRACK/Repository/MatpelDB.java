@@ -3,6 +3,7 @@ package com.PASTRACK.PASTRACK.Repository;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +20,11 @@ public interface MatpelDB extends JpaRepository<MataPelajaranModel, String> {
     List<MataPelajaranModel> findAllMatpelInGuru(
         @Param("guru") GuruModel guru,
         @Param("now") LocalDateTime now
+    );
+
+    @Query("SELECT M FROM MataPelajaranModel M WHERE M.namaMataPelajaran = :namaMatpel")
+    Optional<MataPelajaranModel> findByName(
+            @Param("namaMatpel") String namaMatpel
     );
 
     @Query("SELECT id FROM MataPelajaranModel")

@@ -7,7 +7,5 @@ import java.time.LocalDateTime;
 
 @Data
 public class addMatpelToKelasRequest implements Serializable {
-    Long Id;
     String namaMatpel;
-    LocalDateTime awalTahunAjaran;
 }
