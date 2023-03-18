@@ -40,6 +40,8 @@ public class KelasRestController {
     // private KelasService kelasService;
     private MatpelService matpelService;
 
+
+    //Create Kelas
     @PostMapping(value="/")
     private KelasModel createKelas(@Valid @RequestBody KelasModel kelas, BindingResult bindingResult) {
         if(bindingResult.hasFieldErrors()){
@@ -51,6 +53,8 @@ public class KelasRestController {
             return kelasService.addKelas(kelas);
         }
     }
+
+    //Add Siswa To Kelas
     @PutMapping(value = "/addMurid/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     private KelasModel addMuridToKelas(@PathVariable("id") String id, @RequestBody addMuridRequest[] username) {
@@ -64,6 +68,7 @@ public class KelasRestController {
 
     }
 
+    //Add Mata Pelajaran To Kelas
     @PutMapping(value = "/addMatpel/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     private KelasModel addMatpelToKelas(@PathVariable("id") String id, @RequestBody addMatpelToKelasRequest[] listMatpel) {
@@ -77,8 +82,7 @@ public class KelasRestController {
 
     }
 
-
-    //Retrieve
+    //Retrieve Kelas By Id
     @GetMapping (value = "/{idKelas}")
     private KelasModel retrieveKelas (@PathVariable("idKelas") Long idKelas){
         try {
@@ -104,7 +108,7 @@ public class KelasRestController {
     }
 
     @GetMapping(value = "/{idKelas}/siswa")
-    @PreAuthorize("hasRole('GURU')")
+    @PreAuthorize("hasRole('GURU') or hasRole('ADMIN')")
     private List<StudentModel> getListSiswaByKelas(@PathVariable("idKelas") String idKelas) {
         try {
             KelasModel kelas = kelasService.getKelasById(Long.parseLong(idKelas));
@@ -112,6 +116,23 @@ public class KelasRestController {
                 return new ArrayList<StudentModel>();
             }else{
                 return kelas.getListMurid();
+            }
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,  "not found."
+            );
+        }
+    }
+
+    @GetMapping(value = "/{idKelas}/matpel")
+    @PreAuthorize("hasRole('GURU') or hasRole('ADMIN') or hasRole('MURID')")
+    private List<MataPelajaranModel> getListMatpelByKelas(@PathVariable("idKelas") String idKelas) {
+        try {
+            KelasModel kelas = kelasService.getKelasById(Long.parseLong(idKelas));
+            if(kelas.getListMataPelajaran() == null){
+                return new ArrayList<MataPelajaranModel>();
+            }else{
+                return kelas.getListMataPelajaran();
             }
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
