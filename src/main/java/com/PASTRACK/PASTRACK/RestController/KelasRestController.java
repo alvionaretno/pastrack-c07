@@ -82,8 +82,20 @@ public class KelasRestController {
         }
     }
 
-    //Retrieve Kelas By Id
-    @GetMapping (value = "/{idKelas}")
+    //Retrieve All Kelas
+    @GetMapping (value = "/allKelas")
+    private List<KelasModel> retrieveAllKelas (){
+        try {
+            return kelasService.getAllKelas();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada kelas"
+            );
+        }
+    }
+
+    //Get All Kelas By Id
+    @GetMapping (value = "//{idKelas}")
     private KelasModel retrieveKelas (@PathVariable("idKelas") Long idKelas){
         try {
             return kelasService.getKelasById(idKelas);
