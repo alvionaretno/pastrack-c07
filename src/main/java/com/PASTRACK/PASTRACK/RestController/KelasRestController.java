@@ -41,6 +41,18 @@ public class KelasRestController {
     // private KelasService kelasService;
     private MatpelService matpelService;
 
+    @PostMapping(value = "/{usernameGuru}")
+    @PreAuthorize("hasRole('ADMIN')")
+    private KelasModel createKelas(@Valid @RequestBody addKelasRequest kelas, @PathVariable("usernameGuru") String usernameGuru,BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
+            );
+        }
+        else {
+            return kelasService.createKelas(kelas, usernameGuru);
+        }
+    }
 
     //Add Siswa To Kelas
     @PutMapping(value = "/addMurid/{id}")
@@ -54,19 +66,6 @@ public class KelasRestController {
             );
         }
 
-    }
-
-    @PostMapping(value = "/{usernameGuru}")
-    @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel createKelas(@Valid @RequestBody addKelasRequest kelas, @PathVariable("usernameGuru") String usernameGuru,BindingResult bindingResult) {
-        if (bindingResult.hasFieldErrors()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
-            );
-        }
-        else {
-            return kelasService.createKelas(kelas, usernameGuru);
-        }
     }
 
     //Add Mata Pelajaran To Kelas

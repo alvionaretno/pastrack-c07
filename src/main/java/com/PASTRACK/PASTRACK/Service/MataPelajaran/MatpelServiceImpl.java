@@ -3,6 +3,7 @@ package com.PASTRACK.PASTRACK.Service.MataPelajaran;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -41,10 +42,11 @@ public class MatpelServiceImpl implements MatpelService {
         return matpelDB.findById(Id);
     }
 
-    //@Override
-    //public MataPelajaranModel getMatpelByName(String name) {
-    //    return matpelDB.findByName(name);
-    //}
+    @Override
+    public Optional<MataPelajaranModel> getMatpelByName(String namaMatpel) {
+        return matpelDB.findByName(namaMatpel);
+    }
+
 
     @Override
     public MataPelajaranModel createMatpel(String username, addMatpelRequest matpel) {
