@@ -1,6 +1,5 @@
 package com.PASTRACK.PASTRACK.Service.Kelas;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -9,20 +8,17 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
+import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
-import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
-import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
-import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.PASTRACK.PASTRACK.Repository.KelasDB;
 import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
-import com.PASTRACK.PASTRACK.Service.User.UserService;
 
 @Service
 @Transactional
@@ -85,7 +81,7 @@ public class KelasServiceImpl implements KelasService {
     }
 
     @Override
-    public KelasModel addMatpelToKelas(String id, addMatpelToKelasRequest[] listMatpel) {
+    public KelasModel addMatpelToKelas(String id, addMatpelKelasRequest[] listMatpel) {
         Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(id));
         KelasModel kelasObj = kelas.get();
         if (kelasObj.getListMataPelajaran() == null) {
