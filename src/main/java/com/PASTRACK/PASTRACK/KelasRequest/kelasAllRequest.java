@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 public class kelasAllRequest implements Serializable {
+    Long id;
     String namaKelas;
     Boolean semester;
     LocalDateTime awalTahunAjaran;

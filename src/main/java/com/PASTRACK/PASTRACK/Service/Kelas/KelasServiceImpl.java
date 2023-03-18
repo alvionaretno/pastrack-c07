@@ -119,6 +119,7 @@ public class KelasServiceImpl implements KelasService {
         List<kelasAllRequest> listKelasRequest = new ArrayList<kelasAllRequest>();
         for(KelasModel kelas : listKelas) {
             kelasAllRequest tempKelas = new kelasAllRequest();
+            tempKelas.setId(kelas.getId());
             tempKelas.setNamaKelas(kelas.getNamaKelas());
             tempKelas.setSemester(kelas.getSemester());
             tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
