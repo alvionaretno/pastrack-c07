@@ -62,7 +62,7 @@ public class KelasRestController {
             return kelasService.addMuridToKelas(id, username);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Username " + username + " not found."
+                    HttpStatus.NOT_FOUND, "Username " + username + " not found."
             );
         }
 
@@ -79,7 +79,6 @@ public class KelasRestController {
                     HttpStatus.NOT_FOUND, "Mata Pelajaran " + listMatpel + " not found."
             );
         }
-
     }
 
     //Retrieve Kelas By Id

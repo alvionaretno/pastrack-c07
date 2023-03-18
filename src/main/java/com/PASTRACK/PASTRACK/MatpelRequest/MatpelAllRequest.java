@@ -13,5 +13,4 @@ public class MatpelAllRequest implements Serializable {
     String deskripsi;
     LocalDateTime awalTahunAjaran;
     LocalDateTime akhirTahunAjaran;
-
 }

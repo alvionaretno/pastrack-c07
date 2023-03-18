@@ -16,6 +16,9 @@ import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
 public interface KelasService {
     
     KelasModel addKelas(KelasModel kelas);
+
+    List<KelasModel> getAllKelas();
+
     KelasModel addMuridToKelas (String id, addMuridRequest[] username);
     KelasModel addMatpelToKelas (String id, addMatpelToKelasRequest[] listMatpel);
     KelasModel getKelasById (Long idKelas);

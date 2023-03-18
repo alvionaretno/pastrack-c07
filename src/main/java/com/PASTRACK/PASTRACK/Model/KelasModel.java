@@ -1,5 +1,6 @@
 package com.PASTRACK.PASTRACK.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,6 +53,7 @@ public class KelasModel implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime akhirTahunAjaran;
 
+    @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
     @JoinColumn(name = "guruId",referencedColumnName= "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
