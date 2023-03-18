@@ -3,10 +3,11 @@ package com.PASTRACK.PASTRACK.Service.MataPelajaran;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
+import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,10 +42,11 @@ public class MatpelServiceImpl implements MatpelService {
         return matpelDB.findById(Id);
     }
 
-    //@Override
-    //public MataPelajaranModel getMatpelByName(String name) {
-    //    return matpelDB.findByName(name);
-    //}
+    @Override
+    public Optional<MataPelajaranModel> getMatpelByName(String namaMatpel) {
+        return matpelDB.findByName(namaMatpel);
+    }
+
 
     @Override
     public MataPelajaranModel createMatpel(String username, addMatpelRequest matpel) {
@@ -96,7 +98,7 @@ public class MatpelServiceImpl implements MatpelService {
     }
 
     @Override
-    public Long getIdMatpel(addMatpelToKelasRequest matpel) {
+    public Long getIdMatpel(addMatpelKelasRequest matpel) {
         Long idMatpel = matpelDB.findIdMatpel();
         return idMatpel;
     }
