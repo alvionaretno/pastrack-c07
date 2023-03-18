@@ -40,6 +40,12 @@ public class KelasServiceImpl implements KelasService {
     private MatpelService matpelService;
 
     @Override
+    public List<KelasModel> getAllKelas() {
+        List<KelasModel> listKelas = kelasDB.findAll();
+        return listKelas;
+    }
+
+    @Override
     public KelasModel addKelas(KelasModel kelas) {
         kelasDB.save(kelas);
         return kelas;
@@ -72,7 +78,7 @@ public class KelasServiceImpl implements KelasService {
             kelasObj.setListMataPelajaran(new ArrayList<MataPelajaranModel>());
         }
         for (int i = 0; i < listMatpel.length; i++) {
-            //Optional<addMatpeltoKelasRequest> mataPelajaran = matpelService.getMatpelById(matpelService.getIdMatpel(listMatpel[i]));
+            //Optional<addMatpelToKelasRequest> mataPelajaran = matpelService.getMatpelById(matpelService.getIdMatpel(listMatpel[i]));
             //if (listMataPelajaran != null) {
             //    kelasObj.getListMataPelajaran().add(listMataPelajaran.get());
             //}
@@ -99,7 +105,6 @@ public class KelasServiceImpl implements KelasService {
         List<kelasAllRequest> listKelasRequest = new ArrayList<kelasAllRequest>();
         for(KelasModel kelas : listKelas) {
             kelasAllRequest tempKelas = new kelasAllRequest();
-            tempKelas.setId(kelas.getId());
             tempKelas.setNamaKelas(kelas.getNamaKelas());
             tempKelas.setSemester(kelas.getSemester());
             tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
