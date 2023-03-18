@@ -1,21 +1,23 @@
 package com.PASTRACK.PASTRACK.Service.Kelas;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
+import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
-import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.*;
+import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.PASTRACK.PASTRACK.Model.KelasModel;
-import com.PASTRACK.PASTRACK.Model.StudentModel;
-import com.PASTRACK.PASTRACK.Model.UserModel;
 import com.PASTRACK.PASTRACK.Repository.KelasDB;
 import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
@@ -30,6 +32,9 @@ public class KelasServiceImpl implements KelasService {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private GuruService guruService;
 
     @Autowired
     private MatpelService matpelService;
@@ -74,5 +79,33 @@ public class KelasServiceImpl implements KelasService {
         }
         kelasDB.save(kelasObj);
         return kelasObj;
+    }
+
+    @Override
+    public KelasModel getKelasById (Long IdKelas){
+        Optional<KelasModel> kelas = kelasDB.findById(IdKelas);
+        if (kelas.isPresent()){
+            return kelas.get();
+        }
+        else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    @Override
+    public List<kelasAllRequest> getListKelasByGuru(String usernameGuru) {
+        GuruModel guru = guruService.getGuruByUsername(usernameGuru);
+        List<KelasModel> listKelas = kelasDB.findKelasByGuru(guru);
+        List<kelasAllRequest> listKelasRequest = new ArrayList<kelasAllRequest>();
+        for(KelasModel kelas : listKelas) {
+            kelasAllRequest tempKelas = new kelasAllRequest();
+            tempKelas.setId(kelas.getId());
+            tempKelas.setNamaKelas(kelas.getNamaKelas());
+            tempKelas.setSemester(kelas.getSemester());
+            tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
+            tempKelas.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran());
+            listKelasRequest.add(tempKelas);
+        }
+        return listKelasRequest;
     }
 }
