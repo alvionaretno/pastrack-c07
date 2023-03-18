@@ -3,6 +3,7 @@ package com.PASTRACK.PASTRACK.Service.Komponen;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -11,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenRequest;
+import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Repository.KomponenDB;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
@@ -74,5 +77,17 @@ public class KomponenServiceImpl implements KomponenService {
         komponenReq.setBobot(komponenModel.getBobot());
         komponenReq.setDesc(komponenModel.getDescription());
         return komponenReq;
+    }
+
+    @Override
+    public getComponent getKomponen(StudentModel student, KomponenModel komponen) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getKomponen'");
+    }
+
+    @Override
+    public List<getComponent> getListKomponen(StudentModel student, MataPelajaranModel matpel) {
+        // TODO Auto-generated method stub
+        return komponenDB.getAllKomponenSiswa(student, matpel);
     }
 }

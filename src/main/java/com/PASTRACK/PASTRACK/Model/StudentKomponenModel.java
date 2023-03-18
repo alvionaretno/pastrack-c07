@@ -27,7 +27,7 @@ public class StudentKomponenModel {
     private Long id;
 
     @Column(nullable = false, name = "nilai_komponen")
-    private Integer nilai_komponen;
+    private Integer nilaiKomponen;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
