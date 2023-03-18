@@ -2,6 +2,7 @@ package com.PASTRACK.PASTRACK.Service.Kelas;
 
 import java.util.List;
 
+import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
@@ -15,7 +16,7 @@ import com.PASTRACK.PASTRACK.kelasMatpelRequest.addMatpelToKelasRequest;
 
 public interface KelasService {
     
-    KelasModel addKelas(KelasModel kelas);
+    KelasModel createKelas(addKelasRequest kelas, String usernameGuru);
 
     List<KelasModel> getAllKelas();
 

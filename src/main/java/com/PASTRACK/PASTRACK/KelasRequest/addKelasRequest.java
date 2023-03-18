@@ -14,9 +14,7 @@ import java.util.List;
 public class addKelasRequest implements Serializable {
     String namaKelas;
     String semester;
-    LocalDateTime awalTahunAjaran;
-    LocalDateTime akhirTahunAjaran;
-    GuruModel guru;
-    List<StudentModel> listMurid;
-    List<MataPelajaranModel> listMatpel;
+    String usernameGuru;
+    LocalDate awalTahunAjaran;
+    LocalDate akhirTahunAjaran;
 }
