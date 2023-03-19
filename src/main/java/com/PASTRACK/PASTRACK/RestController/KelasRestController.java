@@ -9,8 +9,10 @@ import javax.validation.Valid;
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
+import com.PASTRACK.PASTRACK.Model.GuruModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
+import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,10 @@ public class KelasRestController {
     // private KelasService kelasService;
     private MatpelService matpelService;
 
+    @Autowired
+    // private KelasService kelasService;
+    private GuruService guruService;
+
     @PostMapping(value = "/")
     @PreAuthorize("hasRole('ADMIN')")
     private KelasModel createKelas(@Valid @RequestBody addKelasRequest kelas,BindingResult bindingResult) {
@@ -50,9 +56,9 @@ public class KelasRestController {
     }
 
     //Add Siswa To Kelas
-    @PutMapping(value = "/addMurid/{id}")
+    @PutMapping(value = "/addMurid/{idKelas}")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMuridToKelas(@PathVariable("id") String id, @RequestBody addMuridRequest[] username) {
+    private KelasModel addMuridToKelas(@PathVariable("idKelas") String id, @RequestBody addMuridRequest[] username) {
         try{
             return kelasService.addMuridToKelas(id, username);
         } catch (NoSuchElementException e){
@@ -64,9 +70,9 @@ public class KelasRestController {
     }
 
     //Add Mata Pelajaran To Kelas
-    @PutMapping(value = "/addMatpel/{id}")
+    @PutMapping(value = "/addMatpel/{idKelas}")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMatpelToKelas(@PathVariable("id") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
+    private KelasModel addMatpelToKelas(@PathVariable("idKelas") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
         try{
             return kelasService.addMatpelToKelas(id, listMatpel);
         } catch (NoSuchElementException e){
@@ -87,6 +93,7 @@ public class KelasRestController {
             );
         }
     }
+
 
     //Get Kelas By Id
     @GetMapping (value = "//{idKelas}")
