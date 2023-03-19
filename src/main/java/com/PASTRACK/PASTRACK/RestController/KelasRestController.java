@@ -96,7 +96,7 @@ public class KelasRestController {
 
 
     //Get Kelas By Id
-    @GetMapping (value = "//{idKelas}")
+    @GetMapping (value = "/{idKelas}")
     private KelasModel retrieveKelas (@PathVariable("idKelas") Long idKelas){
         try {
             return kelasService.getKelasById(idKelas);
