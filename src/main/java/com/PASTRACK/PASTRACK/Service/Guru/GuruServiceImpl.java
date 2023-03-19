@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.PASTRACK.PASTRACK.Model.KelasModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,12 @@ public class GuruServiceImpl implements GuruService {
     @Override
     public GuruModel getGuruByUsername(String username) {
         return guruDB.findByUsername(username);
+    }
+
+    @Override
+    public List<GuruModel> getAllGuru() {
+        List<GuruModel> listGuru = guruDB.findAll();
+        return listGuru;
     }
 
     @Override

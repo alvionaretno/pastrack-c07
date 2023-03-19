@@ -8,6 +8,8 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import com.PASTRACK.PASTRACK.Model.GuruModel;
+import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GuruService guruService;
 
     @PutMapping(value = "/{username}")
     @PreAuthorize("hasRole('MURID') or hasRole('GURU') or hasRole('ADMIN') or hasRole('ORANGTUA')")
@@ -82,6 +87,17 @@ public class UserController {
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "not found.");
+        }
+    }
+
+    @GetMapping (value = "/allGuru")
+    private List<GuruModel> retrieveAllGuru (){
+        try {
+            return guruService.getAllGuru();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada Guru"
+            );
         }
     }
 

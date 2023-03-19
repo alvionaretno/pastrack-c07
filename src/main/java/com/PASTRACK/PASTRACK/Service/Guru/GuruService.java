@@ -8,4 +8,6 @@ import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 public interface GuruService {
     GuruModel getGuruByUsername(String username);
     List<MataPelajaranModel> listMatpelDiGuru(String id);
+
+    List<GuruModel> getAllGuru();
 }
