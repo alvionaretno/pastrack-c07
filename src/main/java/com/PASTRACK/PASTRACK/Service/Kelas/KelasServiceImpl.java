@@ -64,16 +64,22 @@ public class KelasServiceImpl implements KelasService {
     }
 
     @Override
-    public KelasModel addMuridToKelas(String id, addMuridRequest[] username) {
-        Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(id));
+    public KelasModel addMuridToKelas(String idKelas, addMuridRequest[] username) {
+        Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(idKelas));
         KelasModel kelasObj = kelas.get();
         if (!(kelasObj.getListMataPelajaran() != null)) {
             kelasObj.setListMurid(new ArrayList<StudentModel>());
         }
         for (int i = 0; i < username.length; i++) {
             Optional<StudentModel> murid = studentService.getUserById(username[i].getUsername());
-            if (murid != null) {
-                kelasObj.getListMurid().add(murid.get());
+            StudentModel murids = murid.get();
+            if (murids != null) {
+                kelasObj.getListMurid().add(murids);
+                if(murids.getListKelas() == null) {
+                    murids.setListKelas(new ArrayList<KelasModel>());
+                }
+                murids.getListKelas().add(kelasObj);
+
             }
         }
         kelasDB.save(kelasObj);
