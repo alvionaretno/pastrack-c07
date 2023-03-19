@@ -1,5 +1,6 @@
 package com.PASTRACK.PASTRACK.RestController;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
@@ -8,13 +9,11 @@ import com.PASTRACK.PASTRACK.Model.PostinganTugasModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.PASTRACK.PASTRACK.Model.PostinganTugasModel;
-import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 import com.PASTRACK.PASTRACK.Service.Postingan.PostinganService;
 
 @RestController
@@ -26,6 +25,18 @@ public class PostinganController {
     private PostinganService postinganService;
 
     //Add
+
+    @GetMapping (value = "/")
+    private List<PostinganTugasModel> findAllPostingan (){
+        try {
+            return postinganService.retrieveListPostingan();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Postingan not found"
+            );
+        }
+    }
+
     @PostMapping(value="/")
     private PostinganTugasModel createPostingan(@Valid @RequestBody PostinganTugasModel postingan, BindingResult bindingResult) {
         if(bindingResult.hasFieldErrors()){
@@ -51,7 +62,7 @@ public class PostinganController {
     }
 
     //Update
-    @PutMapping(value = "/update/{kode}")
+    @PutMapping(value = "/{kode}")
     private PostinganTugasModel updatePostingan (@PathVariable("kode")Long kodePostingan, @RequestBody PostinganTugasModel postingan){
         try{
             return postinganService.updatePostingan(kodePostingan, postingan);
@@ -63,7 +74,7 @@ public class PostinganController {
     }
 
     //Delete
-    @DeleteMapping (value = "/delete/{kode}")
+    @DeleteMapping (value = "/{kode}")
     private ResponseEntity deletePostingan (@PathVariable("kode") Long kodePostingan){
         try {
             postinganService.deletePostingan(kodePostingan);

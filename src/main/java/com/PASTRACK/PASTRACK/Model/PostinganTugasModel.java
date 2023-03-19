@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,6 +42,7 @@ public class PostinganTugasModel implements Serializable {
     @NotNull
     private String deskripsi;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "pelajaran_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
