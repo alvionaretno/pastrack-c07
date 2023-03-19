@@ -36,16 +36,16 @@ public class KelasRestController {
     // private KelasService kelasService;
     private MatpelService matpelService;
 
-    @PostMapping(value = "/{usernameGuru}")
+    @PostMapping(value = "/")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel createKelas(@Valid @RequestBody addKelasRequest kelas, @PathVariable("usernameGuru") String usernameGuru,BindingResult bindingResult) {
+    private KelasModel createKelas(@Valid @RequestBody addKelasRequest kelas,BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
             );
         }
         else {
-            return kelasService.createKelas(kelas, usernameGuru);
+            return kelasService.createKelas(kelas);
         }
     }
 
@@ -88,7 +88,7 @@ public class KelasRestController {
         }
     }
 
-    //Get All Kelas By Id
+    //Get Kelas By Id
     @GetMapping (value = "//{idKelas}")
     private KelasModel retrieveKelas (@PathVariable("idKelas") Long idKelas){
         try {

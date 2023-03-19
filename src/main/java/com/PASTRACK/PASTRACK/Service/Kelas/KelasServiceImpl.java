@@ -46,7 +46,7 @@ public class KelasServiceImpl implements KelasService {
     }
 
     @Override
-    public KelasModel createKelas(addKelasRequest kelas, String usernameGuru) {
+    public KelasModel createKelas(addKelasRequest kelas) {
         KelasModel kelasModel = new KelasModel();
         System.out.println(kelas);
         kelasModel.setNamaKelas(kelas.getNamaKelas());
@@ -55,7 +55,7 @@ public class KelasServiceImpl implements KelasService {
         } else {
             kelasModel.setSemester(true);
         }
-        GuruModel guru = guruService.getGuruByUsername(usernameGuru);
+        GuruModel guru = guruService.getGuruByUsername(kelas.getUsernameGuru());
         kelasModel.setGuru(guru);
         kelasModel.setAwalTahunAjaran(kelas.getAwalTahunAjaran().atStartOfDay());
         kelasModel.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran().atStartOfDay());

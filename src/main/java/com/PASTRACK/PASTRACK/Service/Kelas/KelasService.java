@@ -11,7 +11,7 @@ import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 
 public interface KelasService {
     
-    KelasModel createKelas(addKelasRequest kelas, String usernameGuru);
+    KelasModel createKelas(addKelasRequest kelas);
 
     List<KelasModel> getAllKelas();
 
