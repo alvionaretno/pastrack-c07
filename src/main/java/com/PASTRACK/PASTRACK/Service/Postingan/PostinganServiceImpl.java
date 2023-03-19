@@ -1,6 +1,5 @@
 package com.PASTRACK.PASTRACK.Service.Postingan;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -11,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.PASTRACK.PASTRACK.Model.PostinganTugasModel;
-import com.PASTRACK.PASTRACK.Model.StudentModel;
-import com.PASTRACK.PASTRACK.Model.UserModel;
+
 import com.PASTRACK.PASTRACK.Repository.PostinganDB;
-import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
-import com.PASTRACK.PASTRACK.Service.Student.StudentService;
-import com.PASTRACK.PASTRACK.Service.User.UserService;
+
+
 
 @Service
 @Transactional
@@ -25,8 +22,6 @@ public class PostinganServiceImpl implements PostinganService {
     @Autowired
     private PostinganDB postinganDB;
 
-    @Autowired
-    private StudentService studentService;
 
     @Override
     public PostinganTugasModel addPostingan(PostinganTugasModel postingan) {

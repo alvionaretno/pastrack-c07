@@ -6,15 +6,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import javax.swing.text.DefaultStyledDocument.ElementSpec;
 import javax.validation.Valid;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,19 +29,17 @@ import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenRequest;
 import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
-import com.PASTRACK.PASTRACK.Model.GuruModel;
+
 import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
-import com.PASTRACK.PASTRACK.Model.UserModel;
-import com.PASTRACK.PASTRACK.RequestAuthentication.UserRequest;
-import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
+
 import com.PASTRACK.PASTRACK.Service.Komponen.KomponenService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 import com.PASTRACK.PASTRACK.Service.StudentKomponen.StudentKomponenService;
-import com.PASTRACK.PASTRACK.Service.User.UserService;
+
 
 @RestController
 @CrossOrigin
@@ -204,8 +200,7 @@ public class MatpelRestController {
     private List<getComponent> getListKomponenSiswa(@PathVariable("idMatpel") String idMatpel,
             @PathVariable("username") String username) {
         Optional<StudentModel> student = studentService.getUserById(username);
-        // KomponenModel komponen =
-        // komponenService.getKomponenByKode(Long.parseLong(kodeKomponen));
+
         MataPelajaranModel mataPelajaran = matpelService.getMatpelById(Long.parseLong(idMatpel));
         try {
             return komponenService.getListKomponen(student.get(), mataPelajaran);

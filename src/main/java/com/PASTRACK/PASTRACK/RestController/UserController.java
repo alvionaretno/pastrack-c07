@@ -1,6 +1,6 @@
 package com.PASTRACK.PASTRACK.RestController;
 
-import java.io.Console;
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,17 +9,17 @@ import java.util.NoSuchElementException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,7 @@ import com.PASTRACK.PASTRACK.Model.UserModel;
 import com.PASTRACK.PASTRACK.RequestAuthentication.ChangePasswordRequest;
 import com.PASTRACK.PASTRACK.RequestAuthentication.UserAllRequest;
 import com.PASTRACK.PASTRACK.RequestAuthentication.UserRequest;
-import com.PASTRACK.PASTRACK.Security.SecurityConfig;
+
 import com.PASTRACK.PASTRACK.Service.User.UserService;
 
 @RestController

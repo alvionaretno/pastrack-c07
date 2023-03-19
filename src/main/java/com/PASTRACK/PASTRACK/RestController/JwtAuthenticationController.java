@@ -1,14 +1,13 @@
 package com.PASTRACK.PASTRACK.RestController;
 
 import java.util.ArrayList;
-import java.util.Objects;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
@@ -16,9 +15,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.bind.annotation.RestController;
-// import com.javainuse.service.JwtUserDetailsService;
+
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.core.Authentication;
 
@@ -34,13 +33,10 @@ import com.PASTRACK.PASTRACK.RequestAuthentication.RegisterGuru;
 import com.PASTRACK.PASTRACK.RequestAuthentication.RegisterRequest;
 import com.PASTRACK.PASTRACK.RequestAuthentication.RegisterSiswa;
 import com.PASTRACK.PASTRACK.Security.jwt.jwtutils;
-import com.PASTRACK.PASTRACK.Security.service.UserDetailsServiceImpl;
 import com.PASTRACK.PASTRACK.Service.Role.RoleService;
 import com.PASTRACK.PASTRACK.Service.User.UserService;
 
-// import com.javainuse.config.JwtTokenUtil;
-// import com.javainuse.model.JwtRequest;
-// import com.javainuse.model.JwtResponse;
+
 
 @RestController
 @CrossOrigin
@@ -53,8 +49,6 @@ public class JwtAuthenticationController {
     @Autowired
     private jwtutils jwtTokenUtil;
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private UserService userService;

@@ -16,7 +16,6 @@ import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import com.PASTRACK.PASTRACK.Model.GuruModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
-import com.PASTRACK.PASTRACK.Repository.GuruDB;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.PeminatanDB;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
@@ -34,8 +33,6 @@ public class MatpelServiceImpl implements MatpelService {
     @Autowired
     private PeminatanDB peminatanDB;
 
-    @Autowired
-    private GuruDB guruDB;
 
     @Override
     public MataPelajaranModel getMatpelById(Long Id) {

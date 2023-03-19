@@ -1,10 +1,7 @@
 package com.PASTRACK.PASTRACK.Service.Komponen;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
+
 
 import javax.transaction.Transactional;
 
@@ -18,7 +15,7 @@ import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Repository.KomponenDB;
-import com.PASTRACK.PASTRACK.Repository.MatpelDB;
+
 import com.PASTRACK.PASTRACK.Repository.StudentKomponenDB;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 
@@ -27,9 +24,6 @@ import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 public class KomponenServiceImpl implements KomponenService {
     @Autowired
     private KomponenDB komponenDB;
-
-    @Autowired 
-    private MatpelDB matpelDB;
 
     @Autowired
     private MatpelService matpelService;
@@ -64,7 +58,6 @@ public class KomponenServiceImpl implements KomponenService {
 
     @Override
     public KomponenModel updateKomponen(String idMatpel, String kodeKomponen, addKomponenRequest komponenRequest) {
-        MataPelajaranModel matpelModel = matpelDB.findById(Long.parseLong(idMatpel));
         KomponenModel updateKomponen = komponenDB.findByKode(Long.parseLong(kodeKomponen));
         updateKomponen.setTitle(komponenRequest.getNamaKomponen());
         updateKomponen.setDescription(komponenRequest.getDesc());
