@@ -32,11 +32,13 @@ import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 
 import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
-
+import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanRequest;
 import com.PASTRACK.PASTRACK.Service.Komponen.KomponenService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
+import com.PASTRACK.PASTRACK.Service.Peminatan.PeminatanService;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 import com.PASTRACK.PASTRACK.Service.StudentKomponen.StudentKomponenService;
 
@@ -57,6 +59,9 @@ public class MatpelRestController {
 
     @Autowired
     private StudentKomponenService studentKomponenService;
+
+    @Autowired
+    private PeminatanService peminatanService;
 
     // Viewall
     @GetMapping(value = "/guru/{username}")
@@ -207,6 +212,21 @@ public class MatpelRestController {
         } catch (NullPointerException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Komponen " + idMatpel + " not found");
+        }
+    }
+
+    @GetMapping(value = "/peminatan")
+    @PreAuthorize("hasRole('GURU')")
+    private List<PeminatanRequest> getListPeminatan(Principal principal) {
+        try {
+            if (peminatanService.getAllPeminatan() == null) {
+                return new ArrayList<PeminatanRequest>();
+            } else {
+                return peminatanService.getAllPeminatan();
+            }
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "not found.");
         }
     }
 }
