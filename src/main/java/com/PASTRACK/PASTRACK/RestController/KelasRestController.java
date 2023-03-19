@@ -14,6 +14,7 @@ import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
+import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,7 +41,44 @@ public class KelasRestController {
 
     @Autowired
     // private KelasService kelasService;
+    private StudentService studentService;
+
+    @Autowired
+    // private KelasService kelasService;
     private GuruService guruService;
+
+    @GetMapping (value = "/allGuru")
+    private List<GuruModel> retrieveAllGuru (){
+        try {
+            return guruService.getAllGuru();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada Guru"
+            );
+        }
+    }
+
+    @GetMapping (value = "/allSiswa")
+    private List<StudentModel> retrieveAllSiswa (){
+        try {
+            return studentService.getAllSiswa();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada Guru"
+            );
+        }
+    }
+
+    @GetMapping (value = "/allMatpel")
+    private List<MataPelajaranModel> retrieveAllMatpel (){
+        try {
+            return matpelService.getAllMatpel();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada Matpel"
+            );
+        }
+    }
 
     @PostMapping(value = "/")
     @PreAuthorize("hasRole('ADMIN')")
@@ -58,9 +96,9 @@ public class KelasRestController {
     //Add Siswa To Kelas
     @PutMapping(value = "/addMurid/{idKelas}")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMuridToKelas(@PathVariable("idKelas") String id, @RequestBody addMuridRequest[] username) {
+    private KelasModel addMuridToKelas(@PathVariable("idKelas") String idKelas, @RequestBody addMuridRequest[] username) {
         try{
-            return kelasService.addMuridToKelas(id, username);
+            return kelasService.addMuridToKelas(idKelas, username);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Username " + username + " not found."
@@ -83,7 +121,7 @@ public class KelasRestController {
     }
 
     //Retrieve All Kelas
-    @GetMapping (value = "/allKelas")
+    @GetMapping (value = "/")
     private List<KelasModel> retrieveAllKelas (){
         try {
             return kelasService.getAllKelas();
@@ -102,7 +140,7 @@ public class KelasRestController {
             return kelasService.getKelasById(idKelas);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Postingan " + idKelas + " not found"
+                    HttpStatus.NOT_FOUND, "Kelas " + idKelas + " not found"
             );
         }
     }

@@ -9,7 +9,9 @@ import java.util.NoSuchElementException;
 import javax.validation.Valid;
 
 import com.PASTRACK.PASTRACK.Model.GuruModel;
+import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
+import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -46,6 +48,9 @@ public class UserController {
 
     @Autowired
     private GuruService guruService;
+
+    @Autowired
+    private StudentService studentService;
 
     @PutMapping(value = "/{username}")
     @PreAuthorize("hasRole('MURID') or hasRole('GURU') or hasRole('ADMIN') or hasRole('ORANGTUA')")
@@ -90,16 +95,6 @@ public class UserController {
         }
     }
 
-    @GetMapping (value = "/allGuru")
-    private List<GuruModel> retrieveAllGuru (){
-        try {
-            return guruService.getAllGuru();
-        } catch (NoSuchElementException e){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Belum ada Guru"
-            );
-        }
-    }
 
     @PutMapping(value = "/changePassword/{username}")
     @PreAuthorize("hasRole('MURID') or hasRole('GURU') or hasRole('ADMIN') or hasRole('ORANGTUA')")

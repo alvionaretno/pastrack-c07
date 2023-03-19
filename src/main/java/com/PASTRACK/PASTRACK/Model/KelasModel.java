@@ -57,11 +57,13 @@ public class KelasModel implements Serializable {
     @JoinColumn(name = "guruId",referencedColumnName= "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private GuruModel guru;
-    
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "student_kelas", joinColumns = @JoinColumn(name = "kelas_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
     List<StudentModel> listMurid;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "kelas", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MataPelajaranModel> listMataPelajaran;
 }
