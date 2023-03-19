@@ -48,6 +48,7 @@ public class PeminatanModel implements Serializable {
     @JsonIgnore
     private List<MataPelajaranModel> listMataPelajaran;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "student_kelas", joinColumns = @JoinColumn(name = "kelas_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
     List<StudentModel> listMurid;
