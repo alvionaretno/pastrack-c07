@@ -15,6 +15,7 @@ import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenRequest;
 import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Repository.KomponenDB;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
@@ -80,9 +81,11 @@ public class KomponenServiceImpl implements KomponenService {
     }
 
     @Override
-    public getComponent getKomponen(StudentModel student, KomponenModel komponen) {
+    public getComponent getKomponen(StudentKomponenModel studentKomponen) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getKomponen'");
+        return new getComponent(studentKomponen.getId(), studentKomponen.getKomponen().getTitle(), studentKomponen.getKomponen().getBobot(), studentKomponen.getNilaiKomponen());
+
+        // throw new UnsupportedOperationException("Unimplemented method 'getKomponen'");
     }
 
     @Override

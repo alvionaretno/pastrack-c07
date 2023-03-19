@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import javax.swing.text.DefaultStyledDocument.ElementSpec;
 import javax.validation.Valid;
 
 import org.apache.catalina.connector.Response;
@@ -32,6 +33,7 @@ import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import com.PASTRACK.PASTRACK.Model.GuruModel;
 import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Model.UserModel;
 import com.PASTRACK.PASTRACK.RequestAuthentication.UserRequest;
@@ -39,6 +41,7 @@ import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.Komponen.KomponenService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
+import com.PASTRACK.PASTRACK.Service.StudentKomponen.StudentKomponenService;
 import com.PASTRACK.PASTRACK.Service.User.UserService;
 
 @RestController
@@ -54,6 +57,9 @@ public class MatpelRestController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private StudentKomponenService studentKomponenService;
 
     // Viewall
     @GetMapping(value = "/guru/{username}")
@@ -140,44 +146,49 @@ public class MatpelRestController {
 
     @GetMapping(value = "/{idMatpel}/komponen/{kodeKomponen}")
     @PreAuthorize("hasRole('GURU')")
-    private addKomponenRequest retrieveKomponen(@PathVariable("idMatpel") String idMatpel, @PathVariable("kodeKomponen") String kodeKomponen) {
+    private addKomponenRequest retrieveKomponen(@PathVariable("idMatpel") String idMatpel,
+            @PathVariable("kodeKomponen") String kodeKomponen) {
         try {
             return komponenService.readKomponen(kodeKomponen);
         } catch (NullPointerException e) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found"
-            );
-        } 
+                    HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found");
+        }
     }
 
     @GetMapping(value = "/{idMatpel}/komponen/{kodeKomponen}/siswa/{username}")
     @PreAuthorize("hasRole('GURU')")
-    private getComponent getKomponenSiswa(@PathVariable("idMatpel") String idMatpel, 
-    @PathVariable("kodeKomponnen") String kodeKomponen, 
-    @PathVariable("username") String username) {
+    private getComponent getKomponenSiswa(@PathVariable("idMatpel") String idMatpel,
+            @PathVariable("kodeKomponen") String kodeKomponen,
+            @PathVariable("username") String username) {
         Optional<StudentModel> student = studentService.getUserById(username);
-        KomponenModel komponen = komponenService.getKomponenByKode(Long.parseLong(kodeKomponen));
-        try {
-            return komponenService.getKomponen(student.get(), komponen);
-        } catch (NullPointerException e) {
+        Optional<StudentKomponenModel> studentKomponen = studentKomponenService.getById(Long.parseLong(kodeKomponen));
+        if (student.get() == studentKomponen.get().getStudent()) {
+            try {
+                return komponenService.getKomponen(studentKomponen.get());
+            } catch (NullPointerException e) {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found");
+            }
+        }else{
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found"
-            );
-        } 
+                HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found");
+        }
     }
+
     @GetMapping(value = "/{idMatpel}/siswa/{username}")
     @PreAuthorize("hasRole('GURU')")
-    private List<getComponent> getListKomponenSiswa(@PathVariable("idMatpel") String idMatpel,  
-    @PathVariable("username") String username) {
+    private List<getComponent> getListKomponenSiswa(@PathVariable("idMatpel") String idMatpel,
+            @PathVariable("username") String username) {
         Optional<StudentModel> student = studentService.getUserById(username);
-        // KomponenModel komponen = komponenService.getKomponenByKode(Long.parseLong(kodeKomponen));
+        // KomponenModel komponen =
+        // komponenService.getKomponenByKode(Long.parseLong(kodeKomponen));
         MataPelajaranModel mataPelajaran = matpelService.getMatpelById(Long.parseLong(idMatpel));
         try {
             return komponenService.getListKomponen(student.get(), mataPelajaran);
         } catch (NullPointerException e) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Komponen " + idMatpel + " not found"
-            );
-        } 
+                    HttpStatus.NOT_FOUND, "Komponen " + idMatpel + " not found");
+        }
     }
 }

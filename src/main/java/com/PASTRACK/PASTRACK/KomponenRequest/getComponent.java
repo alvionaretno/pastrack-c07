@@ -8,11 +8,13 @@ import lombok.Data;
 
 
 public class getComponent {
+    Long id;
     String namaKomponen;
     int bobot;
     int nilai;
 
-    public getComponent(String namaKomponen, int bobot, int nilai){
+    public getComponent(Long id, String namaKomponen, int bobot, int nilai){
+        this.id = id;
         this.namaKomponen = namaKomponen;
         this.bobot = bobot;
         this.nilai = nilai;
@@ -25,5 +27,8 @@ public class getComponent {
     }
     public int getNilai() {
         return this.nilai;
+    }
+    public Long getId(){
+        return this.id;
     }
 }
