@@ -49,8 +49,6 @@ public class MatpelServiceImpl implements MatpelService {
     public MataPelajaranModel createMatpel(String username, addMatpelRequest matpel) {
         GuruModel guru = guruService.getGuruByUsername(username);
         MataPelajaranModel matpelModel = new MataPelajaranModel();
-        System.out.println("MASUKKKKKKKK");
-        System.out.println(matpel);
         matpelModel.setNamaMataPelajaran(matpel.getNamaMataPelajaran());
         if (matpel.getSemester().equals("GENAP")) {
             matpelModel.setSemester(false);
@@ -58,14 +56,12 @@ public class MatpelServiceImpl implements MatpelService {
             matpelModel.setSemester(true);
         }
         PeminatanModel peminatan = peminatanDB.findByNamaPeminatan(matpel.getNamaPeminatan());
-        System.out.println(peminatan);
         matpelModel.setPeminatan(peminatan);
         matpelModel.setDeskripsi(matpel.getDesc());
         matpelModel.setGuru(guru);
         matpelModel.setAwalTahunAjaran(matpel.getAwalTahunAjaran().atStartOfDay());
         matpelModel.setAkhirTahunAjaran(matpel.getAkhirTahunAjaran().atStartOfDay());
         guru.getListMataPelajaran().add(matpelModel);
-        // guruDB.save(guru);
         return matpelDB.save(matpelModel);
     }
 

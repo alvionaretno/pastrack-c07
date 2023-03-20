@@ -43,16 +43,15 @@ public class KomponenServiceImpl implements KomponenService {
         komponenModel.setTitle(komponenReq.getNamaKomponen());
         komponenModel.setDescription(komponenReq.getDesc());
         komponenModel.setIsReleased(false);
-        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        // LocalDate time = LocalDate.parse(komponenReq.getDueDate(), formatter);
         komponenModel.setDueDate(komponenReq.getDueDate().atStartOfDay());
         komponenModel.setBobot(komponenReq.getBobot());
         komponenModel.setAkhirTahunAjaran(matpelModel.getAkhirTahunAjaran());
         komponenModel.setAwalTahunAjaran(matpelModel.getAwalTahunAjaran());
         komponenModel.setMatapelajaran(matpelModel);
         matpelModel.getListKomponen().add(komponenModel);
-        // matpelDB.save(matpelModel);
-        // System.out.println("berhasil");
+        for (StudentModel student : matpelModel.getKelas().getListMurid()) {
+            createStudentKomponen(student, komponenModel);
+        }
         return komponenDB.save(komponenModel);
     }
 
@@ -95,6 +94,16 @@ public class KomponenServiceImpl implements KomponenService {
     public StudentKomponenModel updateStudentKomponen(StudentKomponenModel studentKomponen, int nilai) {
         // TODO Auto-generated method stub
         studentKomponen.setNilaiKomponen(nilai);
+        return studentKomponenDB.save(studentKomponen);
+    }
+
+    @Override
+    public StudentKomponenModel createStudentKomponen(StudentModel student, KomponenModel komponen) {
+        StudentKomponenModel studentKomponen = new StudentKomponenModel();
+        studentKomponen.setKomponen(komponen);
+        studentKomponen.setStudent(student);
+        studentKomponen.setNilaiKomponen(0);
+        student.getNilai().add(studentKomponen);
         return studentKomponenDB.save(studentKomponen);
     }
 }
