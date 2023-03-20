@@ -15,7 +15,7 @@ import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Repository.KomponenDB;
-
+import com.PASTRACK.PASTRACK.Repository.StudentDB;
 import com.PASTRACK.PASTRACK.Repository.StudentKomponenDB;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 
@@ -30,6 +30,9 @@ public class KomponenServiceImpl implements KomponenService {
     
     @Autowired
     private StudentKomponenDB studentKomponenDB;
+
+    @Autowired
+    private StudentDB studentDB;
     
     @Override
     public KomponenModel getKomponenByKode(Long kode) {
@@ -49,8 +52,10 @@ public class KomponenServiceImpl implements KomponenService {
         komponenModel.setAwalTahunAjaran(matpelModel.getAwalTahunAjaran());
         komponenModel.setMatapelajaran(matpelModel);
         matpelModel.getListKomponen().add(komponenModel);
-        for (StudentModel student : matpelModel.getKelas().getListMurid()) {
-            createStudentKomponen(student, komponenModel);
+        if (matpelModel.getKelas() != null) {
+            for (StudentModel student : matpelModel.getKelas().getListMurid()) {
+                createStudentKomponen(student, komponenModel);
+            }
         }
         return komponenDB.save(komponenModel);
     }
