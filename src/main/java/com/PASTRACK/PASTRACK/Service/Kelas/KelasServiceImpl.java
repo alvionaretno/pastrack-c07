@@ -95,7 +95,8 @@ public class KelasServiceImpl implements KelasService {
         }
         for (int i = 0; i < listMatpel.length; i++) {
             Optional<MataPelajaranModel> mataPelajaran = matpelService.getMatpelByName(listMatpel[i].getNamaMatpel());
-            if (mataPelajaran != null) {
+            MataPelajaranModel matpels = mataPelajaran.get();
+            if (matpels != null) {
                 kelasObj.getListMataPelajaran().add(mataPelajaran.get());
             }
         }
