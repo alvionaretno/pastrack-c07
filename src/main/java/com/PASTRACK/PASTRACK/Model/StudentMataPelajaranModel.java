@@ -35,7 +35,7 @@ public class StudentMataPelajaranModel {
     StudentModel student;
 
     @ManyToOne
-    @JoinColumn(name = "kelas_id")
+    @JoinColumn(name = "matapelajaran_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     MataPelajaranModel matapelajaran;
 
