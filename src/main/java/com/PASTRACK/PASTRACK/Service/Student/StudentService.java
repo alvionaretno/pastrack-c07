@@ -13,4 +13,6 @@ public interface StudentService {
     Optional<StudentModel> getUserById(String username);
 
     List<StudentModel> getAllSiswa();
+
+    //List<StudentModel> getNotAssignedSiswa();
 }

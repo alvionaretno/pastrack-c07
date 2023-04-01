@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.PASTRACK.PASTRACK.Model.GuruModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.StudentModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,5 +21,7 @@ public interface KelasDB extends JpaRepository<KelasModel, Long> {
     @Query("SELECT K FROM KelasModel K WHERE K.guru = :guru")
     List<KelasModel> findKelasByGuru(@Param("guru") GuruModel guru);
 
-    Optional<MataPelajaranModel> findMatpelById(Long id);
+    @Query("SELECT K.listKelas FROM StudentModel K WHERE K.id = :id")
+    List<KelasModel> findKelasBySiswa(@Param("id") String idSiswa);
+
 }
