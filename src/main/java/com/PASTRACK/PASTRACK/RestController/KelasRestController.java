@@ -80,6 +80,17 @@ public class KelasRestController {
         }
     }
 
+    @GetMapping (value = "/notAssigned/Matpel")
+    private List<MataPelajaranModel> retrieveNotAssignedMatpel (){
+        try {
+            return kelasService.getNotAssignedMatpel();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada Matpel"
+            );
+        }
+    }
+
     @GetMapping (value = "/allMatpel")
     private List<MataPelajaranModel> retrieveAllMatpel (){
         try {
