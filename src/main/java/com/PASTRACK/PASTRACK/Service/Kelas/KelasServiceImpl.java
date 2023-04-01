@@ -207,6 +207,24 @@ public class KelasServiceImpl implements KelasService {
     }
 
     @Override
+    public List<MataPelajaranModel> getNotAssignedMatpel() {
+        List<MataPelajaranModel> allMatpel = matpelService.getAllMatpel();
+        return kelasService.getNotAssignedMatpel(allMatpel);
+    }
+    @Override
+    public List<MataPelajaranModel> getNotAssignedMatpel(List<MataPelajaranModel> listMatpel) {
+        List<MataPelajaranModel> listNotAssignedMatpel = new ArrayList<MataPelajaranModel>();
+        for(MataPelajaranModel mataPelajaran : listMatpel) {
+            KelasModel kelasSiswa = mataPelajaran.getKelas();
+            if(kelasSiswa==null) {
+                listNotAssignedMatpel.add(mataPelajaran);
+            }
+
+        }
+        return listNotAssignedMatpel;
+    }
+
+    @Override
     public MataPelajaranModel getMatpelById(Long id) {
         // TODO Auto-generated method stub
         return matpelDB.findById(id);
