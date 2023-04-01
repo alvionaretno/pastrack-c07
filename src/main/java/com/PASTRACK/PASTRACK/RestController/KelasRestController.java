@@ -64,7 +64,18 @@ public class KelasRestController {
             return studentService.getAllSiswa();
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Belum ada Guru"
+                    HttpStatus.NOT_FOUND, "Belum ada Siswa"
+            );
+        }
+    }
+
+    @GetMapping (value = "/notAssigned/Siswa")
+    private List<StudentModel> retrieveNotAssignedSiswa (){
+        try {
+            return kelasService.getNotAssignedStudents();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada Siswa"
             );
         }
     }

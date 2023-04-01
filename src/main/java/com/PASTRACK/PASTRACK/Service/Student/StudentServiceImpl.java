@@ -1,5 +1,6 @@
 package com.PASTRACK.PASTRACK.Service.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,5 +38,12 @@ public class StudentServiceImpl implements StudentService {
         List<StudentModel> listGuru = studentDB.findAll();
         return listGuru;
     }
+
+    //@Override
+    //public String getNotAssignedSiswa() {
+        //List<StudentModel> listSiswa = studentDB.findNotAssignedSiswa();
+        //return listSiswa;
+       // return "";
+    //}
     
 }
