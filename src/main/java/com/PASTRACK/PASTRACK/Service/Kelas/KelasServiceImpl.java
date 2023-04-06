@@ -46,12 +46,14 @@ public class KelasServiceImpl implements KelasService {
     @Autowired
     private KelasService kelasService;
 
+    //Retrieve All Kelas
     @Override
     public List<KelasModel> getAllKelas() {
         List<KelasModel> listKelas = kelasDB.findAll();
         return listKelas;
     }
 
+    //Create Kelas
     @Override
     public KelasModel createKelas(addKelasRequest kelas) {
         KelasModel kelasModel = new KelasModel();
@@ -70,29 +72,8 @@ public class KelasServiceImpl implements KelasService {
         return kelasDB.save(kelasModel);
     }
 
-    @Override
-    public KelasModel addMuridToKelas(String idKelas, addMuridRequest[] username) {
-        Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(idKelas));
-        KelasModel kelasObj = kelas.get();
-        if (!(kelasObj.getListMataPelajaran() != null)) {
-            kelasObj.setListMurid(new ArrayList<StudentModel>());
-        }
-        for (int i = 0; i < username.length; i++) {
-            Optional<StudentModel> murid = studentService.getUserById(username[i].getUsername());
-            StudentModel murids = murid.get();
-            if (murids != null) {
-                kelasObj.getListMurid().add(murids);
-                if(murids.getListKelas() == null) {
-                    murids.setListKelas(new ArrayList<KelasModel>());
-                }
-                murids.getListKelas().add(kelasObj);
 
-            }
-        }
-        kelasDB.save(kelasObj);
-        return kelasObj;
-    }
-
+    //Add Matpel to particular class
     @Override
     public KelasModel addMatpelToKelas(String id, addMatpelKelasRequest[] listMatpel) {
         Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(id));
@@ -116,6 +97,31 @@ public class KelasServiceImpl implements KelasService {
         return kelasObj;
     }
 
+    //Add Murid to particular class
+    @Override
+    public KelasModel addMuridToKelas(String idKelas, addMuridRequest[] username) {
+        Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(idKelas));
+        KelasModel kelasObj = kelas.get();
+        if (!(kelasObj.getListMataPelajaran() != null)) {
+            kelasObj.setListMurid(new ArrayList<StudentModel>());
+        }
+        for (int i = 0; i < username.length; i++) {
+            Optional<StudentModel> murid = studentService.getUserById(username[i].getUsername());
+            StudentModel murids = murid.get();
+            if (murids != null) {
+                kelasObj.getListMurid().add(murids);
+                if(murids.getListKelas() == null) {
+                    murids.setListKelas(new ArrayList<KelasModel>());
+                }
+                murids.getListKelas().add(kelasObj);
+
+            }
+        }
+        kelasDB.save(kelasObj);
+        return kelasObj;
+    }
+
+    //Retrieve Kelas By Id
     @Override
     public KelasModel getKelasById (Long IdKelas){
         Optional<KelasModel> kelas = kelasDB.findById(IdKelas);
@@ -127,6 +133,7 @@ public class KelasServiceImpl implements KelasService {
         }
     }
 
+    //Retrieve Kelas By Guru
     @Override
     public List<kelasAllRequest> getListKelasByGuru(String usernameGuru) {
         GuruModel guru = guruService.getGuruByUsername(usernameGuru);
@@ -162,6 +169,8 @@ public class KelasServiceImpl implements KelasService {
         return listKelasRequest;
     }
 
+
+    //Checking if certain Siswa is already assigned to paericular class in current semester
     @Override
     public Boolean cekIfSiswaHasBeenAssigned(List<KelasModel> listKelasInSiswa) {
         //List<kelasAllRequest> listKelasSiswa = new ArrayList<kelasAllRequest>();
@@ -186,12 +195,14 @@ public class KelasServiceImpl implements KelasService {
         return hasBeenAssigned;
     }
 
+    //Retrieve All Siswa yang belum di assign ke kelas manapun (method helper)
     @Override
     public List<StudentModel> getNotAssignedStudents() {
         List<StudentModel> allSiswa = studentService.getAllSiswa();
         return kelasService.getNotAssignedStudents(allSiswa);
     }
 
+    //Retrieve All Siswa yang belum di assign ke kelas manapun
     @Override
     public List<StudentModel> getNotAssignedStudents(List<StudentModel> listSiswa) {
         List<StudentModel> listNotAssignedSiswa = new ArrayList<StudentModel>();
@@ -206,11 +217,14 @@ public class KelasServiceImpl implements KelasService {
         return listNotAssignedSiswa;
     }
 
+    //Retrieve All Matpel yang belum di assign ke kelas manapun (method helper)
     @Override
     public List<MataPelajaranModel> getNotAssignedMatpel() {
         List<MataPelajaranModel> allMatpel = matpelService.getAllMatpel();
         return kelasService.getNotAssignedMatpel(allMatpel);
     }
+
+    //Retrieve All Matpel yang belum di assign ke kelas manapun
     @Override
     public List<MataPelajaranModel> getNotAssignedMatpel(List<MataPelajaranModel> listMatpel) {
         List<MataPelajaranModel> listNotAssignedMatpel = new ArrayList<MataPelajaranModel>();
