@@ -83,12 +83,13 @@ public class KelasServiceImpl implements KelasService {
         }
         for (int i = 0; i < listMatpel.length; i++) {
             //Optional<MataPelajaranModel> mataPelajaran = matpelService.getMatpelByName(listMatpel[i].getNamaMatpel());
-            Long idMatpel = getMatpelRequest.getId();
-            MataPelajaranModel matpels = matpelService.getMatpelById(idMatpel);
-            if (matpels != null) {
-                kelasObj.getListMataPelajaran().add(matpels);
-                if(matpels.getKelas() == null) {
-                    matpels.setKelas(kelasObj);
+            MataPelajaranModel mataPelajaran = matpelService.getMatpelById(listMatpel[i].getIdMatpel());
+            //Long idMatpel = getMatpelRequest.getId();
+            //MataPelajaranModel matpels = matpelService.getMatpelById(idMatpel);
+            if (mataPelajaran != null) {
+                kelasObj.getListMataPelajaran().add(mataPelajaran);
+                if(mataPelajaran.getKelas() == null) {
+                    mataPelajaran.setKelas(kelasObj);
                 }
 
             }

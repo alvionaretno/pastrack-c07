@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class addMatpelKelasRequest implements Serializable {
+    Long idMatpel;
     String namaMatpel;
 
 }
