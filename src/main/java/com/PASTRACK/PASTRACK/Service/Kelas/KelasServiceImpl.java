@@ -218,6 +218,13 @@ public class KelasServiceImpl implements KelasService {
         return listNotAssignedSiswa;
     }
 
+    @Override
+    public List<StudentModel> getListSiswaInKelasX(String idKelas) {
+        KelasModel kelas = kelasService.getKelasById(Long.valueOf(idKelas));
+        List<StudentModel> listSiswaInKelasX = kelas.getListMurid();
+        return listSiswaInKelasX;
+    }
+
     //Retrieve All Matpel yang belum di assign ke kelas manapun (method helper)
     @Override
     public List<MataPelajaranModel> getNotAssignedMatpel() {
