@@ -33,6 +33,8 @@ public interface KelasService {
 
     List<StudentModel> getNotAssignedStudents();
 
+    List<StudentModel> getListSiswaInKelasX(String idKelas);
+
     List<MataPelajaranModel> getNotAssignedMatpel(List<MataPelajaranModel> listMatpel);
 
     List<MataPelajaranModel> getNotAssignedMatpel();

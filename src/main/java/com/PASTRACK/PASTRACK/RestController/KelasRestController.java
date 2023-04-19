@@ -129,6 +129,20 @@ public class KelasRestController {
 
     }
 
+    //Add Siswa To Kelas
+    @GetMapping(value = "/listMurid/{idKelas}")
+    @PreAuthorize("hasRole('ADMIN')")
+    private List<StudentModel> getListMuridInKelasX(@PathVariable("idKelas") String idKelas) {
+        try{
+            return kelasService.getListSiswaInKelasX(idKelas);
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Murid " + " not found."
+            );
+        }
+
+    }
+
     //Add Mata Pelajaran To Kelas
     @PutMapping(value = "/addMatpel/{idKelas}")
     @PreAuthorize("hasRole('ADMIN')")
