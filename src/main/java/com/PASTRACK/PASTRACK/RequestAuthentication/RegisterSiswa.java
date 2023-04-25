@@ -9,6 +9,7 @@ public class RegisterSiswa implements Serializable {
     String username;
     String password;
     String nama;
+    Long angkatanId;
     String role;
     String studentNumber;
 }
