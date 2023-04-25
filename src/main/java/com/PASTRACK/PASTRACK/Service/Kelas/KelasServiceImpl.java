@@ -64,16 +64,8 @@ public class KelasServiceImpl implements KelasService {
         System.out.println(kelas);
         kelasModel.setNamaKelas(kelas.getNamaKelas());
         kelasModel.setSemester(semesterService.getSemesterById(kelas.getSemesterId()));
-
-        //if (kelas.getSemester().equals("GENAP")) {
-            //kelasModel.setSemester(false);
-        //} else {
-            //kelasModel.setSemester(true);
-        //}
         GuruModel guru = guruService.getGuruByUsername(kelas.getUsernameGuru());
         kelasModel.setGuru(guru);
-        //kelasModel.setAwalTahunAjaran(kelas.getAwalTahunAjaran().atStartOfDay());
-        //kelasModel.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran().atStartOfDay());
         guru.getListKelas().add(kelasModel);
         return kelasDB.save(kelasModel);
     }
