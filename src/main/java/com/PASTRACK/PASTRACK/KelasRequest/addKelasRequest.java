@@ -13,8 +13,6 @@ import java.util.List;
 @Data
 public class addKelasRequest implements Serializable {
     String namaKelas;
-    String semester;
+    Long semesterId;
     String usernameGuru;
-    LocalDate awalTahunAjaran;
-    LocalDate akhirTahunAjaran;
 }
