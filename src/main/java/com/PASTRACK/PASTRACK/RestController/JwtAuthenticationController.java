@@ -3,6 +3,7 @@ package com.PASTRACK.PASTRACK.RestController;
 import java.util.ArrayList;
 
 
+import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,9 @@ public class JwtAuthenticationController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private AngkatanService angkatanService;
+
     @PostMapping(value = "/login")
     public ResponseEntity<LoginResponse> authenticateUser(@RequestBody LoginRequest loginRequest,
             BindingResult bindingResult) {
@@ -105,6 +109,7 @@ public class JwtAuthenticationController {
             user.setNama(request.getNama());
             user.setRole(role);
             user.setUsername(request.getUsername());
+            user.setAngkatan(angkatanService.getAngkatanById(request.getAngkatanId()));
             user.setPassword(userService.encrypt(request.getPassword()));
             user.setStudentNumber(request.getStudentNumber());
 

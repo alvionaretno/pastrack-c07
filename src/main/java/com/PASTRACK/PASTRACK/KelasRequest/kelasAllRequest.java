@@ -12,9 +12,6 @@ import java.util.List;
 public class kelasAllRequest implements Serializable {
     Long id;
     String namaKelas;
-    Boolean semester;
-    LocalDateTime awalTahunAjaran;
-    LocalDateTime akhirTahunAjaran;
-    List<StudentModel> listMurid;
+    Long semesterId;
     List<MataPelajaranModel> listMataPelajaran;
 }

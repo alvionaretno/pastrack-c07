@@ -24,7 +24,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-// @JsonIgnoreProperties(value={"listAppointment"}, allowSetters = true)
 @Table(name="student")
 
 public class StudentModel extends UserModel implements Serializable {

@@ -142,9 +142,8 @@ public class KelasServiceImpl implements KelasService {
             kelasAllRequest tempKelas = new kelasAllRequest();
             tempKelas.setId(kelas.getId());
             tempKelas.setNamaKelas(kelas.getNamaKelas());
+            tempKelas.setSemesterId(kelas.getSemester().getId());
             //tempKelas.setSemester(kelas.getSemester().getSemester());
-            //tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
-            //tempKelas.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran());
             listKelasRequest.add(tempKelas);
         }
         return listKelasRequest;
@@ -160,16 +159,15 @@ public class KelasServiceImpl implements KelasService {
             kelasAllRequest tempKelas = new kelasAllRequest();
             tempKelas.setId(kelas.getId());
             tempKelas.setNamaKelas(kelas.getNamaKelas());
+            tempKelas.setSemesterId(kelas.getSemester().getId());
             //tempKelas.setSemester(kelas.getSemester().getSemester());
-            //tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
-            //tempKelas.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran());
             listKelasRequest.add(tempKelas);
         }
         return listKelasRequest;
     }
 
 
-    //Checking if certain Siswa is already assigned to paericular class in current semester
+    //Checking if certain Siswa is already assigned to particular class in current semester
     @Override
     public Boolean cekIfSiswaHasBeenAssigned(List<KelasModel> listKelasInSiswa) {
         //List<kelasAllRequest> listKelasSiswa = new ArrayList<kelasAllRequest>();
@@ -183,14 +181,17 @@ public class KelasServiceImpl implements KelasService {
             //LocalDateTime awalTahunAjaran = kelas.getAwalTahunAjaran();
             //String formattedAwalTahunAjaran = awalTahunAjaran.format(dateTimeFormatter);
             //String[] arrOfStrTahunAjaran = formattedAwalTahunAjaran.split("/", 2);
+            LocalDateTime awalTahunAjaran = kelas.getSemester().getAwalTahunAjaran();
+            String formattedAwalTahunAjaran = awalTahunAjaran.format(dateTimeFormatter);
+            String[] arrOfStrTahunAjaran = formattedAwalTahunAjaran.split("/", 2);
             String[] arrOfStrToday = formattedDateToday.split("/", 2);
-            //if(arrOfStrTahunAjaran[1].equals(arrOfStrToday[1])){
-            //    if(Integer.valueOf(arrOfStrTahunAjaran[0]) <= Integer.valueOf(arrOfStrToday[0])){
+            if(arrOfStrTahunAjaran[1].equals(arrOfStrToday[1])){
+                if(Integer.valueOf(arrOfStrTahunAjaran[0]) <= Integer.valueOf(arrOfStrToday[0])){
                    hasBeenAssigned = true;
                 }
-            //}
+            }
 
-        //}
+        }
         return hasBeenAssigned;
     }
 
