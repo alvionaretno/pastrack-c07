@@ -41,6 +41,12 @@ public class StudentModel extends UserModel implements Serializable {
     private OrangTuaModel orangtua;
 
     @JsonIgnore
+    @ManyToOne(fetch= FetchType.EAGER, optional = false)
+    @JoinColumn(name = "angkatanId",referencedColumnName= "id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private AngkatanModel angkatan;
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "listMurid")
     List<PeminatanModel> listPeminatan;
     

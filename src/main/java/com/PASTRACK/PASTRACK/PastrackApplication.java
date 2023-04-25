@@ -25,4 +25,5 @@ public class PastrackApplication {
 		SpringApplication.run(PastrackApplication.class, args);
 	}
 
+	
 }

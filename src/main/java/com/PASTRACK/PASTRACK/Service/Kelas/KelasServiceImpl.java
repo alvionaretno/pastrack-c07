@@ -144,7 +144,7 @@ public class KelasServiceImpl implements KelasService {
             kelasAllRequest tempKelas = new kelasAllRequest();
             tempKelas.setId(kelas.getId());
             tempKelas.setNamaKelas(kelas.getNamaKelas());
-            tempKelas.setSemester(kelas.getSemester());
+            tempKelas.setSemester(kelas.getSemester().getSemester());
             tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
             tempKelas.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran());
             listKelasRequest.add(tempKelas);
@@ -162,7 +162,7 @@ public class KelasServiceImpl implements KelasService {
             kelasAllRequest tempKelas = new kelasAllRequest();
             tempKelas.setId(kelas.getId());
             tempKelas.setNamaKelas(kelas.getNamaKelas());
-            tempKelas.setSemester(kelas.getSemester());
+            tempKelas.setSemester(kelas.getSemester().getSemester());
             tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
             tempKelas.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran());
             listKelasRequest.add(tempKelas);

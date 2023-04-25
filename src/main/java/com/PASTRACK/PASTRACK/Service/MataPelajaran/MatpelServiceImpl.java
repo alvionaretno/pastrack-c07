@@ -75,7 +75,7 @@ public class MatpelServiceImpl implements MatpelService {
             MatpelAllRequest tempMatpel = new MatpelAllRequest();
             tempMatpel.setId(matpel.getId());
             tempMatpel.setNamaMataPelajaran(matpel.getNamaMataPelajaran());
-            tempMatpel.setSemester(matpel.getSemester());
+            tempMatpel.setSemester(matpel.getSemester().getSemester());
             tempMatpel.setDeskripsi(matpel.getDeskripsi());
             tempMatpel.setAwalTahunAjaran(matpel.getAwalTahunAjaran());
             tempMatpel.setAkhirTahunAjaran(matpel.getAkhirTahunAjaran());

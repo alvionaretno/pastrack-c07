@@ -39,10 +39,6 @@ public class MataPelajaranModel implements Serializable {
     private String namaMataPelajaran;
 
     @NotNull
-    @Column(name = "semester", nullable = false)
-    private Boolean semester;
-
-    @NotNull
     @Column(nullable = false, name = "awal_tahun_ajaran")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime awalTahunAjaran;
@@ -85,6 +81,12 @@ public class MataPelajaranModel implements Serializable {
     
     @OneToMany(mappedBy = "pelajaran", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List <PostinganTugasModel> listpostinganTugas;
+
+    @JsonIgnore
+    @ManyToOne(fetch= FetchType.EAGER, optional = false)
+    @JoinColumn(name = "semesterId",referencedColumnName= "id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private SemesterModel semester;
 
 //
 //    @OneToMany(mappedBy = "pelajaran", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

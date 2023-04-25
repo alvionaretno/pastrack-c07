@@ -39,10 +39,6 @@ public class KelasModel implements Serializable {
     private String namaKelas;
 
     @NotNull
-    @Column(name = "semester", nullable = false)
-    private Boolean semester;
-
-    @NotNull
     @Column(nullable = false, name = "awal_tahun_ajaran")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime awalTahunAjaran;
@@ -57,6 +53,12 @@ public class KelasModel implements Serializable {
     @JoinColumn(name = "guruId",referencedColumnName= "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private GuruModel guru;
+
+    @JsonIgnore
+    @ManyToOne(fetch= FetchType.EAGER, optional = false)
+    @JoinColumn(name = "semesterId",referencedColumnName= "id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private SemesterModel semester;
 
     @JsonIgnore
     @ManyToMany
