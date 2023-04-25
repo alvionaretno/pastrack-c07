@@ -3,7 +3,9 @@ package com.PASTRACK.PASTRACK.Model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +20,16 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Table(name = "angkatan")
 public class AngkatanModel implements Serializable {
 
@@ -30,8 +42,7 @@ public class AngkatanModel implements Serializable {
     @Column(name = "angkatan", nullable = false)
     private String angkatan;
 
-    @OneToMany(mappedBy = "angkatan", fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
+    @OneToMany(mappedBy = "angkatan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StudentModel> listStudent;
 }
