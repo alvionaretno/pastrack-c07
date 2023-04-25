@@ -16,6 +16,7 @@ import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.StudentKomponenDB;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
+import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
 import com.PASTRACK.PASTRACK.Service.StudentKomponen.StudentKomponenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,9 @@ public class KelasServiceImpl implements KelasService {
     @Autowired
     private KelasService kelasService;
 
+    @Autowired
+    private SemesterService semesterService;
+
     //Retrieve All Kelas
     @Override
     public List<KelasModel> getAllKelas() {
@@ -59,15 +63,17 @@ public class KelasServiceImpl implements KelasService {
         KelasModel kelasModel = new KelasModel();
         System.out.println(kelas);
         kelasModel.setNamaKelas(kelas.getNamaKelas());
-        if (kelas.getSemester().equals("GENAP")) {
-            kelasModel.setSemester(false);
-        } else {
-            kelasModel.setSemester(true);
-        }
+        kelasModel.setSemester(semesterService.getSemesterById(kelas.getSemesterId()));
+
+        //if (kelas.getSemester().equals("GENAP")) {
+            //kelasModel.setSemester(false);
+        //} else {
+            //kelasModel.setSemester(true);
+        //}
         GuruModel guru = guruService.getGuruByUsername(kelas.getUsernameGuru());
         kelasModel.setGuru(guru);
-        kelasModel.setAwalTahunAjaran(kelas.getAwalTahunAjaran().atStartOfDay());
-        kelasModel.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran().atStartOfDay());
+        //kelasModel.setAwalTahunAjaran(kelas.getAwalTahunAjaran().atStartOfDay());
+        //kelasModel.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran().atStartOfDay());
         guru.getListKelas().add(kelasModel);
         return kelasDB.save(kelasModel);
     }
@@ -144,9 +150,9 @@ public class KelasServiceImpl implements KelasService {
             kelasAllRequest tempKelas = new kelasAllRequest();
             tempKelas.setId(kelas.getId());
             tempKelas.setNamaKelas(kelas.getNamaKelas());
-            tempKelas.setSemester(kelas.getSemester().getSemester());
-            tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
-            tempKelas.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran());
+            //tempKelas.setSemester(kelas.getSemester().getSemester());
+            //tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
+            //tempKelas.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran());
             listKelasRequest.add(tempKelas);
         }
         return listKelasRequest;
@@ -162,9 +168,9 @@ public class KelasServiceImpl implements KelasService {
             kelasAllRequest tempKelas = new kelasAllRequest();
             tempKelas.setId(kelas.getId());
             tempKelas.setNamaKelas(kelas.getNamaKelas());
-            tempKelas.setSemester(kelas.getSemester().getSemester());
-            tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
-            tempKelas.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran());
+            //tempKelas.setSemester(kelas.getSemester().getSemester());
+            //tempKelas.setAwalTahunAjaran(kelas.getAwalTahunAjaran());
+            //tempKelas.setAkhirTahunAjaran(kelas.getAkhirTahunAjaran());
             listKelasRequest.add(tempKelas);
         }
         return listKelasRequest;
@@ -182,17 +188,17 @@ public class KelasServiceImpl implements KelasService {
         String formattedDateToday = today.format(dateTimeFormatter);
 
         for(KelasModel kelas : listKelasInSiswa) {
-            LocalDateTime awalTahunAjaran = kelas.getAwalTahunAjaran();
-            String formattedAwalTahunAjaran = awalTahunAjaran.format(dateTimeFormatter);
-            String[] arrOfStrTahunAjaran = formattedAwalTahunAjaran.split("/", 2);
+            //LocalDateTime awalTahunAjaran = kelas.getAwalTahunAjaran();
+            //String formattedAwalTahunAjaran = awalTahunAjaran.format(dateTimeFormatter);
+            //String[] arrOfStrTahunAjaran = formattedAwalTahunAjaran.split("/", 2);
             String[] arrOfStrToday = formattedDateToday.split("/", 2);
-            if(arrOfStrTahunAjaran[1].equals(arrOfStrToday[1])){
-                if(Integer.valueOf(arrOfStrTahunAjaran[0]) <= Integer.valueOf(arrOfStrToday[0])){
+            //if(arrOfStrTahunAjaran[1].equals(arrOfStrToday[1])){
+            //    if(Integer.valueOf(arrOfStrTahunAjaran[0]) <= Integer.valueOf(arrOfStrToday[0])){
                    hasBeenAssigned = true;
                 }
-            }
+            //}
 
-        }
+        //}
         return hasBeenAssigned;
     }
 

@@ -38,16 +38,6 @@ public class KelasModel implements Serializable {
     @Column(name = "nama_kelas", nullable = false)
     private String namaKelas;
 
-    @NotNull
-    @Column(nullable = false, name = "awal_tahun_ajaran")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime awalTahunAjaran;
-
-    @NotNull
-    @Column(nullable = false, name = "akhir_tahun_ajaran")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime akhirTahunAjaran;
-
     @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
     @JoinColumn(name = "guruId",referencedColumnName= "id", nullable = false)
