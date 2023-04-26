@@ -14,5 +14,7 @@ public interface StudentService {
 
     List<StudentModel> getAllSiswa();
 
+    List<StudentModel> getStudentByTahunMasuk(Long idAngkatan);
+
     //List<StudentModel> getNotAssignedSiswa();
 }

@@ -35,8 +35,14 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentModel> getAllSiswa() {
-        List<StudentModel> listGuru = studentDB.findAll();
-        return listGuru;
+        List<StudentModel> listSiswa = studentDB.findAll();
+        return listSiswa;
+    }
+
+    @Override
+    public List<StudentModel> getStudentByTahunMasuk(Long idAngkatan) {
+        List<StudentModel> listSiswaByTahunMasuk = studentDB.findByTahunMasuk(idAngkatan);
+        return listSiswaByTahunMasuk;
     }
 
     //@Override

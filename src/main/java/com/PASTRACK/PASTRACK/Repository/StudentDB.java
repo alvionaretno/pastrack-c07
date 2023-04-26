@@ -21,6 +21,11 @@ public interface StudentDB extends JpaRepository<StudentModel, Long> {
 
     Optional<StudentModel> findById(String id);
 
+    @Query("SELECT A.listStudent FROM AngkatanModel A WHERE A.angkatan = :angkatanId")
+    List<StudentModel> findByTahunMasuk(
+            @Param("angkatanId") Long angkatanId
+    );
+
     //@Query("SELECT DISTINCT new com.PASTRACK.PASTRACK.KelasRequest.getKelasSiswaRequest(S.id AS id, K.title AS namaKomponen, K.bobot AS bobot, S.nilaiKomponen AS nilai) FROM StudentModel S, Kelas M  where K.matapelajaran = :matpel AND S.komponen = K AND S.student = :student")
     //List<StudentModel> findNotAssignedSiswa();
 
