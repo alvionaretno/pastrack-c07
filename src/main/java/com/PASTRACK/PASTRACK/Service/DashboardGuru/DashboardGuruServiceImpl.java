@@ -103,7 +103,6 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         for(StudentMataPelajaranModel nilaiAkhir: listNilaiAkhir){
            sumNilai += Integer.valueOf(nilaiAkhir.toString());
            count++;
-
         }
 
         Integer nilaiRataRataAkhir = sumNilai/count;
