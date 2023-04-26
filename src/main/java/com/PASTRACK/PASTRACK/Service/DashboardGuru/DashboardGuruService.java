@@ -22,5 +22,7 @@ public interface DashboardGuruService {
 
     NilaiAngkatanModel averageScorePerAngkatan(Long angkatanId);
 
+    List<NilaiAngkatanModel> averageScoreAllAngkatan();
+
 
 }
