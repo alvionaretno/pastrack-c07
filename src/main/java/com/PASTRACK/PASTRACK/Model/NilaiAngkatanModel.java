@@ -22,24 +22,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "angkatan")
-public class AngkatanModel implements Serializable {
+@Table(name = "nilaiAngkatan")
+public class NilaiAngkatanModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Size(max = 50)
-    @Column(name = "angkatan", nullable = false)
-    private String angkatan;
+    @Column(name = "nilaiAngkatan")
+    private Integer nilaiAngkatan;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "angkatan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<StudentModel> listStudent;
-
-    @OneToOne(mappedBy = "angkatan")
-    private NilaiAngkatanModel nilaiAngkatan;
-
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "angkatan_id", referencedColumnName = "id")
+    private AngkatanModel angkatan;
 }
