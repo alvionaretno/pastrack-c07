@@ -11,7 +11,6 @@ import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 @Service
 @Transactional
 public class DashboardGuruServiceImpl implements DashboardGuruService {
-
     @Autowired
     private NilaiAngkatanDB nilaiAngkatanDB;
 
@@ -57,6 +56,21 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         return siswaInAngkatanX;
     }
 
+    //PBI 44-45
+    @Override
+    public List<Integer> rataRataNilaiSiswaAngkatanX(Long angkatanId) {
+        List<Integer> listRataRataNilaiAllAngkatanX = new ArrayList<>();
+        List<String> listNamaNamaAllAngkatanX = new ArrayList<>();
+        List<StudentModel> siswaInAngkatanX = dashboardGuruService.getSiswaByTahunMasuk(angkatanId);
+
+        for(StudentModel siswa : siswaInAngkatanX){
+            int nilaiAkhirSemester = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            listNamaNamaAllAngkatanX.add(siswa.getNama());
+            listRataRataNilaiAllAngkatanX.add(nilaiAkhirSemester);
+        }
+        return listRataRataNilaiAllAngkatanX;
+    }
+
     //PBI 50-51
     @Override
     public int getRataRataNilaiSiswax(String usernameSiswa) {
@@ -77,7 +91,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     @Override
-    public List<StudentModel> rankingSiswa(String tahunMasuk) {
+    public ArrayList<Integer> rankingSiswa(String tahunMasuk) {
         List<StudentModel> allSiswa = studentService.getAllSiswa();
         ArrayList<Integer> arrayNilaiSiswa = new ArrayList<Integer>();
         for(StudentModel siswa: allSiswa){
@@ -85,7 +99,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
             arrayNilaiSiswa.add(nilaiRataRata);
         }
         Collections.sort(arrayNilaiSiswa);
-        return null;
+        return arrayNilaiSiswa;
     }
 
 

@@ -8,8 +8,5 @@ import com.PASTRACK.PASTRACK.Model.SemesterModel;
 
 @Data
 public class getRataRataNilaiAngkatan implements Serializable {
-    Long id;
-    String namaMataPelajaran;
-    SemesterModel semester;
-    String deskripsi;
+    Long angkatanId;
 }
