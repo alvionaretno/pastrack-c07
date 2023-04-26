@@ -13,7 +13,9 @@ import javax.transaction.Transactional;
 import com.PASTRACK.PASTRACK.KelasRequest.*;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
+import com.PASTRACK.PASTRACK.Repository.SemesterDB;
 import com.PASTRACK.PASTRACK.Repository.StudentKomponenDB;
+import com.PASTRACK.PASTRACK.Repository.StudentMatpelDB;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
@@ -36,6 +38,9 @@ public class KelasServiceImpl implements KelasService {
     private MatpelDB matpelDB;
 
     @Autowired
+    private SemesterDB semesterDB;
+
+    @Autowired
     private StudentService studentService;
 
     @Autowired
@@ -50,11 +55,19 @@ public class KelasServiceImpl implements KelasService {
     @Autowired
     private SemesterService semesterService;
 
+    @Autowired
+    private StudentMatpelDB studentMatpelDB;
+
     //Retrieve All Kelas
     @Override
     public List<KelasModel> getAllKelas() {
         List<KelasModel> listKelas = kelasDB.findAll();
         return listKelas;
+    }
+
+    @Override
+    public List<SemesterModel> getAllSemester() {
+        return semesterService.findAll();
     }
 
     //Create Kelas
@@ -109,6 +122,10 @@ public class KelasServiceImpl implements KelasService {
             StudentModel murids = murid.get();
             if (murids != null) {
                 kelasObj.getListMurid().add(murids);
+                // untuk setiap siswa nge loop di semua matpel yg ada di kelas ini
+                for (MataPelajaranModel matpel : kelasObj.getListMataPelajaran()) {
+                    createStudentMatpel(murids, matpel);
+                }
                 if(murids.getListKelas() == null) {
                     murids.setListKelas(new ArrayList<KelasModel>());
                 }
@@ -249,6 +266,16 @@ public class KelasServiceImpl implements KelasService {
     public MataPelajaranModel getMatpelById(Long id) {
         // TODO Auto-generated method stub
         return matpelDB.findById(id);
+    }
+
+    // Create Student Mata Pelajaran Model
+    @Override
+    public StudentMataPelajaranModel createStudentMatpel(StudentModel student, MataPelajaranModel matpel) {
+        StudentMataPelajaranModel studentMatpel = new StudentMataPelajaranModel();
+        studentMatpel.setStudent(student);
+        studentMatpel.setMatapelajaran(matpel);
+        studentMatpel.setNilai_komponen(0);
+        return studentMatpelDB.save(studentMatpel);
     }
 
 }

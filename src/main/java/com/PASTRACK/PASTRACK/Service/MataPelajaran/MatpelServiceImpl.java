@@ -80,6 +80,7 @@ public class MatpelServiceImpl implements MatpelService {
             tempMatpel.setDeskripsi(matpel.getDeskripsi());
             listMatpelRequest.add(tempMatpel);
         }
+        System.out.println("aaa: "+listMatpelRequest);
         return listMatpelRequest;
     }
 
