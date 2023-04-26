@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import com.PASTRACK.PASTRACK.KelasRequest.*;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
+import com.PASTRACK.PASTRACK.Repository.SemesterDB;
 import com.PASTRACK.PASTRACK.Repository.StudentKomponenDB;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
@@ -36,6 +37,9 @@ public class KelasServiceImpl implements KelasService {
     private MatpelDB matpelDB;
 
     @Autowired
+    private SemesterDB semesterDB;
+
+    @Autowired
     private StudentService studentService;
 
     @Autowired
@@ -55,6 +59,11 @@ public class KelasServiceImpl implements KelasService {
     public List<KelasModel> getAllKelas() {
         List<KelasModel> listKelas = kelasDB.findAll();
         return listKelas;
+    }
+
+    @Override
+    public List<SemesterModel> getAllSemester() {
+        return semesterService.findAll();
     }
 
     //Create Kelas
