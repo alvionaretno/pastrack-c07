@@ -17,7 +17,9 @@ public interface DashboardGuruService {
     int getRataRataNilaiSiswax(String usernameSiswa);
     List<StudentModel> rankingSiswa(String tahunMasuk);
 
-    List<Integer> averageScorePerAngkatan(String tahunMasuk);
+    List<StudentModel> getSiswaByTahunMasuk(String tahunMasuk);
+
+    //List<Integer> averageScorePerAngkatan(String tahunMasuk);
 
 
 }
