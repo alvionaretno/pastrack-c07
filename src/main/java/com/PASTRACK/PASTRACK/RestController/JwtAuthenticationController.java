@@ -109,7 +109,7 @@ public class JwtAuthenticationController {
             user.setNama(request.getNama());
             user.setRole(role);
             user.setUsername(request.getUsername());
-            user.setAngkatan(angkatanService.getAngkatanById(request.getAngkatanId()));
+            user.setAngkatan(angkatanService.getAngkatanById(Long.parseLong(request.getAngkatan())));
             user.setPassword(userService.encrypt(request.getPassword()));
             user.setStudentNumber(request.getStudentNumber());
 

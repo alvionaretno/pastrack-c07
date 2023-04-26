@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 public class addMatpelRequest implements Serializable {
     String namaMataPelajaran;
     String semester;
-    Long idPeminatan;
+    String namaPeminatan;
     String desc;
 }
