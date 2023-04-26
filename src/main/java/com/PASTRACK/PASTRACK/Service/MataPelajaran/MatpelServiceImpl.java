@@ -16,9 +16,12 @@ import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import com.PASTRACK.PASTRACK.Model.GuruModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
+import com.PASTRACK.PASTRACK.Model.SemesterModel;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.PeminatanDB;
+import com.PASTRACK.PASTRACK.Repository.SemesterDB;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
+import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
 
 @Service
 @Transactional
@@ -33,6 +36,8 @@ public class MatpelServiceImpl implements MatpelService {
     @Autowired
     private PeminatanDB peminatanDB;
 
+    @Autowired
+    private SemesterService semesterService;
 
     @Override
     public MataPelajaranModel getMatpelById(Long Id) {
@@ -50,18 +55,14 @@ public class MatpelServiceImpl implements MatpelService {
         GuruModel guru = guruService.getGuruByUsername(username);
         MataPelajaranModel matpelModel = new MataPelajaranModel();
         matpelModel.setNamaMataPelajaran(matpel.getNamaMataPelajaran());
-        if (matpel.getSemester().equals("GENAP")) {
-            //matpelModel.setSemester(false);
-        } else {
-            //matpelModel.setSemester(true);
-        }
+        SemesterModel semester = semesterService.getSemesterById(Long.parseLong(matpel.getSemester()));
+        matpelModel.setSemester(semester);
         PeminatanModel peminatan = peminatanDB.findByNamaPeminatan(matpel.getNamaPeminatan());
         matpelModel.setPeminatan(peminatan);
         matpelModel.setDeskripsi(matpel.getDesc());
         matpelModel.setGuru(guru);
-        matpelModel.setAwalTahunAjaran(matpel.getAwalTahunAjaran().atStartOfDay());
-        matpelModel.setAkhirTahunAjaran(matpel.getAkhirTahunAjaran().atStartOfDay());
         guru.getListMataPelajaran().add(matpelModel);
+        semester.getListMataPelajaran().add(matpelModel);
         return matpelDB.save(matpelModel);
     }
 
@@ -75,10 +76,8 @@ public class MatpelServiceImpl implements MatpelService {
             MatpelAllRequest tempMatpel = new MatpelAllRequest();
             tempMatpel.setId(matpel.getId());
             tempMatpel.setNamaMataPelajaran(matpel.getNamaMataPelajaran());
-            //tempMatpel.setSemester(matpel.getSemester().getSemester());
+            tempMatpel.setSemester(matpel.getSemester());
             tempMatpel.setDeskripsi(matpel.getDeskripsi());
-            tempMatpel.setAwalTahunAjaran(matpel.getAwalTahunAjaran());
-            tempMatpel.setAkhirTahunAjaran(matpel.getAkhirTahunAjaran());
             listMatpelRequest.add(tempMatpel);
         }
         return listMatpelRequest;
@@ -94,5 +93,11 @@ public class MatpelServiceImpl implements MatpelService {
     public Long getIdMatpel(addMatpelKelasRequest matpel) {
         Long idMatpel = matpelDB.findIdMatpel();
         return idMatpel;
+    }
+
+    @Override
+    public List<SemesterModel> getAllSemester() {
+        List<SemesterModel> listSemester = semesterService.findAll();
+        return listSemester;
     }
 }

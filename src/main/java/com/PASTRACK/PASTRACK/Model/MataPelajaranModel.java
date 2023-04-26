@@ -38,15 +38,15 @@ public class MataPelajaranModel implements Serializable {
     @Column(name = "nama_mata_pelajaran", nullable = false)
     private String namaMataPelajaran;
 
-    @NotNull
-    @Column(nullable = false, name = "awal_tahun_ajaran")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime awalTahunAjaran;
+    // @NotNull
+    // @Column(nullable = false, name = "awal_tahun_ajaran")
+    // @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    // private LocalDateTime awalTahunAjaran;
 
-    @NotNull
-    @Column(nullable = false, name = "akhir_tahun_ajaran")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime akhirTahunAjaran;
+    // @NotNull
+    // @Column(nullable = false, name = "akhir_tahun_ajaran")
+    // @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    // private LocalDateTime akhirTahunAjaran;
 
     @Column(name = "deskripsi", nullable = true)
     private String deskripsi;

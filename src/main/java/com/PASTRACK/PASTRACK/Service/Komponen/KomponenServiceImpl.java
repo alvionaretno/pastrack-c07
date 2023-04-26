@@ -12,9 +12,11 @@ import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenRequest;
 import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.SemesterModel;
 import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Repository.KomponenDB;
+import com.PASTRACK.PASTRACK.Repository.SemesterDB;
 import com.PASTRACK.PASTRACK.Repository.StudentDB;
 import com.PASTRACK.PASTRACK.Repository.StudentKomponenDB;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
@@ -48,9 +50,10 @@ public class KomponenServiceImpl implements KomponenService {
         komponenModel.setIsReleased(false);
         komponenModel.setDueDate(komponenReq.getDueDate().atStartOfDay());
         komponenModel.setBobot(komponenReq.getBobot());
-        komponenModel.setAkhirTahunAjaran(matpelModel.getAkhirTahunAjaran());
-        komponenModel.setAwalTahunAjaran(matpelModel.getAwalTahunAjaran());
+        // komponenModel.setAkhirTahunAjaran(matpelModel.getAkhirTahunAjaran());
+        // komponenModel.setAwalTahunAjaran(matpelModel.getAwalTahunAjaran());
         komponenModel.setMatapelajaran(matpelModel);
+        komponenModel.setSemester(matpelModel.getSemester());
         matpelModel.getListKomponen().add(komponenModel);
         if (matpelModel.getKelas() != null) {
             for (StudentModel student : matpelModel.getKelas().getListMurid()) {

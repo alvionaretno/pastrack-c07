@@ -17,7 +17,7 @@ import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 @Repository
 public interface MatpelDB extends JpaRepository<MataPelajaranModel, String> {
     MataPelajaranModel findById(Long Id);
-    @Query("SELECT M FROM MataPelajaranModel M WHERE M.guru = :guru AND M.awalTahunAjaran < :now AND M.akhirTahunAjaran > :now")
+    @Query("SELECT M FROM MataPelajaranModel M WHERE M.guru = :guru AND M.semester.awalTahunAjaran < :now AND M.semester.akhirTahunAjaran > :now")
     List<MataPelajaranModel> findAllMatpelInGuru(
         @Param("guru") GuruModel guru,
         @Param("now") LocalDateTime now
