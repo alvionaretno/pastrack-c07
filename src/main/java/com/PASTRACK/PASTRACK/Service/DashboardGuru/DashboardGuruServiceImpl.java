@@ -1,39 +1,16 @@
 package com.PASTRACK.PASTRACK.Service.DashboardGuru;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-
 import javax.transaction.Transactional;
-
-import com.PASTRACK.PASTRACK.KelasRequest.*;
 import com.PASTRACK.PASTRACK.Model.*;
-import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.NilaiAngkatanDB;
-import com.PASTRACK.PASTRACK.Repository.StudentKomponenDB;
 import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
-import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
-import com.PASTRACK.PASTRACK.Service.Kelas.KelasService;
-import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
-import com.PASTRACK.PASTRACK.Service.StudentKomponen.StudentKomponenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.PASTRACK.PASTRACK.Repository.KelasDB;
-import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
-
-
 @Service
 @Transactional
 public class DashboardGuruServiceImpl implements DashboardGuruService {
-
-    @Autowired
-    private KelasDB kelasDB;
-
-    @Autowired
-    private MatpelDB matpelDB;
 
     @Autowired
     private NilaiAngkatanDB nilaiAngkatanDB;
@@ -43,15 +20,6 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
     @Autowired
     private DashboardGuruService dashboardGuruService;
-
-    @Autowired
-    private KelasService kelasService;
-
-    @Autowired
-    private GuruService guruService;
-
-    @Autowired
-    private MatpelService matpelService;
 
     @Autowired
     private AngkatanService angkatanService;
@@ -88,7 +56,6 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         List<StudentModel> siswaInAngkatanX = studentService.getStudentByTahunMasuk(angkatanId);
         return siswaInAngkatanX;
     }
-
 
     //PBI 50-51
     @Override
