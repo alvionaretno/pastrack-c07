@@ -78,6 +78,12 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     @Override
+    public List<NilaiAngkatanModel> averageScoreAllAngkatan() {
+        List<NilaiAngkatanModel> nilaiAllAngkatan = nilaiAngkatanDB.findAll();
+        return nilaiAllAngkatan;
+    }
+
+    @Override
     public List<StudentModel> getSiswaByTahunMasuk(Long angkatanId) {
         List<StudentModel> siswaInAngkatanX = studentService.getStudentByTahunMasuk(angkatanId);
         return siswaInAngkatanX;
