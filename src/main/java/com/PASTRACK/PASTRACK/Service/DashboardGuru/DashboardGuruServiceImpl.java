@@ -80,4 +80,18 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         Collections.sort(arrayNilaiSiswa);
         return null;
     }
+
+    //PBI 42-43
+    @Override
+    public List<Integer> averageScorePerAngkatan(String tahunMasuk) {
+        List<StudentModel> allSiswa = studentService.getAllSiswa();
+        ArrayList<Integer> arrayNilaiSiswa = new ArrayList<Integer>();
+        for(StudentModel siswa: allSiswa){
+            int nilaiRataRata = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            arrayNilaiSiswa.add(nilaiRataRata);
+        }
+        Collections.sort(arrayNilaiSiswa);
+        return null;
+    }
+
 }
