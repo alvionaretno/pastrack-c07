@@ -9,11 +9,10 @@ import javax.validation.Valid;
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
-import com.PASTRACK.PASTRACK.Model.GuruModel;
-import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
-import com.PASTRACK.PASTRACK.Model.StudentModel;
+import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
+import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.PASTRACK.PASTRACK.Model.KelasModel;
 import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 import com.PASTRACK.PASTRACK.Service.Kelas.KelasService;
 
@@ -46,6 +44,9 @@ public class KelasRestController {
     @Autowired
     // private KelasService kelasService;
     private GuruService guruService;
+
+    @Autowired
+    private SemesterService semesterService;
 
     @GetMapping (value = "/allGuru")
     private List<GuruModel> retrieveAllGuru (){
@@ -98,6 +99,17 @@ public class KelasRestController {
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Belum ada Matpel"
+            );
+        }
+    }
+
+    @GetMapping (value = "/allSemester")
+    private List<SemesterModel> retrieveAllSemester (){
+        try {
+            return semesterService.findAll();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada Semester"
             );
         }
     }
