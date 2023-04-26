@@ -57,7 +57,7 @@ public class MatpelServiceImpl implements MatpelService {
         matpelModel.setNamaMataPelajaran(matpel.getNamaMataPelajaran());
         SemesterModel semester = semesterService.getSemesterById(Long.parseLong(matpel.getSemester()));
         matpelModel.setSemester(semester);
-        PeminatanModel peminatan = peminatanDB.findByNamaPeminatan(matpel.getNamaPeminatan());
+        PeminatanModel peminatan = peminatanDB.findById(matpel.getIdPeminatan()).get();
         matpelModel.setPeminatan(peminatan);
         matpelModel.setDeskripsi(matpel.getDesc());
         matpelModel.setGuru(guru);

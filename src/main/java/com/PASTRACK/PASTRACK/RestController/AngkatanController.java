@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import com.PASTRACK.PASTRACK.Model.AngkatanModel;
 import com.PASTRACK.PASTRACK.Model.PostinganTugasModel;
 import com.PASTRACK.PASTRACK.Model.SemesterModel;
 import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
@@ -16,23 +17,23 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
 import com.PASTRACK.PASTRACK.Service.Postingan.PostinganService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/semester")
-public class SemesterController {
+@RequestMapping("/api/angkatan")
+public class AngkatanController {
 
     @Autowired
-    private SemesterService semesterService;
+    private AngkatanService angkatanService;
 
-    //Add
+
 
     @GetMapping (value = "/")
-    private List<SemesterModel> findAllSemester (){
+    private List<AngkatanModel> findAllSemester (){
         try {
-            System.out.println("MASUKCUYYY");
-            return semesterService.findAll();
+            return angkatanService.findAll();
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Semester not found"
