@@ -27,7 +27,7 @@ import java.util.List;
 @Entity
 
 @Table(name= "nilai_semester")
-
+// This table will contain each of nilai semester of each student
 public class NilaiSemesterModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
