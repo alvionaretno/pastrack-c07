@@ -23,8 +23,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "nilaiAngkatan")
+//this table will save average final score of student in particular batch (angkatan)
 public class NilaiAngkatanModel implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

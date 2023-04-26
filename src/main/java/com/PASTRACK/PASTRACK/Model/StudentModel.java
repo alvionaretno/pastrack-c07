@@ -60,6 +60,11 @@ public class StudentModel extends UserModel implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List <StudentMataPelajaranModel> nilaiAkhir;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List <NilaiAkhirSiswaSemesterModel> nilaiAkhirSemester;
+
 }
 
 

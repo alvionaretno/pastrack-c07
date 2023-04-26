@@ -32,31 +32,28 @@ import com.PASTRACK.PASTRACK.Service.Kelas.KelasService;
 public class DashboardGuruController {
 
     @Autowired
-    // private KelasService kelasService;
     private KelasService kelasService;
 
     @Autowired
-    // private KelasService kelasService;
     private MatpelService matpelService;
 
     @Autowired
-    // private KelasService kelasService;
     private StudentService studentService;
 
     @Autowired
-    // private KelasService kelasService;
     private GuruService guruService;
 
-    //Add Mata Pelajaran To Kelas
-    //@PutMapping(value = "/")
-    //@PreAuthorize("hasRole('GURU')")
-    //private KelasModel addMatpelToKelas(@PathVariable("idKelas") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
-   //     try{
-   //         return kelasService.addMatpelToKelas(id, listMatpel);
-   //     } catch (NoSuchElementException e){
-   //         throw new ResponseStatusException(
-   //                 HttpStatus.NOT_FOUND, "Mata Pelajaran " + listMatpel + " not found."
-    //        );
-    //    }
-    //}
+    //Add Siswa To Kelas
+    @GetMapping (value = "/{angkatanId}")
+    @PreAuthorize("hasRole('GURU')")
+    private KelasModel addMuridToKelas(@PathVariable("idKelas") String idKelas, @RequestBody addMuridRequest[] username) {
+        try{
+            return kelasService.addMuridToKelas(idKelas, username);
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Username " + username + " not found."
+            );
+        }
+
+    }
 }
