@@ -11,8 +11,6 @@ import com.PASTRACK.PASTRACK.Model.SemesterModel;
 public class MatpelAllRequest implements Serializable {
     Long id;
     String namaMataPelajaran;
-    Boolean semester;
+    SemesterModel semester;
     String deskripsi;
-    LocalDateTime awalTahunAjaran;
-    LocalDateTime akhirTahunAjaran;
 }

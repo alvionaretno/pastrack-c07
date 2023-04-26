@@ -57,15 +57,15 @@ public class KomponenModel implements Serializable {
     @Column(nullable = false, name = "bobot")
     private int bobot;
 
-    @NotNull
-    @Column(nullable = false, name = "akhir_tahun_ajaran")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime akhirTahunAjaran;
+    // @NotNull
+    // @Column(nullable = false, name = "akhir_tahun_ajaran")
+    // @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    // private LocalDateTime akhirTahunAjaran;
 
-    @NotNull
-    @Column(nullable = false, name = "awal_tahun_ajaran")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime awalTahunAjaran;
+    // @NotNull
+    // @Column(nullable = false, name = "awal_tahun_ajaran")
+    // @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    // private LocalDateTime awalTahunAjaran;
 
     @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
@@ -76,4 +76,10 @@ public class KomponenModel implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "komponen", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List <StudentKomponenModel> listNilai;
+
+    @JsonIgnore
+    @ManyToOne(fetch= FetchType.EAGER, optional = false)
+    @JoinColumn(name = "semesterId",referencedColumnName= "id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private SemesterModel semester;
 }

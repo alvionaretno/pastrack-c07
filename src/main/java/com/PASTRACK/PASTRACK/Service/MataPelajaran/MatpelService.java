@@ -6,6 +6,7 @@ import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.SemesterModel;
 
 public interface MatpelService {
     MataPelajaranModel getMatpelById(Long Id);
@@ -19,4 +20,5 @@ public interface MatpelService {
     Optional<MataPelajaranModel> getMatpelByName(String namaMatpel);
 
     Long getIdMatpel(addMatpelKelasRequest matpel);
+    List<SemesterModel> getAllSemester();
 }

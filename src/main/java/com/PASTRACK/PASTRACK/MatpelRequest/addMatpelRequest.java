@@ -12,6 +12,4 @@ public class addMatpelRequest implements Serializable {
     String semester;
     String namaPeminatan;
     String desc;
-    LocalDate awalTahunAjaran;
-    LocalDate akhirTahunAjaran;
 }
