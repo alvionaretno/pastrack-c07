@@ -57,6 +57,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     //PBI 44-45
+    //version 1
     @Override
     public List<Integer> rataRataNilaiSiswaAngkatanX(Long angkatanId) {
         List<Integer> listRataRataNilaiAllAngkatanX = new ArrayList<>();
@@ -69,6 +70,21 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
             listRataRataNilaiAllAngkatanX.add(nilaiAkhirSemester);
         }
         return listRataRataNilaiAllAngkatanX;
+    }
+
+    //version 2
+    @Override
+    public NilaiSemesterModel rataRataNilaiAkhirSemesterSiswaAngkatanX(Long angkatanId) {
+        NilaiSemesterModel nilaiAkhirSemesterModel = new NilaiSemesterModel();
+        List<StudentModel> siswaInAngkatanX = dashboardGuruService.getSiswaByTahunMasuk(angkatanId);
+
+        for(StudentModel siswa : siswaInAngkatanX){
+            int nilaiAkhirSemester = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            nilaiAkhirSemesterModel.setNilaiAkhirSemester(nilaiAkhirSemester);
+            nilaiAkhirSemesterModel.setAngkatan(angkatanService.getAngkatanById(angkatanId));
+            nilaiAkhirSemesterModel.setStudent(siswa);
+        }
+        return nilaiAkhirSemesterModel;
     }
 
     //PBI 50-51

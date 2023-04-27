@@ -39,9 +39,9 @@ public class NilaiSemesterModel implements Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = false)
-    @JoinColumn(name = "semesterId",referencedColumnName= "id", nullable = true)
+    @JoinColumn(name = "angkatanId",referencedColumnName= "id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private SemesterModel semester;
+    private AngkatanModel angkatan;
 
     @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = false)

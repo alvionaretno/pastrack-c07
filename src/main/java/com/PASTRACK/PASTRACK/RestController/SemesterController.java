@@ -31,7 +31,6 @@ public class SemesterController {
     @GetMapping (value = "/")
     private List<SemesterModel> findAllSemester (){
         try {
-            System.out.println("MASUKCUYYY");
             return semesterService.findAll();
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(

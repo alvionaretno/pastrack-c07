@@ -7,10 +7,7 @@ import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.siswaAllRequest;
-import com.PASTRACK.PASTRACK.Model.KelasModel;
-import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
-import com.PASTRACK.PASTRACK.Model.NilaiAngkatanModel;
-import com.PASTRACK.PASTRACK.Model.StudentModel;
+import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 
 
@@ -26,6 +23,8 @@ public interface DashboardGuruService {
     List<NilaiAngkatanModel> averageScoreAllAngkatan();
 
     List<Integer> rataRataNilaiSiswaAngkatanX(Long angkatanId);
+
+    NilaiSemesterModel rataRataNilaiAkhirSemesterSiswaAngkatanX(Long angkatanId);
 
 
 }
