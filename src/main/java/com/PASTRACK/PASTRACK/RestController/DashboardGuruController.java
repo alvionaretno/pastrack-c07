@@ -44,24 +44,11 @@ public class DashboardGuruController {
     @Autowired
     private DashboardGuruService dashboardGuruService;
 
-    //ini contoh dulu
-    @PutMapping(value = "/addMatpel/{idKelas}")
-    @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMatpelToKelas(@PathVariable("idKelas") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
-        try{
-            return kelasService.addMatpelToKelas(id, listMatpel);
-        } catch (NoSuchElementException e){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Mata Pelajaran " + listMatpel + " not found."
-            );
-        }
-    }
-
     //PBI 42-43
     @GetMapping (value = "/nilai-per-angkatan")
     @PreAuthorize("hasRole('GURU')")
     //private NilaiAngkatanModel getNilaiAkhirPerAngkatan(@RequestBody NilaiAngkatanRequest[] angkatan) {
-    private List<NilaiAngkatanModel> getNilaiAkhirPerAngkatan(@RequestBody NilaiAngkatanRequest[] angkatan) {
+    private List<NilaiAngkatanModel> getNilaiAkhirPerAngkatan() {
         try{
             //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
             return dashboardGuruService.averageScoreAllAngkatan();
