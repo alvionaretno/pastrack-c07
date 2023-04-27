@@ -6,11 +6,13 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.NilaiAngkatanRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
+import com.PASTRACK.PASTRACK.Service.DashboardGuru.DashboardGuruService;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
@@ -40,23 +42,32 @@ public class DashboardGuruController {
     private AngkatanService angkatanService;
 
     @Autowired
-    private MatpelService matpelService;
+    private DashboardGuruService dashboardGuruService;
 
-    @Autowired
-    private StudentService studentService;
-
-    @Autowired
-    private GuruService guruService;
-
-    //bentar ini contoh dulu
-    @GetMapping (value = "/{angkatanId}")
-    @PreAuthorize("hasRole('GURU')")
-    private KelasModel addMuridToKelas(@PathVariable("idKelas") String idKelas, @RequestBody addMuridRequest[] username) {
+    //ini contoh dulu
+    @PutMapping(value = "/addMatpel/{idKelas}")
+    @PreAuthorize("hasRole('ADMIN')")
+    private KelasModel addMatpelToKelas(@PathVariable("idKelas") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
         try{
-            return kelasService.addMuridToKelas(idKelas, username);
+            return kelasService.addMatpelToKelas(id, listMatpel);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Username " + username + " not found."
+                    HttpStatus.NOT_FOUND, "Mata Pelajaran " + listMatpel + " not found."
+            );
+        }
+    }
+
+    //PBI 42-43
+    @GetMapping (value = "/nilai-per-angkatan")
+    @PreAuthorize("hasRole('GURU')")
+    //private NilaiAngkatanModel getNilaiAkhirPerAngkatan(@RequestBody NilaiAngkatanRequest[] angkatan) {
+    private List<NilaiAngkatanModel> getNilaiAkhirPerAngkatan(@RequestBody NilaiAngkatanRequest[] angkatan) {
+        try{
+            //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
+            return dashboardGuruService.averageScoreAllAngkatan();
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "angkatan not found."
             );
         }
 
