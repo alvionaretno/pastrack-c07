@@ -60,6 +60,23 @@ public class DashboardGuruController {
 
     }
 
+    //PBI 43-44
+    @GetMapping (value = "/distribusi-nilai-angkatan/{idAngkatan}")
+    @PreAuthorize("hasRole('GURU')")
+    //private NilaiAngkatanModel getNilaiAkhirPerAngkatan(@RequestBody NilaiAngkatanRequest[] angkatan) {
+    private NilaiSemesterModel getNilaiAkhirPerAngkatan(@PathVariable("idAngkatan") Long idAngkatan) {
+        try{
+            //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
+            return dashboardGuruService.rataRataNilaiAkhirSemesterSiswaAngkatanX(idAngkatan);
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "angkatan not found."
+            );
+        }
+
+    }
+    
+
     //retrieve semester
     @GetMapping (value = "/allSemester")
     private List<SemesterModel> retrieveAllSemester (){
