@@ -2,6 +2,9 @@ package com.PASTRACK.PASTRACK.Service.DashboardGuru;
 
 import java.util.*;
 import javax.transaction.Transactional;
+
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.NilaiAngkatanRequest;
+import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Repository.NilaiAngkatanDB;
 import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
@@ -54,6 +57,14 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     public List<StudentModel> getSiswaByTahunMasuk(Long angkatanId) {
         List<StudentModel> siswaInAngkatanX = studentService.getStudentByTahunMasuk(angkatanId);
         return siswaInAngkatanX;
+    }
+
+    @Override
+    public List<NilaiAngkatanModel> getNilaiAkhirPerAngkatan(NilaiAngkatanRequest[] listAngkatan) {
+        for (int i = 0; i < listAngkatan.length; i++) {
+            AngkatanModel angkatan = angkatanService.getAngkatanById(listAngkatan[i].getAngkatanId());
+        }
+        return dashboardGuruService.averageScoreAllAngkatan();
     }
 
     //PBI 44-45

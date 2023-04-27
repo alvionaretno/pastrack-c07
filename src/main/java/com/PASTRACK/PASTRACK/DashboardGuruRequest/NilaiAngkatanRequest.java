@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 import com.PASTRACK.PASTRACK.Model.SemesterModel;
 
 @Data
-public class getRataRataNilaiAngkatan implements Serializable {
+public class NilaiAngkatanRequest implements Serializable {
     Long angkatanId;
 }
