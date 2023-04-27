@@ -75,7 +75,6 @@ public class DashboardGuruController {
         }
 
     }
-    
 
     //retrieve semester
     @GetMapping (value = "/allSemester")
@@ -96,7 +95,7 @@ public class DashboardGuruController {
             return angkatanService.findAll();
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Belum ada Semester"
+                    HttpStatus.NOT_FOUND, "Belum ada Angkatan"
             );
         }
     }
