@@ -72,7 +72,7 @@ public class KelasServiceImpl implements KelasService {
 
     //Create Kelas
     @Override
-    public KelasModel createKelas(addKelasRequest kelas) {
+    public addKelasResponse createKelas(addKelasRequest kelas) {
         KelasModel kelasModel = new KelasModel();
         System.out.println(kelas);
         kelasModel.setNamaKelas(kelas.getNamaKelas());
@@ -80,7 +80,14 @@ public class KelasServiceImpl implements KelasService {
         GuruModel guru = guruService.getGuruByUsername(kelas.getUsernameGuru());
         kelasModel.setGuru(guru);
         guru.getListKelas().add(kelasModel);
-        return kelasDB.save(kelasModel);
+        kelasDB.save(kelasModel);
+
+        // response
+        Long semesterId = kelasModel.getSemester().getId();
+        String usernameGuru = kelasModel.getGuru().getUsername();
+        addKelasResponse response = new addKelasResponse(kelas.getNamaKelas(),semesterId,usernameGuru);
+        return response;
+
     }
 
 

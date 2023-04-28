@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import javax.validation.Valid;
 
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
+import com.PASTRACK.PASTRACK.KelasRequest.addKelasResponse;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
 import com.PASTRACK.PASTRACK.Model.*;
@@ -114,9 +115,10 @@ public class KelasRestController {
         }
     }
 
+    // Create Kelas
     @PostMapping(value = "/")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel createKelas(@Valid @RequestBody addKelasRequest kelas,BindingResult bindingResult) {
+    private addKelasResponse createKelas(@Valid @RequestBody addKelasRequest kelas, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
@@ -181,7 +183,7 @@ public class KelasRestController {
     }
 
 
-    //Get Kelas By Id
+    //Get Kelas By Id (Detail Kelas)
     @GetMapping (value = "/{idKelas}")
     private KelasModel retrieveKelas (@PathVariable("idKelas") Long idKelas){
         try {
