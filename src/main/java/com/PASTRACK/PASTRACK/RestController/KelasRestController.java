@@ -132,7 +132,7 @@ public class KelasRestController {
     //Add Siswa To Kelas
     @PutMapping(value = "/addMurid/{idKelas}")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMuridToKelas(@PathVariable("idKelas") String idKelas, @RequestBody addMuridRequest[] username) {
+    private addKelasResponse addMuridToKelas(@PathVariable("idKelas") String idKelas, @RequestBody addMuridRequest[] username) {
         try{
             return kelasService.addMuridToKelas(idKelas, username);
         } catch (NoSuchElementException e){
@@ -160,7 +160,7 @@ public class KelasRestController {
     //Add Mata Pelajaran To Kelas
     @PutMapping(value = "/addMatpel/{idKelas}")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMatpelToKelas(@PathVariable("idKelas") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
+    private addKelasResponse addMatpelToKelas(@PathVariable("idKelas") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
         try{
             return kelasService.addMatpelToKelas(id, listMatpel);
         } catch (NoSuchElementException e){
@@ -185,7 +185,7 @@ public class KelasRestController {
 
     //Get Kelas By Id (Detail Kelas)
     @GetMapping (value = "/{idKelas}")
-    private KelasModel retrieveKelas (@PathVariable("idKelas") Long idKelas){
+    private addKelasResponse retrieveKelasById (@PathVariable("idKelas") Long idKelas){
         try {
             return kelasService.getKelasById(idKelas);
         } catch (NoSuchElementException e){
@@ -210,9 +210,9 @@ public class KelasRestController {
 
     @GetMapping(value = "/{idKelas}/siswa")
     @PreAuthorize("hasRole('GURU') or hasRole('ADMIN')")
-    private List<StudentModel> getListSiswaByKelas(@PathVariable("idKelas") String idKelas) {
+    private List<StudentModel> getListSiswaByKelas(@PathVariable("idKelas") Long idKelas) {
         try {
-            KelasModel kelas = kelasService.getKelasById(Long.parseLong(idKelas));
+            addKelasResponse kelas = kelasService.getKelasById(idKelas);
             if(kelas.getListMurid() == null){
                 return new ArrayList<StudentModel>();
             }else{
@@ -227,9 +227,9 @@ public class KelasRestController {
 
     @GetMapping(value = "/{idKelas}/matpel")
     @PreAuthorize("hasRole('GURU') or hasRole('ADMIN') or hasRole('MURID')")
-    private List<MataPelajaranModel> getListMatpelByKelas(@PathVariable("idKelas") String idKelas) {
+    private List<MataPelajaranModel> getListMatpelByKelas(@PathVariable("idKelas") Long idKelas) {
         try {
-            KelasModel kelas = kelasService.getKelasById(Long.parseLong(idKelas));
+            addKelasResponse kelas = kelasService.getKelasById(idKelas);
             if(kelas.getListMataPelajaran() == null){
                 return new ArrayList<MataPelajaranModel>();
             }else{

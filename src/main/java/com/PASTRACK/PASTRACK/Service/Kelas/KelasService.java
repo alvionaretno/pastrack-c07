@@ -17,9 +17,11 @@ public interface KelasService {
 
     List<KelasModel> getAllKelas();
 
-    KelasModel addMuridToKelas (String id, addMuridRequest[] username);
-    KelasModel addMatpelToKelas (String id, addMatpelKelasRequest[] listMatpel);
-    KelasModel getKelasById (Long idKelas);
+    addKelasResponse addMuridToKelas (String id, addMuridRequest[] username);
+    addKelasResponse addMatpelToKelas (String id, addMatpelKelasRequest[] listMatpel);
+    addKelasResponse getKelasById (Long idKelas);
+
+    KelasModel getById (Long idKelas);
 
     MataPelajaranModel getMatpelById(Long id);
     List<kelasAllRequest> getListKelasByGuru(String usernameGuru);
