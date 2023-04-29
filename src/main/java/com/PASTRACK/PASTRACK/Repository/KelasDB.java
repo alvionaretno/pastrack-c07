@@ -18,6 +18,9 @@ public interface KelasDB extends JpaRepository<KelasModel, Long> {
    
     Optional<KelasModel> findById(Long id);
 
+    @Query("SELECT K FROM KelasModel K WHERE K.id = :id")
+    KelasModel findKelasById(@Param("id") Long idKelas);
+
     @Query("SELECT K FROM KelasModel K WHERE K.guru = :guru")
     List<KelasModel> findKelasByGuru(@Param("guru") GuruModel guru);
 

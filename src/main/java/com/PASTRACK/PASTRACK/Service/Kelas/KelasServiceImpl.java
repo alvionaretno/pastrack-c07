@@ -85,15 +85,16 @@ public class KelasServiceImpl implements KelasService {
         // response
         Long semesterId = kelasModel.getSemester().getId();
         String usernameGuru = kelasModel.getGuru().getUsername();
-        addKelasResponse response = new addKelasResponse(kelas.getNamaKelas(),semesterId,usernameGuru);
+        List<StudentModel> listStudent = kelasModel.getListMurid();
+        List<MataPelajaranModel> listMatpel = kelasModel.getListMataPelajaran();
+        addKelasResponse response = new addKelasResponse(kelasModel.getId(),kelasModel.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpel);
         return response;
-
     }
 
 
     //Add Matpel to particular class
     @Override
-    public KelasModel addMatpelToKelas(String id, addMatpelKelasRequest[] listMatpel) {
+    public addKelasResponse addMatpelToKelas(String id, addMatpelKelasRequest[] listMatpel) {
         Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(id));
         KelasModel kelasObj = kelas.get();
         if (kelasObj.getListMataPelajaran() == null) {
@@ -113,12 +114,18 @@ public class KelasServiceImpl implements KelasService {
             }
         }
         kelasDB.save(kelasObj);
-        return kelasObj;
+
+        Long semesterId = kelasObj.getSemester().getId();
+        String usernameGuru = kelasObj.getGuru().getUsername();
+        List<StudentModel> listStudent = kelasObj.getListMurid();
+        List<MataPelajaranModel> listMatpels = kelasObj.getListMataPelajaran();
+        addKelasResponse response = new addKelasResponse(kelasObj.getId(), kelasObj.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
+        return response;
     }
 
     //Add Murid to particular class
     @Override
-    public KelasModel addMuridToKelas(String idKelas, addMuridRequest[] username) {
+    public addKelasResponse addMuridToKelas(String idKelas, addMuridRequest[] username) {
         Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(idKelas));
         KelasModel kelasObj = kelas.get();
         if (!(kelasObj.getListMataPelajaran() != null)) {
@@ -141,18 +148,36 @@ public class KelasServiceImpl implements KelasService {
             }
         }
         kelasDB.save(kelasObj);
-        return kelasObj;
+
+        Long semesterId = kelasObj.getSemester().getId();
+        String usernameGuru = kelasObj.getGuru().getUsername();
+        List<StudentModel> listStudent = kelasObj.getListMurid();
+        List<MataPelajaranModel> listMatpels = kelasObj.getListMataPelajaran();
+        addKelasResponse response = new addKelasResponse(kelasObj.getId(), kelasObj.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
+        return response;
     }
 
     //Retrieve Kelas By Id
     @Override
-    public KelasModel getKelasById (Long IdKelas){
-        Optional<KelasModel> kelas = kelasDB.findById(IdKelas);
-        if (kelas.isPresent()){
+    public addKelasResponse getKelasById (Long idKelas){
+        KelasModel kelas = kelasDB.findKelasById(idKelas);
+
+        Long semesterId = kelas.getSemester().getId();
+        String usernameGuru = kelas.getGuru().getUsername();
+        List<StudentModel> listStudent = kelas.getListMurid();
+        List<MataPelajaranModel> listMatpels = kelas.getListMataPelajaran();
+        addKelasResponse response = new addKelasResponse(kelas.getId(),kelas.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
+        return response;
+
+    }
+
+    @Override
+    public KelasModel getById (Long idKelas){
+        Optional<KelasModel> kelas = kelasDB.findById(idKelas);
+        if(kelas.isPresent()) {
             return kelas.get();
-        }
-        else {
-            throw new NoSuchElementException();
+        } else{
+            return null;
         }
     }
 
@@ -243,7 +268,7 @@ public class KelasServiceImpl implements KelasService {
 
     @Override
     public List<StudentModel> getListSiswaInKelasX(String idKelas) {
-        KelasModel kelas = kelasService.getKelasById(Long.valueOf(idKelas));
+        KelasModel kelas = kelasService.getById(Long.valueOf(idKelas));
         List<StudentModel> listSiswaInKelasX = kelas.getListMurid();
         return listSiswaInKelasX;
     }
