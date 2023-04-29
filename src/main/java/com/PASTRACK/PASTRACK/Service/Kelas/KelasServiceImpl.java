@@ -60,9 +60,15 @@ public class KelasServiceImpl implements KelasService {
 
     //Retrieve All Kelas
     @Override
-    public List<KelasModel> getAllKelas() {
+    public List<addKelasResponse> getAllKelas() {
         List<KelasModel> listKelas = kelasDB.findAll();
-        return listKelas;
+        List<addKelasResponse> listKelasResponse = new ArrayList<addKelasResponse>();
+
+        for(KelasModel kelas: listKelas){
+            addKelasResponse responseKelas = new addKelasResponse(kelas.getId(), kelas.getNamaKelas(), kelas.getSemester().getId(),kelas.getGuru().getUsername(),kelas.getListMurid(), kelas.getListMataPelajaran());
+            listKelasResponse.add(responseKelas);
+        }
+        return listKelasResponse;
     }
 
     @Override

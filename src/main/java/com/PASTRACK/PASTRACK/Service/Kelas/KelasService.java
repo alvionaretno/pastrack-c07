@@ -15,7 +15,7 @@ public interface KelasService {
     
     addKelasResponse createKelas(addKelasRequest kelas);
 
-    List<KelasModel> getAllKelas();
+    List<addKelasResponse> getAllKelas();
 
     addKelasResponse addMuridToKelas (String id, addMuridRequest[] username);
     addKelasResponse addMatpelToKelas (String id, addMatpelKelasRequest[] listMatpel);

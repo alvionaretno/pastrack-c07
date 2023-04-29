@@ -172,7 +172,7 @@ public class KelasRestController {
 
     //Retrieve All Kelas
     @GetMapping (value = "/")
-    private List<KelasModel> retrieveAllKelas (){
+    private List<addKelasResponse> retrieveAllKelas (){
         try {
             return kelasService.getAllKelas();
         } catch (NoSuchElementException e){
