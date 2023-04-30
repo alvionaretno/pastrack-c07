@@ -313,6 +313,7 @@ public class KelasServiceImpl implements KelasService {
         studentMatpel.setStudent(student);
         studentMatpel.setMatapelajaran(matpel);
         studentMatpel.setNilai_komponen(0);
+        student.getNilaiAkhir().add(studentMatpel);
         return studentMatpelDB.save(studentMatpel);
     }
 
