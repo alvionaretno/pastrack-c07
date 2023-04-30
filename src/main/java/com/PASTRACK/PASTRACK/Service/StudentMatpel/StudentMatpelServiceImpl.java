@@ -41,26 +41,22 @@ public class StudentMatpelServiceImpl implements StudentMatpelService {
     private KomponenDB komponenDB;
 
     @Override
-    public void generateNilaiStudentMatpel(StudentMataPelajaranModel studentMatpel) {
+    public StudentMataPelajaranModel generateNilaiStudentMatpel(StudentMataPelajaranModel studentMatpel) {
         StudentModel student = studentMatpel.getStudent();
         MataPelajaranModel matpel = studentMatpel.getMatapelajaran();
         List<getComponent> listAllKomponenSiswa = komponenDB.getAllKomponenSiswa(student, matpel);
         int nilaiMatpel = 0;
         for (getComponent komponen : listAllKomponenSiswa) {
-            int calc = komponen.getBobot() * komponen.getNilai();
+            int calc = komponen.getBobot() * komponen.getNilai() * (1/100);
             nilaiMatpel += calc;
         }
         studentMatpel.setNilai_komponen(nilaiMatpel);
-        studentMatpelDB.save(studentMatpel);
+        
+        return studentMatpelDB.save(studentMatpel);
     }
 
     @Override
     public int getNilaiMatpel(StudentMataPelajaranModel studentMatpel) {
         return studentMatpel.getNilai_komponen();
     }
-
-    // @Override
-    // public StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel) {
-    //     studentMatpelDB.findb
-    // }
 }

@@ -57,12 +57,13 @@ public class MatpelServiceImpl implements MatpelService {
         matpelModel.setNamaMataPelajaran(matpel.getNamaMataPelajaran());
         SemesterModel semester = semesterService.getSemesterById(Long.parseLong(matpel.getSemester()));
         matpelModel.setSemester(semester);
-        PeminatanModel peminatan = peminatanDB.findById( Long.parseLong( matpel.getNamaPeminatan())).get();
+        PeminatanModel peminatan = peminatanDB.findByNamaPeminatan(matpel.getNamaPeminatan());
         matpelModel.setPeminatan(peminatan);
         matpelModel.setDeskripsi(matpel.getDesc());
         matpelModel.setGuru(guru);
         guru.getListMataPelajaran().add(matpelModel);
         semester.getListMataPelajaran().add(matpelModel);
+        peminatan.getListMataPelajaran().add(matpelModel);
         return matpelDB.save(matpelModel);
     }
 
@@ -71,6 +72,7 @@ public class MatpelServiceImpl implements MatpelService {
         // List<MataPelajnow = LocalDateTime.now();
         GuruModel guru = guruService.getGuruByUsername(username);
         List<MataPelajaranModel> listMatpel = matpelDB.findAllMatpelInGuru(guru, LocalDateTime.now());
+        System.out.println("list matpel: " + listMatpel);
         List<MatpelAllRequest> listMatpelRequest = new ArrayList<MatpelAllRequest>();
         for(MataPelajaranModel matpel : listMatpel) {
             MatpelAllRequest tempMatpel = new MatpelAllRequest();

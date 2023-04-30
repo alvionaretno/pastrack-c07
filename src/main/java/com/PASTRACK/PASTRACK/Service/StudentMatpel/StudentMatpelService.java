@@ -5,7 +5,7 @@ import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 
 public interface StudentMatpelService {
-    void generateNilaiStudentMatpel(StudentMataPelajaranModel studentMatpel);
+    StudentMataPelajaranModel generateNilaiStudentMatpel(StudentMataPelajaranModel studentMatpel);
     int getNilaiMatpel(StudentMataPelajaranModel studentMatpel);
     // StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel);
 }
