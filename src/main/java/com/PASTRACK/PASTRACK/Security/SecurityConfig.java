@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/register/**").permitAll().and()
                 .authorizeRequests().antMatchers("/api/user/**").permitAll().and()
                 .authorizeRequests().antMatchers("/api/matpel/**").permitAll().and()
-                .authorizeRequests().antMatchers("/api/tugas/**").permitAll().and()
+                .authorizeRequests().antMatchers("/api/postingan/**").permitAll().and()
                 .authorizeRequests().antMatchers("/api/kelas/**").permitAll().and()
                 .authorizeRequests().antMatchers("/api/semester/**").permitAll().and()
                 .authorizeRequests().antMatchers("/api/angkatan/**").permitAll()
