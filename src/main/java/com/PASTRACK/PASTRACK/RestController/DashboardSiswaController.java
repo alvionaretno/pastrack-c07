@@ -1,6 +1,7 @@
 package com.PASTRACK.PASTRACK.RestController;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
+import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Service.DashboardSiswa.DashboardSiswaService;
+import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
 
 @RestController
 @CrossOrigin
@@ -23,12 +26,27 @@ import com.PASTRACK.PASTRACK.Service.DashboardSiswa.DashboardSiswaService;
 public class DashboardSiswaController {
     @Autowired
     private DashboardSiswaService dashboardSiswaService;
+
+    @Autowired
+    private StudentMatpelService studentMatpelService;
     
-    @GetMapping(value = "/")
+    @GetMapping(value = "/{username}")
     @PreAuthorize("hasRole('SISWA')")
     private AllDashboard getRataRataAllMatpel(@PathVariable("username") String usernameSiswa, Principal principal) {
         try {
             return dashboardSiswaService.getAllViewed(usernameSiswa);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "not found"
+            );
+        }
+    }
+
+    @GetMapping(value = "/{username}/{idPeminatan}")
+    @PreAuthorize("hasRole('SISWA')")
+    private List<StudentMataPelajaranModel> listStudentMatpelByPeminatan(@PathVariable("username") String usernameSiswa, @PathVariable("idPeminatan") String idPeminatan, Principal principal) {
+        try {
+            return studentMatpelService.getListStudentMatpelByPeminatan(usernameSiswa, idPeminatan);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "not found"
