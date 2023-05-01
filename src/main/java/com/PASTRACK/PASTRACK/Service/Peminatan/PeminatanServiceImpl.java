@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,12 @@ public class PeminatanServiceImpl implements PeminatanService {
             allPeminatan.add(current);
         }
         return allPeminatan;
+    }
+
+    @Override
+    public PeminatanModel getPeminatanById(String idPeminatan) {
+        Optional<PeminatanModel> x = peminatanDB.findById(Long.parseLong(idPeminatan));
+        PeminatanModel peminatan = x.get();
+        return peminatan;
     }
 }

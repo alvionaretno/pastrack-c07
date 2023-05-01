@@ -8,4 +8,5 @@ import java.util.List;
 public interface PeminatanService {
     PeminatanModel getPeminatanByNama(String namaPeminatan);
     List<PeminatanRequest> getAllPeminatan();
+    PeminatanModel getPeminatanById(String idPeminatan);
 }
