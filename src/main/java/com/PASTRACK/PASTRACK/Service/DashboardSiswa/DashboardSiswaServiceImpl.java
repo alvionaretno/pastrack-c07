@@ -17,6 +17,7 @@ import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.StudentDB;
+import com.PASTRACK.PASTRACK.Repository.StudentMatpelDB;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
 
@@ -49,6 +50,11 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
     @Override
     public List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username) {
         List<PencapaianNilaiPerMatpel> listPencapaian = new ArrayList<PencapaianNilaiPerMatpel>();
+        Optional<StudentModel> x = studentService.getUserById(username);
+        StudentModel student = x.get();
+        for (StudentMataPelajaranModel studentMatpel : student.getNilaiAkhir()) {
+            
+        }
         return listPencapaian;
     }
 
