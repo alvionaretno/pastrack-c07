@@ -8,25 +8,24 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-//ini belom di configure
 public class DashboardGuruResponse {
 
-    Long idKelas;
-    String namaKelas;
-    Long semesterId;
-    String usernameGuru;
+    //identifier PBI 42-43 dan 44-45
+    Long idAngkatan;
 
-    List<StudentModel> listMurid;
+    //PBI 42-43
+    List<String> listAngkatan;
+    List<Integer>listNilaiRataRataAngkatan;
 
-    List<MataPelajaranModel> listMataPelajaran;
+    //PBI 44-45
+    List<String> listNamaMuridAngkatanX;
+    List<Integer> listNilaiRataRatastudentX;
 
-    public DashboardGuruResponse (Long idKelas, String namaKelas, Long semesterId, String usernameGuru, List<StudentModel> listMurid, List<MataPelajaranModel> listMataPelajaran) {
-        this.idKelas = idKelas;
-        this.namaKelas = namaKelas;
-        this.semesterId = semesterId;
-        this.usernameGuru = usernameGuru;
-        this.listMurid = listMurid;
-        this.listMataPelajaran = listMataPelajaran;
+    public DashboardGuruResponse (Long idAngkatan,List<String> listAngkatan,List<Integer>listNilaiRataRataAngkatan,List<String> listNamaMuridAngkatanX,List<Integer> listNilaiRataRatastudentX) {
+        this.idAngkatan = idAngkatan;
+        this.listAngkatan = listAngkatan;
+        this.listNilaiRataRataAngkatan = listNilaiRataRataAngkatan;
+        this.listNamaMuridAngkatanX = listNamaMuridAngkatanX;
+        this.listNilaiRataRatastudentX = listNilaiRataRatastudentX;
     }
-
 }

@@ -6,6 +6,8 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruRequest;
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruResponse;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.NilaiAngkatanRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
@@ -44,11 +46,25 @@ public class DashboardGuruController {
     @Autowired
     private DashboardGuruService dashboardGuruService;
 
+    //Dashboard Guru in One API
+    @GetMapping (value = "/")
+    @PreAuthorize("hasRole('GURU')")
+    private DashboardGuruResponse dashboardGuru(@RequestBody DashboardGuruRequest idAngkatan) {
+        try{
+            return dashboardGuruService.getAllData(idAngkatan.getAngkatanId());
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "angkatan not found."
+            );
+        }
+
+    }
+
     //PBI 42-43
     @GetMapping (value = "/nilai-per-angkatan")
     @PreAuthorize("hasRole('GURU')")
     //private NilaiAngkatanModel getNilaiAkhirPerAngkatan(@RequestBody NilaiAngkatanRequest[] angkatan) {
-    private List<NilaiAngkatanModel> getNilaiAkhirPerAngkatan() {
+    private List<NilaiAngkatanModel> getNilaiAkhirAllAngkatan() {
         try{
             //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
             return dashboardGuruService.averageScoreAllAngkatan();

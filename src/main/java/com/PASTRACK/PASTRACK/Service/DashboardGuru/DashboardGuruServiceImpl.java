@@ -3,11 +3,13 @@ package com.PASTRACK.PASTRACK.Service.DashboardGuru;
 import java.util.*;
 import javax.transaction.Transactional;
 
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruResponse;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.NilaiAngkatanRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Repository.NilaiAngkatanDB;
 import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
+import com.PASTRACK.PASTRACK.Service.NilaiAngkatan.NilaiAngkatanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
@@ -21,10 +23,43 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     private StudentService studentService;
 
     @Autowired
+    private NilaiAngkatanService nilaiAngakanService;
+
+    @Autowired
     private DashboardGuruService dashboardGuruService;
 
     @Autowired
     private AngkatanService angkatanService;
+
+    //Get all data so multiple dashboard can use one API only
+    @Override
+    public DashboardGuruResponse getAllData(Long angkatanId) {
+        Long idAngkatan = Long.valueOf(0);
+
+        //PBI 42-43
+        List<String> listAngkatan = new ArrayList<>();
+        List<Integer>listNilaiRataRataAngkatan = new ArrayList<>();
+
+        List<AngkatanModel> listAngkatanModel = angkatanService.findAll();
+        List<NilaiAngkatanModel> listNilaiAngkatanModel = nilaiAngakanService.findAll();
+
+        for(AngkatanModel angkatan:listAngkatanModel){
+            listAngkatan.add(angkatan.getAngkatan());
+        }
+
+        for(NilaiAngkatanModel nilaiAngkatan:listNilaiAngkatanModel){
+            listNilaiRataRataAngkatan.add(nilaiAngkatan.getNilaiAngkatan());
+        }
+
+        //PBI 44-45
+        List<String> listNamaMuridAngkatanX = new ArrayList<>();
+        List<Integer> listNilaiRataRatastudentX = new ArrayList<>();
+
+        //List<StudentModel> listSiswaAngkatanX = angkatanService.findAll();
+
+        DashboardGuruResponse dashboardGuruResponse = new DashboardGuruResponse(idAngkatan,listAngkatan,listNilaiRataRataAngkatan,listNamaMuridAngkatanX,listNilaiRataRatastudentX);
+        return dashboardGuruResponse;
+    }
 
     //PBI 42-43
     @Override
@@ -49,6 +84,10 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
     @Override
     public List<NilaiAngkatanModel> averageScoreAllAngkatan() {
+        List<AngkatanModel> allAngkatan = angkatanService.findAll();
+        for(AngkatanModel angkatan:allAngkatan){
+            dashboardGuruService.averageScorePerAngkatan(angkatan.getId());
+        }
         List<NilaiAngkatanModel> nilaiAllAngkatan = nilaiAngkatanDB.findAll();
         return nilaiAllAngkatan;
     }

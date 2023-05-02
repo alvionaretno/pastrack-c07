@@ -3,6 +3,7 @@ package com.PASTRACK.PASTRACK.Service.DashboardGuru;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruResponse;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.NilaiAngkatanRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
@@ -28,6 +29,8 @@ public interface DashboardGuruService {
     NilaiSemesterModel rataRataNilaiAkhirSemesterSiswaAngkatanX(Long angkatanId);
 
     List<NilaiAngkatanModel> getNilaiAkhirPerAngkatan(NilaiAngkatanRequest[] listAngkatan);
+
+    DashboardGuruResponse getAllData(Long idAngkatan);
 
 
 }
