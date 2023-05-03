@@ -6,10 +6,7 @@ import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
-import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
-import com.PASTRACK.PASTRACK.KelasRequest.addKelasResponse;
-import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
-import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
+import com.PASTRACK.PASTRACK.KelasRequest.*;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
@@ -155,7 +152,7 @@ public class KelasRestController {
     //Add Siswa To Kelas
     @PutMapping(value = "/addMurid/{idKelas}")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel addMuridToKelas(@PathVariable("idKelas") String idKelas, @RequestBody addMuridRequest[] username) {
+    private List<siswaKelasResponse> addMuridToKelas(@PathVariable("idKelas") String idKelas, @RequestBody addMuridRequest[] username) {
         try{
             return kelasService.addMuridToKelas(idKelas, username);
         } catch (NoSuchElementException e){
@@ -233,14 +230,14 @@ public class KelasRestController {
 
     @GetMapping(value = "/{idKelas}/siswa")
     @PreAuthorize("hasRole('GURU') or hasRole('ADMIN')")
-    private List<StudentModel> getListSiswaByKelas(@PathVariable("idKelas") Long idKelas) {
+    private List<siswaKelasResponse> getListSiswaByKelas(@PathVariable("idKelas") Long idKelas) {
         try {
-            addKelasResponse kelas = kelasService.getKelasById(idKelas);
-            if(kelas.getListMurid() == null){
-                return new ArrayList<StudentModel>();
-            }else{
-                return kelas.getListMurid();
-            }
+            return kelasService.getListSiswaByKelas(idKelas);
+            //if(kelas.getListMurid() == null){
+            //    return new ArrayList<StudentModel>();
+            //}else{
+            //    return kelas.getListMurid();
+            //}
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,  "not found."

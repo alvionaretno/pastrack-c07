@@ -132,8 +132,9 @@ public class KelasServiceImpl implements KelasService {
 
     //Add Murid to particular class
     @Override
-    public KelasModel addMuridToKelas(String idKelas, addMuridRequest[] username) {
+    public List<siswaKelasResponse> addMuridToKelas(String idKelas, addMuridRequest[] username) {
         Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(idKelas));
+        List<siswaKelasResponse> listResponse = new ArrayList<siswaKelasResponse>();
         KelasModel kelasObj = kelas.get();
         if (!(kelasObj.getListMataPelajaran() != null)) {
             kelasObj.setListMurid(new ArrayList<StudentModel>());
@@ -156,12 +157,32 @@ public class KelasServiceImpl implements KelasService {
         }
         kelasDB.save(kelasObj);
 
+        for(StudentModel siswa: kelasObj.getListMurid()){
+            siswaKelasResponse response = new siswaKelasResponse(siswa.getNama());
+            listResponse.add(response);
+        }
+
         //Long semesterId = kelasObj.getSemester().getId();
         //String usernameGuru = kelasObj.getGuru().getUsername();
         //List<StudentModel> listStudent = kelasObj.getListMurid();
         //List<MataPelajaranModel> listMatpels = kelasObj.getListMataPelajaran();
         //addKelasResponse response = new addKelasResponse(kelasObj.getId(), kelasObj.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
-        return kelasObj;
+        return listResponse;
+    }
+
+    //Get List Siswa By Kelas
+    @Override
+    public List<siswaKelasResponse> getListSiswaByKelas(Long idKelas) {
+        KelasModel kelas = kelasService.getById(idKelas);
+        List<StudentModel> listStudentInKelas = kelas.getListMurid();
+        List<siswaKelasResponse> responses= new ArrayList<siswaKelasResponse>();
+
+        for(StudentModel student:listStudentInKelas){
+            siswaKelasResponse response = new siswaKelasResponse(student.getNama());
+            responses.add(response);
+        }
+
+        return responses;
     }
 
     //Retrieve Kelas By Id
