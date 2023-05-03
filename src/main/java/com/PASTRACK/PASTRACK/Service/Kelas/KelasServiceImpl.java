@@ -60,15 +60,15 @@ public class KelasServiceImpl implements KelasService {
 
     //Retrieve All Kelas
     @Override
-    public List<KelasModel> getAllKelas() {
+    public List<addKelasResponse> getAllKelas() {
         List<KelasModel> listKelas = kelasDB.findAll();
         List<addKelasResponse> listKelasResponse = new ArrayList<addKelasResponse>();
 
         for(KelasModel kelas: listKelas){
-            addKelasResponse responseKelas = new addKelasResponse(kelas.getId(), kelas.getNamaKelas(), kelas.getSemester().getId(),kelas.getGuru().getUsername(),kelas.getListMurid(), kelas.getListMataPelajaran());
+            addKelasResponse responseKelas = new addKelasResponse(kelas.getId(), kelas.getNamaKelas(), kelas.getSemester().getId(),kelas.getGuru().getUsername(), kelas.getListMurid(),kelas.getListMataPelajaran());
             listKelasResponse.add(responseKelas);
         }
-        return listKelas;
+        return listKelasResponse;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class KelasServiceImpl implements KelasService {
 
     //Create Kelas
     @Override
-    public KelasModel createKelas(addKelasRequest kelas) {
+    public addKelasResponse createKelas(addKelasRequest kelas) {
         KelasModel kelasModel = new KelasModel();
         System.out.println(kelas);
         kelasModel.setNamaKelas(kelas.getNamaKelas());
@@ -89,12 +89,13 @@ public class KelasServiceImpl implements KelasService {
         kelasDB.save(kelasModel);
 
         // response
-        //Long semesterId = kelasModel.getSemester().getId();
-        //String usernameGuru = kelasModel.getGuru().getUsername();
-        //List<StudentModel> listStudent = kelasModel.getListMurid();
-        //List<MataPelajaranModel> listMatpel = kelasModel.getListMataPelajaran();
-        //addKelasResponse response = new addKelasResponse(kelasModel.getId(),kelasModel.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpel);
-        return kelasModel;
+        Long semesterId = kelasModel.getSemester().getId();
+        String usernameGuru = kelasModel.getGuru().getUsername();
+        List<StudentModel> listStudent = kelasModel.getListMurid();
+        List<MataPelajaranModel> listMatpel = kelasModel.getListMataPelajaran();
+        addKelasResponse response = new addKelasResponse(kelasModel.getId(), kelasModel.getNamaKelas(), semesterId, usernameGuru,listStudent,listMatpel);
+        //addKelasResponse response = new addKelasResponse(kelasModel.getId(),kelasModel.getNamaKelas(),semesterId,usernameGuru);
+        return response;
     }
 
 
@@ -172,7 +173,7 @@ public class KelasServiceImpl implements KelasService {
         String usernameGuru = kelas.getGuru().getUsername();
         List<StudentModel> listStudent = kelas.getListMurid();
         List<MataPelajaranModel> listMatpels = kelas.getListMataPelajaran();
-        addKelasResponse response = new addKelasResponse(kelas.getId(),kelas.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
+        addKelasResponse response = new addKelasResponse(kelas.getId(),kelas.getNamaKelas(),semesterId,usernameGuru,listStudent,listMatpels);
         return response;
 
     }

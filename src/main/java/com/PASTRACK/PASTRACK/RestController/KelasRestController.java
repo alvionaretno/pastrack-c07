@@ -141,7 +141,7 @@ public class KelasRestController {
     // Create Kelas
     @PostMapping(value = "/")
     @PreAuthorize("hasRole('ADMIN')")
-    private KelasModel createKelas(@Valid @RequestBody addKelasRequest kelas, BindingResult bindingResult) {
+    private addKelasResponse createKelas(@Valid @RequestBody addKelasRequest kelas, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
@@ -195,7 +195,7 @@ public class KelasRestController {
 
     //Retrieve All Kelas
     @GetMapping (value = "/")
-    private List<KelasModel> retrieveAllKelas (){
+    private List<addKelasResponse> retrieveAllKelas (){
         try {
             return kelasService.getAllKelas();
         } catch (NoSuchElementException e){
