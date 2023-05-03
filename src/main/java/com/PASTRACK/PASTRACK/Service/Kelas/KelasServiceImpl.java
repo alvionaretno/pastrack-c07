@@ -100,7 +100,7 @@ public class KelasServiceImpl implements KelasService {
 
     //Add Matpel to particular class
     @Override
-    public addKelasResponse addMatpelToKelas(String id, addMatpelKelasRequest[] listMatpel) {
+    public KelasModel addMatpelToKelas(String id, addMatpelKelasRequest[] listMatpel) {
         Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(id));
         KelasModel kelasObj = kelas.get();
         if (kelasObj.getListMataPelajaran() == null) {
@@ -121,17 +121,17 @@ public class KelasServiceImpl implements KelasService {
         }
         kelasDB.save(kelasObj);
 
-        Long semesterId = kelasObj.getSemester().getId();
-        String usernameGuru = kelasObj.getGuru().getUsername();
-        List<StudentModel> listStudent = kelasObj.getListMurid();
-        List<MataPelajaranModel> listMatpels = kelasObj.getListMataPelajaran();
-        addKelasResponse response = new addKelasResponse(kelasObj.getId(), kelasObj.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
-        return response;
+        //Long semesterId = kelasObj.getSemester().getId();
+        //String usernameGuru = kelasObj.getGuru().getUsername();
+        //List<StudentModel> listStudent = kelasObj.getListMurid();
+        //List<MataPelajaranModel> listMatpels = kelasObj.getListMataPelajaran();
+        //addKelasResponse response = new addKelasResponse(kelasObj.getId(), kelasObj.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
+        return kelasObj;
     }
 
     //Add Murid to particular class
     @Override
-    public addKelasResponse addMuridToKelas(String idKelas, addMuridRequest[] username) {
+    public KelasModel addMuridToKelas(String idKelas, addMuridRequest[] username) {
         Optional<KelasModel> kelas = kelasDB.findById(Long.parseLong(idKelas));
         KelasModel kelasObj = kelas.get();
         if (!(kelasObj.getListMataPelajaran() != null)) {
@@ -155,12 +155,12 @@ public class KelasServiceImpl implements KelasService {
         }
         kelasDB.save(kelasObj);
 
-        Long semesterId = kelasObj.getSemester().getId();
-        String usernameGuru = kelasObj.getGuru().getUsername();
-        List<StudentModel> listStudent = kelasObj.getListMurid();
-        List<MataPelajaranModel> listMatpels = kelasObj.getListMataPelajaran();
-        addKelasResponse response = new addKelasResponse(kelasObj.getId(), kelasObj.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
-        return response;
+        //Long semesterId = kelasObj.getSemester().getId();
+        //String usernameGuru = kelasObj.getGuru().getUsername();
+        //List<StudentModel> listStudent = kelasObj.getListMurid();
+        //List<MataPelajaranModel> listMatpels = kelasObj.getListMataPelajaran();
+        //addKelasResponse response = new addKelasResponse(kelasObj.getId(), kelasObj.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
+        return kelasObj;
     }
 
     //Retrieve Kelas By Id

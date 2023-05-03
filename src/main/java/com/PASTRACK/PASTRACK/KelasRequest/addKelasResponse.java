@@ -16,10 +16,7 @@ public class addKelasResponse {
     String usernameGuru;
 
 
-    @JsonIgnore
     List<StudentModel> listMurid;
-
-    @JsonIgnore
     List<MataPelajaranModel> listMataPelajaran;
 
     public addKelasResponse (Long idKelas, String namaKelas, Long semesterId, String usernameGuru, List<StudentModel> listMurid, List<MataPelajaranModel> listMataPelajaran) {

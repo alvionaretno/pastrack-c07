@@ -132,7 +132,7 @@ public class KelasRestController {
     //Add Siswa To Kelas
     @PutMapping(value = "/addMurid/{idKelas}")
     @PreAuthorize("hasRole('ADMIN')")
-    private addKelasResponse addMuridToKelas(@PathVariable("idKelas") String idKelas, @RequestBody addMuridRequest[] username) {
+    private KelasModel addMuridToKelas(@PathVariable("idKelas") String idKelas, @RequestBody addMuridRequest[] username) {
         try{
             return kelasService.addMuridToKelas(idKelas, username);
         } catch (NoSuchElementException e){
@@ -160,7 +160,7 @@ public class KelasRestController {
     //Add Mata Pelajaran To Kelas
     @PutMapping(value = "/addMatpel/{idKelas}")
     @PreAuthorize("hasRole('ADMIN')")
-    private addKelasResponse addMatpelToKelas(@PathVariable("idKelas") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
+    private KelasModel addMatpelToKelas(@PathVariable("idKelas") String id, @RequestBody addMatpelKelasRequest[] listMatpel) {
         try{
             return kelasService.addMatpelToKelas(id, listMatpel);
         } catch (NoSuchElementException e){
