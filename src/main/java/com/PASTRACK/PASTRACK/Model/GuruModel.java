@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,9 +29,11 @@ public class GuruModel extends UserModel implements Serializable {
     @Column(name = "guruId", nullable = false)
     private String guruId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "guru", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MataPelajaranModel> listMataPelajaran;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "guru", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<KelasModel> listKelas;
 }
