@@ -60,7 +60,7 @@ public class KelasServiceImpl implements KelasService {
 
     //Retrieve All Kelas
     @Override
-    public List<addKelasResponse> getAllKelas() {
+    public List<KelasModel> getAllKelas() {
         List<KelasModel> listKelas = kelasDB.findAll();
         List<addKelasResponse> listKelasResponse = new ArrayList<addKelasResponse>();
 
@@ -68,7 +68,7 @@ public class KelasServiceImpl implements KelasService {
             addKelasResponse responseKelas = new addKelasResponse(kelas.getId(), kelas.getNamaKelas(), kelas.getSemester().getId(),kelas.getGuru().getUsername(),kelas.getListMurid(), kelas.getListMataPelajaran());
             listKelasResponse.add(responseKelas);
         }
-        return listKelasResponse;
+        return listKelas;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class KelasServiceImpl implements KelasService {
 
     //Create Kelas
     @Override
-    public addKelasResponse createKelas(addKelasRequest kelas) {
+    public KelasModel createKelas(addKelasRequest kelas) {
         KelasModel kelasModel = new KelasModel();
         System.out.println(kelas);
         kelasModel.setNamaKelas(kelas.getNamaKelas());
@@ -89,12 +89,12 @@ public class KelasServiceImpl implements KelasService {
         kelasDB.save(kelasModel);
 
         // response
-        Long semesterId = kelasModel.getSemester().getId();
-        String usernameGuru = kelasModel.getGuru().getUsername();
-        List<StudentModel> listStudent = kelasModel.getListMurid();
-        List<MataPelajaranModel> listMatpel = kelasModel.getListMataPelajaran();
-        addKelasResponse response = new addKelasResponse(kelasModel.getId(),kelasModel.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpel);
-        return response;
+        //Long semesterId = kelasModel.getSemester().getId();
+        //String usernameGuru = kelasModel.getGuru().getUsername();
+        //List<StudentModel> listStudent = kelasModel.getListMurid();
+        //List<MataPelajaranModel> listMatpel = kelasModel.getListMataPelajaran();
+        //addKelasResponse response = new addKelasResponse(kelasModel.getId(),kelasModel.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpel);
+        return kelasModel;
     }
 
 
@@ -238,11 +238,12 @@ public class KelasServiceImpl implements KelasService {
             //String[] arrOfStrTahunAjaran = formattedAwalTahunAjaran.split("/", 2);
             LocalDateTime awalTahunAjaran = kelas.getSemester().getAwalTahunAjaran();
             String formattedAwalTahunAjaran = awalTahunAjaran.format(dateTimeFormatter);
+            System.out.println((formattedAwalTahunAjaran));
             String[] arrOfStrTahunAjaran = formattedAwalTahunAjaran.split("/", 2);
             String[] arrOfStrToday = formattedDateToday.split("/", 2);
             if(arrOfStrTahunAjaran[1].equals(arrOfStrToday[1])){
                 if(Integer.valueOf(arrOfStrTahunAjaran[0]) <= Integer.valueOf(arrOfStrToday[0])){
-                   hasBeenAssigned = true;
+                   //hasBeenAssigned = true;
                 }
             }
 
@@ -298,6 +299,40 @@ public class KelasServiceImpl implements KelasService {
 
         }
         return listNotAssignedMatpel;
+    }
+
+    @Override
+    public KelasModel getKelasCurrentSemester(String usernameMurid) {
+        KelasModel kelasModel = new KelasModel();
+        List<KelasModel> allKelasBelongingToSiswa = kelasService.getAllKelasSiswa(usernameMurid);
+
+        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("MM/yyyy");
+        LocalDate today = LocalDate.now();
+        String formattedDateToday = today.format(formatterTime);
+
+        KelasModel kelasTerakhir = allKelasBelongingToSiswa.get(allKelasBelongingToSiswa.size() - 1);
+        for(KelasModel kelas : allKelasBelongingToSiswa) {
+            LocalDateTime akhirTahunAjaran = kelas.getSemester().getAkhirTahunAjaran();
+            String formattedAkhirTahunAjaran = akhirTahunAjaran.format(formatterTime);
+            String[] arrOfStrAkhirTahunAjaran = formattedAkhirTahunAjaran.split("/", 2);
+            String[] arrOfStrToday = formattedDateToday.split("/", 2);
+            if(arrOfStrAkhirTahunAjaran[1].equals(arrOfStrToday[1])){
+                if(Integer.valueOf(arrOfStrAkhirTahunAjaran[0]) >= Integer.valueOf(arrOfStrToday[0])){
+                    kelasModel = kelas;
+                }
+            }
+
+        }
+
+        return kelasModel;
+    }
+
+    @Override
+    public List<KelasModel> getAllKelasSiswa(String usernameMurid) {
+        Optional<StudentModel> siswa = studentService.getUserById(usernameMurid);
+        StudentModel siswaModel = siswa.get();
+        List<KelasModel> allKelasBelongingToSiswa = siswaModel.getListKelas();
+        return allKelasBelongingToSiswa;
     }
 
     @Override

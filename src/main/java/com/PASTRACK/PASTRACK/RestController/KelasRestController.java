@@ -71,6 +71,29 @@ public class KelasRestController {
         }
     }
 
+    @GetMapping (value = "/siswa/currentClass/{usernameSiswa}")
+    private KelasModel retrieveKelasInCurrentSemester (@PathVariable("usernameSiswa") String usernameSiswa){
+        try {
+            return kelasService.getKelasCurrentSemester(usernameSiswa);
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada Kelas"
+            );
+        }
+    }
+
+    //Get semua kelas di siswa
+    @GetMapping (value = "/siswa/allKelas/{usernameSiswa}")
+    private List<KelasModel> retrieveAllKelasSiswa (@PathVariable("usernameSiswa") String usernameSiswa){
+        try {
+            return kelasService.getAllKelasSiswa(usernameSiswa);
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Belum ada Kelas"
+            );
+        }
+    }
+
     @GetMapping (value = "/notAssigned/Siswa")
     private List<StudentModel> retrieveNotAssignedSiswa (){
         try {
@@ -118,7 +141,7 @@ public class KelasRestController {
     // Create Kelas
     @PostMapping(value = "/")
     @PreAuthorize("hasRole('ADMIN')")
-    private addKelasResponse createKelas(@Valid @RequestBody addKelasRequest kelas, BindingResult bindingResult) {
+    private KelasModel createKelas(@Valid @RequestBody addKelasRequest kelas, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field."
@@ -172,7 +195,7 @@ public class KelasRestController {
 
     //Retrieve All Kelas
     @GetMapping (value = "/")
-    private List<addKelasResponse> retrieveAllKelas (){
+    private List<KelasModel> retrieveAllKelas (){
         try {
             return kelasService.getAllKelas();
         } catch (NoSuchElementException e){
@@ -185,9 +208,9 @@ public class KelasRestController {
 
     //Get Kelas By Id (Detail Kelas)
     @GetMapping (value = "/{idKelas}")
-    private addKelasResponse retrieveKelasById (@PathVariable("idKelas") Long idKelas){
+    private KelasModel retrieveKelasById (@PathVariable("idKelas") Long idKelas){
         try {
-            return kelasService.getKelasById(idKelas);
+            return kelasService.getById(idKelas);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Kelas " + idKelas + " not found"

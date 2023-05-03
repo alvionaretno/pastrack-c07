@@ -13,15 +13,19 @@ import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 
 public interface KelasService {
     
-    addKelasResponse createKelas(addKelasRequest kelas);
+    KelasModel createKelas(addKelasRequest kelas);
 
-    List<addKelasResponse> getAllKelas();
+    List<KelasModel> getAllKelas();
 
     KelasModel addMuridToKelas (String id, addMuridRequest[] username);
     KelasModel addMatpelToKelas (String id, addMatpelKelasRequest[] listMatpel);
     addKelasResponse getKelasById (Long idKelas);
 
     KelasModel getById (Long idKelas);
+
+    KelasModel getKelasCurrentSemester(String usernameSiswa);
+
+    List<KelasModel> getAllKelasSiswa(String usernameSiswa);
 
     MataPelajaranModel getMatpelById(Long id);
     List<kelasAllRequest> getListKelasByGuru(String usernameGuru);
