@@ -325,7 +325,6 @@ public class KelasServiceImpl implements KelasService {
 
     @Override
     public KelasModel getKelasCurrentSemester(String usernameMurid) {
-        KelasModel kelasModel = new KelasModel();
         List<KelasModel> allKelasBelongingToSiswa = kelasService.getAllKelasSiswa(usernameMurid);
 
         DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("MM/yyyy");
@@ -334,6 +333,7 @@ public class KelasServiceImpl implements KelasService {
 
         KelasModel kelasTerakhir = allKelasBelongingToSiswa.get(allKelasBelongingToSiswa.size() - 1);
         for(KelasModel kelas : allKelasBelongingToSiswa) {
+            KelasModel kelasModel = new KelasModel();
             LocalDateTime akhirTahunAjaran = kelas.getSemester().getAkhirTahunAjaran();
             String formattedAkhirTahunAjaran = akhirTahunAjaran.format(formatterTime);
             String[] arrOfStrAkhirTahunAjaran = formattedAkhirTahunAjaran.split("/", 2);
@@ -341,12 +341,27 @@ public class KelasServiceImpl implements KelasService {
             if(arrOfStrAkhirTahunAjaran[1].equals(arrOfStrToday[1])){
                 if(Integer.valueOf(arrOfStrAkhirTahunAjaran[0]) >= Integer.valueOf(arrOfStrToday[0])){
                     kelasModel = kelas;
+                    return kelasModel;
                 }
             }
-
         }
 
-        return kelasModel;
+        return kelasTerakhir;
+    }
+
+
+    @Override
+    public kelasAllRequest getKelasGuruCurrentSemester(String usernameGuru) {
+        KelasModel kelasModel = new KelasModel();
+        List<kelasAllRequest> allKelasBelongingToGuru = kelasService.getListKelasByGuru(usernameGuru);
+
+        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("MM/yyyy");
+        LocalDate today = LocalDate.now();
+        String formattedDateToday = today.format(formatterTime);
+
+        kelasAllRequest kelasTerakhir = allKelasBelongingToGuru.get(allKelasBelongingToGuru.size() - 1);
+
+        return kelasTerakhir;
     }
 
     @Override

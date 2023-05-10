@@ -13,5 +13,5 @@ public class kelasAllRequest implements Serializable {
     Long id;
     String namaKelas;
     Long semesterId;
-    List<MataPelajaranModel> listMataPelajaran;
+    //List<MataPelajaranModel> listMataPelajaran;
 }
