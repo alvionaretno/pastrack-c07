@@ -147,6 +147,10 @@ public class KelasServiceImpl implements KelasService {
                 // untuk setiap siswa nge loop di semua matpel yg ada di kelas ini
                 for (MataPelajaranModel matpel : kelasObj.getListMataPelajaran()) {
                     createStudentMatpel(murids, matpel);
+                    if (!murids.getListPeminatan().contains(matpel.getPeminatan())) {
+                        murids.getListPeminatan().add(matpel.getPeminatan());
+                        matpel.getPeminatan().getListMurid().add(murids);
+                    }
                 }
                 if(murids.getListKelas() == null) {
                     murids.setListKelas(new ArrayList<KelasModel>());
