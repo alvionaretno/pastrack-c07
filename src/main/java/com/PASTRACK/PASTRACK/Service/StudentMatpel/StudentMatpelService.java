@@ -12,4 +12,6 @@ public interface StudentMatpelService {
     int getNilaiMatpel(StudentMataPelajaranModel studentMatpel);
     // StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel);
     List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(String username, String idPeminatan);
+
+    List<StudentMataPelajaranModel> getListStudentMatpelByStudent(String siswaId);
 }

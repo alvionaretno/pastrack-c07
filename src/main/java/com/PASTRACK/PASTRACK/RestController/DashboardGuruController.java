@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruRequest;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruResponse;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.NilaiAngkatanRequest;
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.StudentAverageScoreResponse;
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
@@ -84,6 +85,21 @@ public class DashboardGuruController {
         try{
             //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
             return dashboardGuruService.rataRataNilaiAkhirSemesterSiswaAngkatanX(idAngkatan);
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "angkatan not found."
+            );
+        }
+
+    }
+
+    //PBI 50-51
+    @GetMapping (value = "/rankingSiswa/{idAngkatan}/{page}/{size}")
+    @PreAuthorize("hasRole('GURU')")
+    private List<StudentAverageScoreResponse> rankingSiswa(@PathVariable("idAngkatan") Long idAngkatan, @PathVariable("page") int page, @PathVariable("size") int size) {
+        try{
+            //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
+            return dashboardGuruService.getPerankinganSiswa(idAngkatan, page, size);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "angkatan not found."

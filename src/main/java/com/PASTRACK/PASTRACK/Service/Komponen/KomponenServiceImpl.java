@@ -1,10 +1,12 @@
 package com.PASTRACK.PASTRACK.Service.Komponen;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import javax.transaction.Transactional;
 
+import com.PASTRACK.PASTRACK.Service.StudentKomponen.StudentKomponenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,9 @@ public class KomponenServiceImpl implements KomponenService {
 
     @Autowired
     private MatpelService matpelService;
+
+    @Autowired
+    private StudentKomponenService studentKomponenService;
     
     @Autowired
     private StudentKomponenDB studentKomponenDB;
@@ -50,6 +55,7 @@ public class KomponenServiceImpl implements KomponenService {
         komponenModel.setIsReleased(false);
         komponenModel.setDueDate(komponenReq.getDueDate().atStartOfDay());
         komponenModel.setBobot(komponenReq.getBobot());
+        komponenModel.setNilaiComponent(0);
         // komponenModel.setAkhirTahunAjaran(matpelModel.getAkhirTahunAjaran());
         // komponenModel.setAwalTahunAjaran(matpelModel.getAwalTahunAjaran());
         komponenModel.setMatapelajaran(matpelModel);
@@ -99,10 +105,15 @@ public class KomponenServiceImpl implements KomponenService {
     }
 
     @Override
-    public StudentKomponenModel updateStudentKomponen(StudentKomponenModel studentKomponen, int nilai) {
+    public KomponenModel updateStudentKomponen(int nilai,  Long komponenId) {
         // TODO Auto-generated method stub
-        studentKomponen.setNilaiKomponen(nilai);
-        return studentKomponenDB.save(studentKomponen);
+        //Optional<StudentKomponenModel> studentKomponenOp = studentKomponenService.getById(komponenId);
+        //StudentKomponenModel studentKomponen = studentKomponenOp.get();
+        //studentKomponen.setNilaiKomponen(nilai);
+        KomponenModel komponenModel = getKomponenByKode(komponenId);
+        komponenModel.setNilaiComponent(nilai);
+        //studentKomponenDB.save(studentKomponen);
+        return komponenModel;
     }
 
     @Override
@@ -110,6 +121,7 @@ public class KomponenServiceImpl implements KomponenService {
         StudentKomponenModel studentKomponen = new StudentKomponenModel();
         studentKomponen.setKomponen(komponen);
         studentKomponen.setStudent(student);
+        //baru
         studentKomponen.setNilaiKomponen(0);
         student.getNilai().add(studentKomponen);
         return studentKomponenDB.save(studentKomponen);

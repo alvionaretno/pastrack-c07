@@ -31,7 +31,7 @@ public class NilaiAngkatanModel implements Serializable {
 
     @NotNull
     @Column(name = "nilaiAngkatan")
-    private Integer nilaiAngkatan;
+    private double nilaiAngkatan;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "angkatan_id", referencedColumnName = "id")

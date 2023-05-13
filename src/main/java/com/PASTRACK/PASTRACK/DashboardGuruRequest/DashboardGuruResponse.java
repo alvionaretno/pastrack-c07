@@ -15,13 +15,13 @@ public class DashboardGuruResponse {
 
     //PBI 42-43
     List<String> listAngkatan;
-    List<Integer>listNilaiRataRataAngkatan;
+    List<Double>listNilaiRataRataAngkatan;
 
     //PBI 44-45
     List<String> listNamaMuridAngkatanX;
-    List<Integer> listNilaiRataRatastudentX;
+    List<Double> listNilaiRataRatastudentX;
 
-    public DashboardGuruResponse (Long idAngkatan,List<String> listAngkatan,List<Integer>listNilaiRataRataAngkatan,List<String> listNamaMuridAngkatanX,List<Integer> listNilaiRataRatastudentX) {
+    public DashboardGuruResponse (Long idAngkatan,List<String> listAngkatan,List<Double>listNilaiRataRataAngkatan,List<String> listNamaMuridAngkatanX,List<Double> listNilaiRataRatastudentX) {
         this.idAngkatan = idAngkatan;
         this.listAngkatan = listAngkatan;
         this.listNilaiRataRataAngkatan = listNilaiRataRataAngkatan;

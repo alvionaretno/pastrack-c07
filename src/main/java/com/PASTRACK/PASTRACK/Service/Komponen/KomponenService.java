@@ -17,6 +17,6 @@ public interface KomponenService {
     addKomponenRequest readKomponen(String kode);
     getComponent getKomponen( StudentKomponenModel studentKomponen);
     List<getComponent> getListKomponen(StudentModel student, MataPelajaranModel matpel);
-    StudentKomponenModel updateStudentKomponen(StudentKomponenModel studentKomponen, int bobot);
+    KomponenModel updateStudentKomponen(int bobot, Long kodeKomponen);
     StudentKomponenModel createStudentKomponen(StudentModel student, KomponenModel komponen);
 }

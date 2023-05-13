@@ -35,7 +35,7 @@ public class NilaiSemesterModel implements Serializable {
 
     @NotNull
     @Column(name = "nilai_akhir_semester", nullable = false)
-    private int nilaiAkhirSemester;
+    private double nilaiAkhirSemester;
 
     @JsonIgnore
     @ManyToOne(fetch= FetchType.EAGER, optional = false)

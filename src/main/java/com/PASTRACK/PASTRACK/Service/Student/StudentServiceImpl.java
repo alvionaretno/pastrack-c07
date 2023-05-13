@@ -1,12 +1,10 @@
 package com.PASTRACK.PASTRACK.Service.Student;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.PASTRACK.PASTRACK.Model.GuruModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +29,12 @@ public class StudentServiceImpl implements StudentService {
         // TODO Auto-generated method stub
         UserModel user = userService.getUserByUsername(username);
         return studentDB.findById(user.getId());
+    }
+
+    public StudentModel getById(Long idSiswa) {
+        Optional<StudentModel> studentModel = studentDB.findById(idSiswa);
+        StudentModel student = studentModel.get();
+        return student;
     }
 
     @Override

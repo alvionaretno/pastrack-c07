@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
-import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 
 public interface StudentMatpelDB extends JpaRepository<StudentMataPelajaranModel, String> {
     Optional<StudentMataPelajaranModel> findById(Long Id);
@@ -18,5 +17,10 @@ public interface StudentMatpelDB extends JpaRepository<StudentMataPelajaranModel
     List<StudentMataPelajaranModel> findListStudentMatpelByPeminatan(
         @Param("student") StudentModel student,
         @Param("peminatan") PeminatanModel peminatan
+    );
+
+    @Query("SELECT SM FROM StudentMataPelajaranModel SM WHERE SM.student = :student")
+    List<StudentMataPelajaranModel> findListStudentMatpelByStudent(
+            @Param("student") StudentModel student
     );
 }

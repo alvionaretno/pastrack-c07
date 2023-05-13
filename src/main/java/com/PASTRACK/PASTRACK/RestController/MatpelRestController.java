@@ -180,24 +180,25 @@ public class MatpelRestController {
 
     @PutMapping(value = "/{idMatpel}/komponen/{kodeKomponen}/siswa/{username}")
     @PreAuthorize("hasRole('GURU')")
-    private StudentKomponenModel UpdateKomponenSiswa(@PathVariable("idMatpel") String idMatpel,
+    private KomponenModel UpdateKomponenSiswa(@PathVariable("idMatpel") String idMatpel,
             @PathVariable("kodeKomponen") String kodeKomponen,
             @PathVariable("username") String username, 
             @Valid @RequestBody UpdateKomponenSiswaRequest nilai, BindingResult bindingResult) {
                 System.out.println(nilai);
         Optional<StudentModel> student = studentService.getUserById(username);
         Optional<StudentKomponenModel> studentKomponen = studentKomponenService.getById(Long.parseLong(kodeKomponen));
-        if (student.get() == studentKomponen.get().getStudent()) {
-            try {
-                return komponenService.updateStudentKomponen(studentKomponen.get(), nilai.getNilai());
-            } catch (NullPointerException e) {
-                throw new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found");
-            }
-        } else {
+        //if (student.get() == studentKomponen.get().getStudent()) {
+        try {
+            //return komponenService.updateStudentKomponen(studentKomponen.get(), nilai.getNilai(), Long.valueOf(kodeKomponen));
+            return komponenService.updateStudentKomponen(nilai.getNilai(), Long.valueOf(kodeKomponen));
+        } catch (NullPointerException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found");
         }
+        //} else {
+        //    throw new ResponseStatusException(
+        //            HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found");
+        //}
     }
 
     @GetMapping(value = "/{idMatpel}/siswa/{username}")

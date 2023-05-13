@@ -72,4 +72,11 @@ public class StudentMatpelServiceImpl implements StudentMatpelService {
         PeminatanModel peminatan = peminatanService.getPeminatanById(idPpeminatan);
         return studentMatpelDB.findListStudentMatpelByPeminatan(student, peminatan);
     }
+
+    @Override
+    public List<StudentMataPelajaranModel> getListStudentMatpelByStudent(String siswaId) {
+        StudentModel student = studentService.getById(Long.valueOf(siswaId));
+        List<StudentMataPelajaranModel> listStudentMatpel = studentMatpelDB.findListStudentMatpelByStudent(student);
+        return listStudentMatpel;
+    }
 }
