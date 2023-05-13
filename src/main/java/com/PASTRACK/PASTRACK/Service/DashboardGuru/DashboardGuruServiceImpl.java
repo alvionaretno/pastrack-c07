@@ -3,12 +3,10 @@ package com.PASTRACK.PASTRACK.Service.DashboardGuru;
 import java.util.*;
 import javax.transaction.Transactional;
 
-import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruResponse;
-import com.PASTRACK.PASTRACK.DashboardGuruRequest.MatpelAverageScore;
-import com.PASTRACK.PASTRACK.DashboardGuruRequest.NilaiAngkatanRequest;
-import com.PASTRACK.PASTRACK.DashboardGuruRequest.StudentAverageScoreResponse;
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.*;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.Model.*;
+import com.PASTRACK.PASTRACK.Repository.AngkatanDB;
 import com.PASTRACK.PASTRACK.Repository.NilaiAngkatanDB;
 import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
 import com.PASTRACK.PASTRACK.Service.NilaiAngkatan.NilaiAngkatanService;
@@ -21,6 +19,9 @@ import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 public class DashboardGuruServiceImpl implements DashboardGuruService {
     @Autowired
     private NilaiAngkatanDB nilaiAngkatanDB;
+
+    @Autowired
+    private AngkatanDB angkatanDB;
 
     @Autowired
     private StudentService studentService;
@@ -68,6 +69,32 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     //PBI 42-43
+
+    public List<AngkatanAverageScore> getAverageScoreByAngkatan() {
+        List<AngkatanModel> listAngkatan = angkatanDB.findAll();
+        List<AngkatanAverageScore> result = new ArrayList<>();
+
+        double sum = 0.0;
+        int count = 0;
+
+        for (AngkatanModel angkatanX : listAngkatan) {
+            List<StudentModel> listStudent = angkatanX.getListStudent();
+
+            for (StudentModel student : listStudent) {
+                double studentScore = getRataRataNilaiSiswax(student.getUsername());
+                sum += studentScore;
+                count++;
+            }
+
+            if (count > 0) {
+                double averageScore = sum / count;
+                AngkatanAverageScore angkatanAverageScore = new AngkatanAverageScore(angkatanX.getId(), angkatanX.getAngkatan(), averageScore);
+                result.add(angkatanAverageScore);
+            }
+        }
+        return result;
+    }
+
     @Override
     public NilaiAngkatanModel averageScorePerAngkatan(Long angkatanId) {
         NilaiAngkatanModel nilaiAngkatanModel = new NilaiAngkatanModel();
@@ -151,8 +178,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         Optional<StudentModel> student = studentService.getUserById(usernameSiswa);
         StudentModel studentX = student.get();
         List<KelasModel> listKelasSiswaX = studentX.getListKelas();
-        List<StudentMataPelajaranModel> listNilaiAkhir = studentX.getNilaiAkhir();
-
+        //List<StudentMataPelajaranModel> listNilaiAkhir = studentX.getNilaiAkhir();
 
         //looping setiap kelas yang dimiliki siswa agar kita bisa mendapatkan semua mata pelajaran yang siswa miliki
         List<MataPelajaranModel> mataPelajaranSiswa = new ArrayList<>();

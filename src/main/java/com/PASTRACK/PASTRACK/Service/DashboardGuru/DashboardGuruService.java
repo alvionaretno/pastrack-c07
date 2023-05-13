@@ -3,6 +3,7 @@ package com.PASTRACK.PASTRACK.Service.DashboardGuru;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.AngkatanAverageScore;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruResponse;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.NilaiAngkatanRequest;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.StudentAverageScoreResponse;
@@ -33,6 +34,10 @@ public interface DashboardGuruService {
 
     DashboardGuruResponse getAllData(Long idAngkatan);
 
+    //PBI 42-43
+    List<AngkatanAverageScore> getAverageScoreByAngkatan();
+
+    //PBI 50-51
     List<StudentAverageScoreResponse> getPerankinganSiswa(Long idAngkatan, int page, int size);
 
 
