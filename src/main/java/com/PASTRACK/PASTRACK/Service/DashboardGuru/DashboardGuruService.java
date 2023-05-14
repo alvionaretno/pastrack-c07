@@ -2,6 +2,7 @@ package com.PASTRACK.PASTRACK.Service.DashboardGuru;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.AngkatanAverageScore;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruResponse;
@@ -36,6 +37,9 @@ public interface DashboardGuruService {
 
     //PBI 42-43
     List<AngkatanAverageScore> getAverageScoreByAngkatan();
+
+    //PBI 44-45
+    public Map<String, Integer> getScoreRangeFrequency();
 
     //PBI 50-51
     List<StudentAverageScoreResponse> getPerankinganSiswa(Long idAngkatan, int page, int size);

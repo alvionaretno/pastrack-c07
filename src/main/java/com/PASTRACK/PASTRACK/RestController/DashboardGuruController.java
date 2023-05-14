@@ -2,6 +2,7 @@ package com.PASTRACK.PASTRACK.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
@@ -78,10 +79,10 @@ public class DashboardGuruController {
     @GetMapping (value = "/distribusi-nilai-angkatan/{idAngkatan}")
     @PreAuthorize("hasRole('GURU')")
     //private NilaiAngkatanModel getNilaiAkhirPerAngkatan(@RequestBody NilaiAngkatanRequest[] angkatan) {
-    private NilaiSemesterModel getNilaiAkhirPerAngkatan(@PathVariable("idAngkatan") Long idAngkatan) {
+    private Map<String, Integer> getNilaiAkhirPerAngkatan(@PathVariable("idAngkatan") Long idAngkatan) {
         try{
             //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
-            return dashboardGuruService.rataRataNilaiAkhirSemesterSiswaAngkatanX(idAngkatan);
+            return dashboardGuruService.getScoreRangeFrequency();
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "angkatan not found."

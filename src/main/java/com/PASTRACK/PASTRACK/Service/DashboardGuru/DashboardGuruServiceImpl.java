@@ -8,6 +8,7 @@ import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Repository.AngkatanDB;
 import com.PASTRACK.PASTRACK.Repository.NilaiAngkatanDB;
+import com.PASTRACK.PASTRACK.Repository.StudentDB;
 import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
 import com.PASTRACK.PASTRACK.Service.NilaiAngkatan.NilaiAngkatanService;
 import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
@@ -22,6 +23,9 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
     @Autowired
     private AngkatanDB angkatanDB;
+
+    @Autowired
+    private StudentDB studentDB;
 
     @Autowired
     private StudentService studentService;
@@ -140,6 +144,38 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     //PBI 44-45
+    public Map<String, Integer> getScoreRangeFrequency() {
+        Map<String, Integer> frequencyMap = new HashMap<>();
+        List<StudentModel> students = studentDB.findAll();
+
+        for (StudentModel student : students) {
+            double averageScore = getRataRataNilaiSiswax(student.getUsername());
+            String range = getScoreRange(averageScore);
+            frequencyMap.merge(range, 1, Integer::sum);
+        }
+
+        return frequencyMap;
+    }
+
+    private String getScoreRange(double score) {
+        if (score >= 91 && score <= 100) {
+            return "91-100";
+        } else if (score >= 81 && score <= 90) {
+            return "81-90";
+        } else if (score >= 71 && score <= 80) {
+            return "71-80";
+        } else if (score >= 61 && score <= 70) {
+            return "61-70";
+        } else if (score >= 41 && score <= 60) {
+            return "41-60";
+        } else if (score >= 11 && score <= 40) {
+            return "11-40";
+        } else {
+            return "0-10";
+        }
+    }
+
+
     //version 1
     @Override
     public List<Double> rataRataNilaiSiswaAngkatanX(Long angkatanId) {
@@ -193,6 +229,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
         List<MatpelAverageScore> listNilaiAkhirMatpel = new ArrayList<>();
         for(MataPelajaranModel matpels:mataPelajaranSiswa){
+            nilaiAkhir = 0.0; // initialize the nilaiAkhir variable here
             for (KomponenModel komponen : matpels.getListKomponen()) {
                 double bobot = komponen.getBobot();
                 double nilai = komponen.getNilaiComponent();
