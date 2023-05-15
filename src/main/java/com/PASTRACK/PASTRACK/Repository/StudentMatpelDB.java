@@ -3,6 +3,7 @@ package com.PASTRACK.PASTRACK.Repository;
 import java.util.Optional;
 import java.util.List;
 
+import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,5 +23,10 @@ public interface StudentMatpelDB extends JpaRepository<StudentMataPelajaranModel
     @Query("SELECT SM FROM StudentMataPelajaranModel SM WHERE SM.student = :student")
     List<StudentMataPelajaranModel> findListStudentMatpelByStudent(
             @Param("student") StudentModel student
+    );
+
+    @Query("SELECT SM FROM StudentMataPelajaranModel SM WHERE SM.matapelajaran = :matapelajaran")
+    List<StudentMataPelajaranModel> getStudentsByMataPelajaran(
+            @Param("matapelajaran") MataPelajaranModel matapelajaran
     );
 }

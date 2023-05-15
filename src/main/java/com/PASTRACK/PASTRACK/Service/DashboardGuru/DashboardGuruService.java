@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.PASTRACK.PASTRACK.DashboardGuruRequest.AngkatanAverageScore;
-import com.PASTRACK.PASTRACK.DashboardGuruRequest.DashboardGuruResponse;
-import com.PASTRACK.PASTRACK.DashboardGuruRequest.NilaiAngkatanRequest;
-import com.PASTRACK.PASTRACK.DashboardGuruRequest.StudentAverageScoreResponse;
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.*;
 import com.PASTRACK.PASTRACK.KelasRequest.addKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
 import com.PASTRACK.PASTRACK.KelasRequest.kelasAllRequest;
@@ -34,6 +31,9 @@ public interface DashboardGuruService {
     List<NilaiAngkatanModel> getNilaiAkhirPerAngkatan(NilaiAngkatanRequest[] listAngkatan);
 
     DashboardGuruResponse getAllData(Long idAngkatan);
+
+    //PBI 40-41
+    List<MatpelAverageScore> getAverageScoreByMataPelajaranAndTeacher(String kodeGuru);
 
     //PBI 42-43
     List<AngkatanAverageScore> getAverageScoreByAngkatan();

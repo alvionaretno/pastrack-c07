@@ -59,6 +59,22 @@ public class DashboardGuruController {
 
     }
 
+    //PBI 40-41
+    @GetMapping (value = "/average-nilai-matpel/{usernameGuru}")
+    @PreAuthorize("hasRole('GURU')")
+    private List<MatpelAverageScore> getAverageScoreByMatpelByTeacher(@PathVariable("usernameGuru") String usernameGuru) {
+        try{
+            //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
+            return dashboardGuruService.getAverageScoreByMataPelajaranAndTeacher(usernameGuru);
+        } catch (NoSuchElementException e){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "score not found."
+            );
+        }
+
+    }
+
+
     //PBI 42-43
     @GetMapping (value = "/average-score-per-angkatan")
     @PreAuthorize("hasRole('GURU')")

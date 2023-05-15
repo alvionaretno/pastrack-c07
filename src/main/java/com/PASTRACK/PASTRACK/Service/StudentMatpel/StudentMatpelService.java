@@ -14,4 +14,6 @@ public interface StudentMatpelService {
     List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(String username, String idPeminatan);
 
     List<StudentMataPelajaranModel> getListStudentMatpelByStudent(String siswaId);
+
+    List<StudentModel> getStudentsByMataPelajaran(MataPelajaranModel mataPelajaranId);
 }

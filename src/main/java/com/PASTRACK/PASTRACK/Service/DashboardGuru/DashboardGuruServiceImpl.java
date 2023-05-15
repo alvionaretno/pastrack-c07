@@ -5,11 +5,13 @@ import javax.transaction.Transactional;
 
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.*;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
+import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Repository.AngkatanDB;
 import com.PASTRACK.PASTRACK.Repository.NilaiAngkatanDB;
 import com.PASTRACK.PASTRACK.Repository.StudentDB;
 import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
+import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.Service.NilaiAngkatan.NilaiAngkatanService;
 import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,12 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     private StudentService studentService;
 
     @Autowired
+    private MatpelService matpelService;
+
+    @Autowired
+    private StudentMatpelService studentMatpelService;
+
+    @Autowired
     private NilaiAngkatanService nilaiAngakanService;
 
     @Autowired
@@ -39,8 +47,6 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     @Autowired
     private AngkatanService angkatanService;
 
-    @Autowired
-    private StudentMatpelService studentMatpelService;
 
     //Get all data so multiple dashboard can use one API only
     @Override
@@ -71,6 +77,56 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         DashboardGuruResponse dashboardGuruResponse = new DashboardGuruResponse(idAngkatan,listAngkatan,listNilaiRataRataAngkatan,listNamaMuridAngkatanX,listNilaiRataRatastudentX);
         return dashboardGuruResponse;
     }
+
+    //PBI 40-41
+    @Override
+    public List<MatpelAverageScore> getAverageScoreByMataPelajaranAndTeacher(String usernameGuru) {
+        List<MatpelAverageScore> matpelAverageScores = new ArrayList<>();
+        List<Double> averageScoreStudent = new ArrayList<>();
+
+        // Get all the mata pelajaran taught by the teacher
+        List<MataPelajaranModel> mataPelajaranList = matpelService.getListMatpelByGuru(usernameGuru);
+
+        for (MataPelajaranModel mataPelajaran : mataPelajaranList) {
+            double sumNilaiMatpel = 0;
+            //int count = 0;
+
+            // Loop through all the students taking the mata pelajaran
+            List<StudentModel> studentInMataPelajaranList = studentMatpelService.getStudentsByMataPelajaran(mataPelajaran);
+            for (StudentModel studentMataPelajaran : studentInMataPelajaranList) {
+                // Get the nilai akhir of the student
+                averageScoreStudent.clear();
+
+                double nilaiAkhir = 0.0;
+                //int numKomponen = mataPelajaran.getListKomponen().size();
+
+                for (KomponenModel komponen : mataPelajaran.getListKomponen()) {
+                    double bobot = komponen.getBobot();
+                    double nilai = komponen.getNilaiComponent();
+                    double nilaiPembobotan = (bobot * nilai)/100;
+                    nilaiAkhir += nilaiPembobotan;
+
+                }
+
+
+                averageScoreStudent.add(nilaiAkhir);
+            }
+
+            for(Double averageScore: averageScoreStudent){
+                sumNilaiMatpel += averageScore;
+            }
+
+            // Calculate the average score
+            sumNilaiMatpel = sumNilaiMatpel / averageScoreStudent.size();
+
+            // Create a new MatpelAverageScore object and add it to the list
+            MatpelAverageScore matpelAverageScore = new MatpelAverageScore(mataPelajaran, sumNilaiMatpel);
+            matpelAverageScores.add(matpelAverageScore);
+        }
+
+        return matpelAverageScores;
+    }
+
 
     //PBI 42-43
 

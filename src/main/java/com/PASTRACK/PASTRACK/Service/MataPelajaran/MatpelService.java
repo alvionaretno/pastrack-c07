@@ -17,6 +17,8 @@ public interface MatpelService {
 
     List<MataPelajaranModel> getAllMatpel();
 
+    List<MataPelajaranModel> getListMatpelByGuru(String usernameGuru);
+
     Optional<MataPelajaranModel> getMatpelByName(String namaMatpel);
 
     Long getIdMatpel(addMatpelKelasRequest matpel);

@@ -1,5 +1,6 @@
 package com.PASTRACK.PASTRACK.Service.StudentMatpel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,4 +80,14 @@ public class StudentMatpelServiceImpl implements StudentMatpelService {
         List<StudentMataPelajaranModel> listStudentMatpel = studentMatpelDB.findListStudentMatpelByStudent(student);
         return listStudentMatpel;
     }
+
+    public List<StudentModel> getStudentsByMataPelajaran(MataPelajaranModel mataPelajaranId) {
+        List<StudentModel> students = new ArrayList<>();
+        List<StudentMataPelajaranModel> studentMataPelajaranList = studentMatpelDB.getStudentsByMataPelajaran(mataPelajaranId);
+        for(StudentMataPelajaranModel studentMataPelajaran : studentMataPelajaranList) {
+            students.add(studentMataPelajaran.getStudent());
+        }
+        return students;
+    }
+
 }

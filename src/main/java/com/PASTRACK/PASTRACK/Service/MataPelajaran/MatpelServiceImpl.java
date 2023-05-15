@@ -92,6 +92,13 @@ public class MatpelServiceImpl implements MatpelService {
     }
 
     @Override
+    public List<MataPelajaranModel> getListMatpelByGuru(String usernameGuru) {
+        GuruModel guru = guruService.getGuruByUsername(usernameGuru);
+        List<MataPelajaranModel> listMatpel = matpelDB.findAllMatpelInGuru(guru, LocalDateTime.now());
+        return listMatpel;
+    }
+
+    @Override
     public List<MataPelajaranModel> getAllMatpel() {
         List<MataPelajaranModel> listMatpel = matpelDB.findAll();
         return listMatpel;
