@@ -36,6 +36,7 @@ import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanRequest;
+import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.Service.Komponen.KomponenService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.Service.Peminatan.PeminatanService;
@@ -218,10 +219,10 @@ public class MatpelRestController {
 
     @GetMapping(value = "/peminatan")
     @PreAuthorize("hasRole('GURU')")
-    private List<PeminatanRequest> getListPeminatan(Principal principal) {
+    private List<PeminatanResponse> getListPeminatan(Principal principal) {
         try {
             if (peminatanService.getAllPeminatan() == null) {
-                return new ArrayList<PeminatanRequest>();
+                return new ArrayList<PeminatanResponse>();
             } else {
                 return peminatanService.getAllPeminatan();
             }

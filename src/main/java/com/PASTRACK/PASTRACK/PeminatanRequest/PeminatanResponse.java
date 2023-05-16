@@ -5,10 +5,12 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class PeminatanRequest implements Serializable {
+public class PeminatanResponse implements Serializable {
+    Long id;
     String namaPeminatan;
 
-    public PeminatanRequest(String namaPeminatan) {
+    public PeminatanResponse(Long id, String namaPeminatan) {
+        this.id = id;
         this.namaPeminatan = namaPeminatan;
     }
 }

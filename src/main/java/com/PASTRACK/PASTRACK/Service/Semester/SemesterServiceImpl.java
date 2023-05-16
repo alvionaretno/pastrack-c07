@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 
 import com.PASTRACK.PASTRACK.Model.SemesterModel;
 import com.PASTRACK.PASTRACK.Repository.SemesterDB;
+import com.PASTRACK.PASTRACK.SemesterRequest.addSemesterRequest;
+import com.PASTRACK.PASTRACK.SemesterRequest.addSemesterResponse;
 import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,17 @@ public class SemesterServiceImpl implements SemesterService {
             return semester.get();
         }
         return null;
+    }
+
+    @Override
+    public addSemesterResponse createSemester(addSemesterRequest semesterRequest) {
+        SemesterModel semester = new SemesterModel();
+        semester.setSemester(semesterRequest.getSemester());
+        semester.setAwalTahunAjaran(semesterRequest.getAwalTahunAjaran());
+        semester.setAkhirTahunAjaran(semesterRequest.getAkhirTahunAjaran());
+        semesterDb.save(semester);
+        addSemesterResponse semesterResp = new addSemesterResponse(semester.getId(), semester.getSemester(), semester.getAwalTahunAjaran(), semester.getAkhirTahunAjaran());
+        return semesterResp;
     }
 
 }

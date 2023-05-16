@@ -17,6 +17,7 @@ import com.PASTRACK.PASTRACK.Repository.SemesterDB;
 import com.PASTRACK.PASTRACK.Repository.StudentKomponenDB;
 import com.PASTRACK.PASTRACK.Repository.StudentMatpelDB;
 import com.PASTRACK.PASTRACK.Service.Guru.GuruService;
+import com.PASTRACK.PASTRACK.Service.Komponen.KomponenService;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
 import com.PASTRACK.PASTRACK.Service.StudentKomponen.StudentKomponenService;
@@ -57,6 +58,9 @@ public class KelasServiceImpl implements KelasService {
 
     @Autowired
     private StudentMatpelDB studentMatpelDB;
+
+    @Autowired
+    private KomponenService komponenService;
 
     //Retrieve All Kelas
     @Override
@@ -145,11 +149,17 @@ public class KelasServiceImpl implements KelasService {
             if (murids != null) {
                 kelasObj.getListMurid().add(murids);
                 // untuk setiap siswa nge loop di semua matpel yg ada di kelas ini
+                // create student Matpel
                 for (MataPelajaranModel matpel : kelasObj.getListMataPelajaran()) {
                     createStudentMatpel(murids, matpel);
                     if (!murids.getListPeminatan().contains(matpel.getPeminatan())) {
                         murids.getListPeminatan().add(matpel.getPeminatan());
                         matpel.getPeminatan().getListMurid().add(murids);
+                    }
+                    if (matpel.getKelas() != null) {
+                        for (KomponenModel komponen : matpel.getListKomponen()) {
+                            komponenService.createStudentKomponen(murids, komponen);
+                        }
                     }
                 }
                 if(murids.getListKelas() == null) {

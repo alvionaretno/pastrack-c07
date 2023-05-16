@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanRequest;
+import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.Repository.PeminatanDB;
 
 @Service
@@ -25,13 +26,13 @@ public class PeminatanServiceImpl implements PeminatanService {
     }
 
     @Override
-    public List<PeminatanRequest> getAllPeminatan() {
-        List<PeminatanRequest> allPeminatan = new ArrayList<>();
+    public List<PeminatanResponse> getAllPeminatan() {
+        List<PeminatanResponse> allPeminatan = new ArrayList<>();
         List<PeminatanModel> listPeminatan = peminatanDB.findAll();
         for (PeminatanModel minatModel : listPeminatan) {
-            PeminatanRequest current= new PeminatanRequest();
-            current.setId(minatModel.getId());
-            current.setNamaPeminatan(minatModel.getNamaPeminatan());
+            PeminatanResponse current= new PeminatanResponse(minatModel.getId(), minatModel.getNamaPeminatan());
+            // current.setId(minatModel.getId());
+            // current.setNamaPeminatan(minatModel.getNamaPeminatan());
             allPeminatan.add(current);
         }
         return allPeminatan;
@@ -42,5 +43,12 @@ public class PeminatanServiceImpl implements PeminatanService {
         Optional<PeminatanModel> x = peminatanDB.findById(Long.parseLong(idPeminatan));
         PeminatanModel peminatan = x.get();
         return peminatan;
+    }
+
+    @Override
+    public PeminatanModel createPeminatan(PeminatanRequest peminatanReq) {
+        PeminatanModel peminatan = new PeminatanModel();
+        peminatan.setNamaPeminatan(peminatanReq.getNamaPeminatan());
+        return peminatanDB.save(peminatan);
     }
 }
