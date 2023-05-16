@@ -61,11 +61,11 @@ public class KomponenServiceImpl implements KomponenService {
         komponenModel.setMatapelajaran(matpelModel);
         komponenModel.setSemester(matpelModel.getSemester());
         matpelModel.getListKomponen().add(komponenModel);
-        if (matpelModel.getKelas() != null) {
-            for (StudentModel student : matpelModel.getKelas().getListMurid()) {
-                createStudentKomponen(student, komponenModel);
-            }
-        }
+        // if (matpelModel.getKelas() != null) {
+        //     for (StudentModel student : matpelModel.getKelas().getListMurid()) {
+        //         createStudentKomponen(student, komponenModel);
+        //     }
+        // }
         return komponenDB.save(komponenModel);
     }
 

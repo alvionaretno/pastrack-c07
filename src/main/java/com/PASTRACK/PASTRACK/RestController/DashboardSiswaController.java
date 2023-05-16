@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
+import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
 import com.PASTRACK.PASTRACK.Service.DashboardSiswa.DashboardSiswaService;
 import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
 
@@ -44,7 +45,7 @@ public class DashboardSiswaController {
 
     @GetMapping(value = "/{username}/{idPeminatan}")
     @PreAuthorize("hasRole('SISWA')")
-    private List<StudentMataPelajaranModel> listStudentMatpelByPeminatan(@PathVariable("username") String usernameSiswa, @PathVariable("idPeminatan") String idPeminatan, Principal principal) {
+    private List<getStudentMatpelByPeminatan> listStudentMatpelByPeminatan(@PathVariable("username") String usernameSiswa, @PathVariable("idPeminatan") String idPeminatan, Principal principal) {
         try {
             return studentMatpelService.getListStudentMatpelByPeminatan(usernameSiswa, idPeminatan);
         } catch (NoSuchElementException e) {

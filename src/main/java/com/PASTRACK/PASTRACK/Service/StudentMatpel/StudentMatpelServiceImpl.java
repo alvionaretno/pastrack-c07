@@ -14,6 +14,7 @@ import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
+import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
 import com.PASTRACK.PASTRACK.Repository.KomponenDB;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.StudentDB;
@@ -67,11 +68,17 @@ public class StudentMatpelServiceImpl implements StudentMatpelService {
     }
 
     @Override
-    public List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(String username, String idPpeminatan) {
+    public List<getStudentMatpelByPeminatan> getListStudentMatpelByPeminatan(String username, String idPeminatan) {
         Optional<StudentModel> x = studentService.getUserById(username);
         StudentModel student = x.get();
-        PeminatanModel peminatan = peminatanService.getPeminatanById(idPpeminatan);
-        return studentMatpelDB.findListStudentMatpelByPeminatan(student, peminatan);
+        PeminatanModel peminatan = peminatanService.getPeminatanById(idPeminatan);
+        List<StudentMataPelajaranModel> listStudentMatpelByPeminatan =  studentMatpelDB.findListStudentMatpelByPeminatan(student, peminatan);
+        List<getStudentMatpelByPeminatan> newList = new ArrayList<>();
+        for (StudentMataPelajaranModel sm : listStudentMatpelByPeminatan) {
+            getStudentMatpelByPeminatan req = new getStudentMatpelByPeminatan(sm.getId(), sm.getNilai_komponen(), Long.parseLong(sm.getStudent().getId()), username, sm.getMatapelajaran().getId(), sm.getMatapelajaran().getNamaMataPelajaran());
+            newList.add(req);
+        }
+        return newList;
     }
 
     @Override
