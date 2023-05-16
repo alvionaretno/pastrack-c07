@@ -188,18 +188,18 @@ public class MatpelRestController {
                 System.out.println(nilai);
         Optional<StudentModel> student = studentService.getUserById(username);
         Optional<StudentKomponenModel> studentKomponen = studentKomponenService.getById(Long.parseLong(kodeKomponen));
-        //if (student.get() == studentKomponen.get().getStudent()) {
-        try {
-            //return komponenService.updateStudentKomponen(studentKomponen.get(), nilai.getNilai(), Long.valueOf(kodeKomponen));
-            return komponenService.updateStudentKomponen(nilai.getNilai(), Long.valueOf(kodeKomponen));
-        } catch (NullPointerException e) {
+        if (student.get() == studentKomponen.get().getStudent()) {
+            try {
+                //return komponenService.updateStudentKomponen(studentKomponen.get(), nilai.getNilai(), Long.valueOf(kodeKomponen));
+                return komponenService.updateStudentKomponen(nilai.getNilai(), Long.valueOf(kodeKomponen));
+            } catch (NullPointerException e) {
+                throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found");
+            }
+        } else {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found");
         }
-        //} else {
-        //    throw new ResponseStatusException(
-        //            HttpStatus.NOT_FOUND, "Komponen " + kodeKomponen + " not found");
-        //}
     }
 
     @GetMapping(value = "/{idMatpel}/siswa/{username}")

@@ -107,12 +107,12 @@ public class KomponenServiceImpl implements KomponenService {
     @Override
     public KomponenModel updateStudentKomponen(int nilai,  Long komponenId) {
         // TODO Auto-generated method stub
-        //Optional<StudentKomponenModel> studentKomponenOp = studentKomponenService.getById(komponenId);
-        //StudentKomponenModel studentKomponen = studentKomponenOp.get();
-        //studentKomponen.setNilaiKomponen(nilai);
+        Optional<StudentKomponenModel> studentKomponenOp = studentKomponenService.getById(komponenId);
+        StudentKomponenModel studentKomponen = studentKomponenOp.get();
+        studentKomponen.setNilaiKomponen(nilai);
         KomponenModel komponenModel = getKomponenByKode(komponenId);
         komponenModel.setNilaiComponent(nilai);
-        //studentKomponenDB.save(studentKomponen);
+        studentKomponenDB.save(studentKomponen);
         return komponenModel;
     }
 
