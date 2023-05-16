@@ -35,6 +35,7 @@ public class DashboardSiswaController {
     @PreAuthorize("hasRole('SISWA')")
     private AllDashboard getRataRataAllMatpel(@PathVariable("username") String usernameSiswa, Principal principal) {
         try {
+            dashboardSiswaService.generateAllNilaiMatpel(usernameSiswa);
             return dashboardSiswaService.getAllViewed(usernameSiswa);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(

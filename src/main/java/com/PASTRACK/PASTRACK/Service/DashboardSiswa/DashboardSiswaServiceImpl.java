@@ -1,7 +1,9 @@
 package com.PASTRACK.PASTRACK.Service.DashboardSiswa;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -31,6 +33,9 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
     private StudentDB studentDB;
 
     @Autowired
+    private StudentMatpelDB studentMatpelDB;
+
+    @Autowired
     private StudentService studentService;
 
     @Autowired
@@ -47,6 +52,7 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
         return new AllDashboard(student.getId(), perkembanganNilai, pencapaianNilai, rankingKelas, rankingSemester);
     }
 
+    // PBI 34 - 35
     @Override
     public List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username) {
         List<PencapaianNilaiPerMatpel> listPencapaian = new ArrayList<PencapaianNilaiPerMatpel>();
@@ -63,16 +69,19 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
         Optional<StudentModel> student = studentService.getUserById(username);
         StudentModel siswa = student.get();
         List<StudentMataPelajaranModel> listStudentMatpel = siswa.getNilaiAkhir();
-        List<String> namaSemester = new ArrayList<String>();
-        List<Integer> nilaiPerSemester = new ArrayList<Integer>();
-        int counter = 0;
+        Map<String, Integer> nilaiSemester = new HashMap<>();
+        
+        return new PencapaianNilaiAllMatpel(nilaiSemester);
+    }
+
+    @Override
+    public void generateAllNilaiMatpel(String usernameSiswa) {
+        Optional<StudentModel> x = studentService.getUserById(usernameSiswa);
+        StudentModel student = x.get();
+        List<StudentMataPelajaranModel> listStudentMatpel = student.getNilaiAkhir();
         for (StudentMataPelajaranModel studentMatpel : listStudentMatpel) {
-            counter++;
-            MataPelajaranModel matpel = studentMatpel.getMatapelajaran();
             studentMatpelService.generateNilaiStudentMatpel(studentMatpel);
-            namaSemester.add(counter, "Semester " + counter);
-            nilaiPerSemester.add(counter, studentMatpel.getNilai_komponen());
+            studentMatpelDB.save(studentMatpel);
         }
-        return new PencapaianNilaiAllMatpel(namaSemester, nilaiPerSemester);
     }
 }
