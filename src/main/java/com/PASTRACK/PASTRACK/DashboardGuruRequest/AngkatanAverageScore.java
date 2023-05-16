@@ -25,7 +25,7 @@ public class AngkatanAverageScore {
         this.idAngkatan = id;
     }
 
-    public String namaAngkatan() {
+    public String getNamaAngkatan() {
         return namaAngkatan;
     }
 

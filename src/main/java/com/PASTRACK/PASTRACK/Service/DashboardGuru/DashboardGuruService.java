@@ -30,7 +30,7 @@ public interface DashboardGuruService {
 
     List<NilaiAngkatanModel> getNilaiAkhirPerAngkatan(NilaiAngkatanRequest[] listAngkatan);
 
-    DashboardGuruResponse getAllData(Long idAngkatan);
+    DashboardGuruResponse getAllData(DashboardGuruRequest request);
 
     //PBI 40-41
     List<MatpelAverageScore> getAverageScoreByMataPelajaranAndTeacher(String kodeGuru);

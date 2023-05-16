@@ -50,31 +50,17 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
     //Get all data so multiple dashboard can use one API only
     @Override
-    public DashboardGuruResponse getAllData(Long angkatanId) {
-        Long idAngkatan = Long.valueOf(0);
+    public DashboardGuruResponse getAllData(DashboardGuruRequest request) {
+        List<MatpelAverageScore> pbi4041 = getAverageScoreByMataPelajaranAndTeacher(request.getUsernameGuru());
 
         //PBI 42-43
-        List<String> listAngkatan = new ArrayList<>();
-        List<Double>listNilaiRataRataAngkatan = new ArrayList<>();
+        List<AngkatanAverageScore> pbi4243 = getAverageScoreByAngkatan();
 
-        List<AngkatanModel> listAngkatanModel = angkatanService.findAll();
-        List<NilaiAngkatanModel> listNilaiAngkatanModel = nilaiAngakanService.findAll();
+        Map<String, Integer> pbi4445 = getScoreRangeFrequency();
 
-        for(AngkatanModel angkatan:listAngkatanModel){
-            listAngkatan.add(angkatan.getAngkatan());
-        }
+        List<StudentAverageScoreResponse> pbi5051 = getPerankinganSiswa(request.getAngkatanId(),request.getPage(), request.getSize());
 
-        for(NilaiAngkatanModel nilaiAngkatan:listNilaiAngkatanModel){
-            listNilaiRataRataAngkatan.add(nilaiAngkatan.getNilaiAngkatan());
-        }
-
-        //PBI 44-45
-        List<String> listNamaMuridAngkatanX = new ArrayList<>();
-        List<Double> listNilaiRataRatastudentX = new ArrayList<>();
-
-        //List<StudentModel> listSiswaAngkatanX = angkatanService.findAll();
-
-        DashboardGuruResponse dashboardGuruResponse = new DashboardGuruResponse(idAngkatan,listAngkatan,listNilaiRataRataAngkatan,listNamaMuridAngkatanX,listNilaiRataRatastudentX);
+        DashboardGuruResponse dashboardGuruResponse = new DashboardGuruResponse(pbi4041, pbi4243,pbi4445,pbi5051);
         return dashboardGuruResponse;
     }
 

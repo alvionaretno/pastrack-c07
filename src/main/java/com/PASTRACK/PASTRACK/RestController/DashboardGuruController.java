@@ -48,9 +48,9 @@ public class DashboardGuruController {
     //Dashboard Guru in One API
     @GetMapping (value = "/")
     @PreAuthorize("hasRole('GURU')")
-    private DashboardGuruResponse dashboardGuru(@RequestBody DashboardGuruRequest idAngkatan) {
+    public DashboardGuruResponse dashboardGuru(@Valid @RequestBody DashboardGuruRequest request, BindingResult bindingResult) {
         try{
-            return dashboardGuruService.getAllData(idAngkatan.getAngkatanId());
+            return dashboardGuruService.getAllData(request);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "angkatan not found."
