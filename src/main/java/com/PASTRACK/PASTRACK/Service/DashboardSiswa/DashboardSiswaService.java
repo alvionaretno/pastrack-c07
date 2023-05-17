@@ -5,6 +5,7 @@ import java.util.List;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
+import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 
 public interface DashboardSiswaService {
     AllDashboard getAllViewed(String username);

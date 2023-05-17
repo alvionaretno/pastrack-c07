@@ -18,7 +18,9 @@ import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
+import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.Service.DashboardSiswa.DashboardSiswaService;
+import com.PASTRACK.PASTRACK.Service.Peminatan.PeminatanService;
 import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
 
 @RestController
@@ -30,6 +32,9 @@ public class DashboardSiswaController {
 
     @Autowired
     private StudentMatpelService studentMatpelService;
+
+    @Autowired
+    private PeminatanService peminatanService;
     
     @GetMapping(value = "/{username}")
     @PreAuthorize("hasRole('SISWA')")
@@ -49,6 +54,18 @@ public class DashboardSiswaController {
     private List<getStudentMatpelByPeminatan> listStudentMatpelByPeminatan(@PathVariable("username") String usernameSiswa, @PathVariable("idPeminatan") String idPeminatan, Principal principal) {
         try {
             return studentMatpelService.getListStudentMatpelByPeminatan(usernameSiswa, idPeminatan);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "not found"
+            );
+        }
+    }
+
+    @GetMapping(value = "/peminatan/{username}")
+    @PreAuthorize("hasRole('SISWA')")
+    private List<PeminatanResponse> listPeminatanInSiswa(@PathVariable("username") String usernameSiswa, Principal principal) {
+        try {
+            return peminatanService.getListPeminatanInSiswa(usernameSiswa);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "not found"
