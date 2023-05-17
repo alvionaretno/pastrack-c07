@@ -300,6 +300,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
 
     // PBI 50-51: Versi Pagination
+
     @Override
     public List<StudentAverageScoreResponse> getPerankinganSiswa(Long idAngkatan, int page, int size) {
         AngkatanModel angkatanModel = angkatanService.getAngkatanById(idAngkatan);
@@ -310,15 +311,22 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         for (StudentModel siswa : siswaList) {
             double averageFinalScoreSiswa = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
             result.add(new StudentAverageScoreResponse(siswa, averageFinalScoreSiswa));
-
         }
-        // sort the result by average score in descending order
+
+        // Sort the result by average score in descending order
         Collections.sort(result, Collections.reverseOrder());
-        // perform pagination
+
+        // Assign the ranking to each student
+        for (int i = 0; i < result.size(); i++) {
+            result.get(i).setRanking(i + 1);
+        }
+
+        // Perform pagination
         int startIndex = (page - 1) * size;
         int endIndex = Math.min(startIndex + size, result.size());
         return result.subList(startIndex, endIndex);
     }
+
 
 
 

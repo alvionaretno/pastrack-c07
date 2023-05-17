@@ -7,9 +7,13 @@ public class StudentAverageScoreResponse implements Comparable<StudentAverageSco
     private StudentModel student;
     private double averageScore;
 
+    private int ranking;
+
+
     public StudentAverageScoreResponse(StudentModel student, double averageScore) {
         this.student = student;
         this.averageScore = averageScore;
+        this.ranking=ranking;
     }
 
     public StudentModel getStudent() {
@@ -26,6 +30,14 @@ public class StudentAverageScoreResponse implements Comparable<StudentAverageSco
 
     public void setAverageScore(double averageScore) {
         this.averageScore = averageScore;
+    }
+
+    public int getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
     }
 
     @Override
