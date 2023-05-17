@@ -11,4 +11,6 @@ public interface PeminatanService {
     List<PeminatanResponse> getAllPeminatan();
     PeminatanModel getPeminatanById(String idPeminatan);
     PeminatanModel createPeminatan(PeminatanRequest peminatanReq);
+    List<PeminatanModel> getAllPeminatanModel();
+    List<PeminatanResponse> getListPeminatanInSiswa(String username);
 }

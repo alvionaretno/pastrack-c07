@@ -15,11 +15,14 @@ import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
+import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
+import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.StudentDB;
 import com.PASTRACK.PASTRACK.Repository.StudentMatpelDB;
+import com.PASTRACK.PASTRACK.Service.Peminatan.PeminatanService;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
 
@@ -41,6 +44,9 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
     @Autowired
     private StudentMatpelService studentMatpelService;
 
+    @Autowired
+    private PeminatanService peminatanService;
+
     @Override
     public AllDashboard getAllViewed(String username) {
         Optional<StudentModel> user = studentService.getUserById(username);
@@ -58,12 +64,15 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
         List<PencapaianNilaiPerMatpel> listPencapaian = new ArrayList<PencapaianNilaiPerMatpel>();
         Optional<StudentModel> x = studentService.getUserById(username);
         StudentModel student = x.get();
+        List<PeminatanModel> peminatanInSiswa = student.getListPeminatan();
+
         for (StudentMataPelajaranModel studentMatpel : student.getNilaiAkhir()) {
             
         }
         return listPencapaian;
     }
 
+    // PBI 46 - 47
     @Override
     public PencapaianNilaiAllMatpel getNilaiRataRata(String username) {
         Optional<StudentModel> student = studentService.getUserById(username);

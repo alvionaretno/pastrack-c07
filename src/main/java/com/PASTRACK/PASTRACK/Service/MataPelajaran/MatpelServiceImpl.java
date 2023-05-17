@@ -64,7 +64,6 @@ public class MatpelServiceImpl implements MatpelService {
         guru.getListMataPelajaran().add(matpelModel);
         semester.getListMataPelajaran().add(matpelModel);
        
-        System.out.println(peminatan.getNamaPeminatan());
         if(peminatan.getListMataPelajaran() == null){
             peminatan.setListMataPelajaran(new ArrayList<MataPelajaranModel>());
         }
