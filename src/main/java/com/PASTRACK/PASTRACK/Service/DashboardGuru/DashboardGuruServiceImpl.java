@@ -56,7 +56,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         //PBI 42-43
         List<AngkatanAverageScore> pbi4243 = getAverageScoreByAngkatan();
 
-        Map<String, Integer> pbi4445 = getScoreRangeFrequency();
+        Map<String, Integer> pbi4445 = getScoreRangeFrequency(request.getAngkatanId());
 
         List<StudentAverageScoreResponse> pbi5051 = getPerankinganSiswa(request.getAngkatanId(),request.getPage(), request.getSize());
 
@@ -186,9 +186,9 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     //PBI 44-45
-    public Map<String, Integer> getScoreRangeFrequency() {
+    public Map<String, Integer> getScoreRangeFrequency(Long idAngkatan) {
         Map<String, Integer> frequencyMap = new HashMap<>();
-        List<StudentModel> students = studentDB.findAll();
+        List<StudentModel> students = studentDB.findByTahunMasuk(idAngkatan);
 
         for (StudentModel student : students) {
             double averageScore = getRataRataNilaiSiswax(student.getUsername());

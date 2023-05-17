@@ -91,14 +91,14 @@ public class DashboardGuruController {
 
     }
 
-    //PBI 43-44
+    //PBI 44-45
     @GetMapping (value = "/distribusi-nilai-angkatan/{idAngkatan}")
     @PreAuthorize("hasRole('GURU')")
     //private NilaiAngkatanModel getNilaiAkhirPerAngkatan(@RequestBody NilaiAngkatanRequest[] angkatan) {
-    private Map<String, Integer> getNilaiAkhirPerAngkatan(@PathVariable("idAngkatan") Long idAngkatan) {
+    private Map<String, Integer> getDistribusiNilai(@PathVariable("idAngkatan") Long idAngkatan) {
         try{
             //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
-            return dashboardGuruService.getScoreRangeFrequency();
+            return dashboardGuruService.getScoreRangeFrequency(idAngkatan);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "angkatan not found."
