@@ -40,7 +40,6 @@ public class SemesterModel implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(max = 50)
     @Column(name = "semester", nullable = false)
     private Boolean semester;
 

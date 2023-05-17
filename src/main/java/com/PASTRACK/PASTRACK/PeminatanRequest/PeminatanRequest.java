@@ -8,7 +8,16 @@ import lombok.Data;
 public class PeminatanRequest implements Serializable {
     String namaPeminatan;
 
-    public PeminatanRequest(String namaPeminatan) {
+    //public PeminatanRequest(String namaPeminatan) {
+    //    this.namaPeminatan = namaPeminatan;
+    //}
+
+    public String getNamaPeminatan() {
+        return namaPeminatan;
+    }
+
+    public void setNamaPeminatan(String namaPeminatan) {
         this.namaPeminatan = namaPeminatan;
     }
+
 }

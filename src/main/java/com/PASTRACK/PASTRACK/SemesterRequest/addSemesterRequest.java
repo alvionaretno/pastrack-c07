@@ -1,19 +1,16 @@
 package com.PASTRACK.PASTRACK.SemesterRequest;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import lombok.Data;
 
-@Data
-public class addSemesterRequest implements Serializable {
-    Boolean semester;
-    LocalDateTime awalTahunAjaran;
-    LocalDateTime akhirTahunAjaran;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
-    public addSemesterRequest(Boolean semester, LocalDateTime awalTahunAjaran, LocalDateTime akhirTahunAjaran) {
-        this.semester = semester;
-        this.awalTahunAjaran = awalTahunAjaran;
-        this.akhirTahunAjaran = akhirTahunAjaran;
-    }
+@Data
+public class addSemesterRequest {
+    @NotNull
+    private boolean semester;
+    private LocalDateTime awalTahunAjaran;
+    private LocalDateTime akhirTahunAjaran;
+
+    // constructors, getters, and setters
 }

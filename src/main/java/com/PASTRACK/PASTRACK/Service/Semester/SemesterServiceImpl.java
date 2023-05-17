@@ -41,7 +41,7 @@ public class SemesterServiceImpl implements SemesterService {
     @Override
     public addSemesterResponse createSemester(addSemesterRequest semesterRequest) {
         SemesterModel semester = new SemesterModel();
-        semester.setSemester(semesterRequest.getSemester());
+        semester.setSemester(semesterRequest.isSemester());
         semester.setAwalTahunAjaran(semesterRequest.getAwalTahunAjaran());
         semester.setAkhirTahunAjaran(semesterRequest.getAkhirTahunAjaran());
         semesterDb.save(semester);

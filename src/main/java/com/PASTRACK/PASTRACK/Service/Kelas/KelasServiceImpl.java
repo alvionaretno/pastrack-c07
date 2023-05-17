@@ -125,12 +125,6 @@ public class KelasServiceImpl implements KelasService {
             }
         }
         kelasDB.save(kelasObj);
-
-        //Long semesterId = kelasObj.getSemester().getId();
-        //String usernameGuru = kelasObj.getGuru().getUsername();
-        //List<StudentModel> listStudent = kelasObj.getListMurid();
-        //List<MataPelajaranModel> listMatpels = kelasObj.getListMataPelajaran();
-        //addKelasResponse response = new addKelasResponse(kelasObj.getId(), kelasObj.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
         return kelasObj;
     }
 
