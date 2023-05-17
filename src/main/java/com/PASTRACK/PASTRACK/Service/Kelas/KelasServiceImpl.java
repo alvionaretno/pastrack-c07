@@ -151,38 +151,42 @@ public class KelasServiceImpl implements KelasService {
                 // untuk setiap siswa nge loop di semua matpel yg ada di kelas ini
                 // create student Matpel
                 for (MataPelajaranModel matpel : kelasObj.getListMataPelajaran()) {
-                    createStudentMatpel(murids, matpel);
-                    if (!murids.getListPeminatan().contains(matpel.getPeminatan())) {
+                    boolean hasPeminatan = false;
+                    // Check if the student already has the peminatan
+                    for (PeminatanModel peminatan : murids.getListPeminatan()) {
+                        if (peminatan.getId() == matpel.getPeminatan().getId()) {
+                            hasPeminatan = true;
+                            break;
+                        }
+                    }
+                    if (!hasPeminatan) {
+                        // If the student doesn't have the peminatan, add it to the student and the peminatan
                         murids.getListPeminatan().add(matpel.getPeminatan());
                         matpel.getPeminatan().getListMurid().add(murids);
                     }
+                    createStudentMatpel(murids, matpel);
                     if (matpel.getKelas() != null) {
                         for (KomponenModel komponen : matpel.getListKomponen()) {
                             komponenService.createStudentKomponen(murids, komponen);
                         }
                     }
                 }
-                if(murids.getListKelas() == null) {
+                if (murids.getListKelas() == null) {
                     murids.setListKelas(new ArrayList<KelasModel>());
                 }
                 murids.getListKelas().add(kelasObj);
-
             }
         }
         kelasDB.save(kelasObj);
 
-        for(StudentModel siswa: kelasObj.getListMurid()){
+        for (StudentModel siswa : kelasObj.getListMurid()) {
             siswaKelasResponse response = new siswaKelasResponse(siswa.getNama());
             listResponse.add(response);
         }
 
-        //Long semesterId = kelasObj.getSemester().getId();
-        //String usernameGuru = kelasObj.getGuru().getUsername();
-        //List<StudentModel> listStudent = kelasObj.getListMurid();
-        //List<MataPelajaranModel> listMatpels = kelasObj.getListMataPelajaran();
-        //addKelasResponse response = new addKelasResponse(kelasObj.getId(), kelasObj.getNamaKelas(),semesterId,usernameGuru, listStudent, listMatpels);
         return listResponse;
     }
+
 
     //Get List Siswa By Kelas
     @Override
