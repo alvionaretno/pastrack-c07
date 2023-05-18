@@ -14,6 +14,7 @@ import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -274,6 +275,20 @@ public class KelasRestController {
             );
         }
     }
+
+    //Delete Kelas
+    @DeleteMapping("/delete/{classId}")
+    //@PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> deleteClass(@PathVariable Long classId) {
+        boolean deleted = kelasService.deleteClass(classId);
+
+        if (deleted) {
+            return ResponseEntity.ok("Class deleted successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 
 

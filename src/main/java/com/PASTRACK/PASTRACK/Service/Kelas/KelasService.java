@@ -50,5 +50,7 @@ public interface KelasService {
     List<SemesterModel> getAllSemester();
 
     StudentMataPelajaranModel createStudentMatpel(StudentModel student, MataPelajaranModel matpel);
+
+    boolean deleteClass(Long classId);
    
 }

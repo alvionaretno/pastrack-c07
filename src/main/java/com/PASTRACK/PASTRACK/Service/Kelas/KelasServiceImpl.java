@@ -417,4 +417,18 @@ public class KelasServiceImpl implements KelasService {
         return studentMatpelDB.save(studentMatpel);
     }
 
+    @Override
+    public boolean deleteClass(Long classId) {
+        Optional<KelasModel> classOptional = kelasDB.findById(classId);
+
+        if (classOptional.isPresent()) {
+           KelasModel classModel = classOptional.get();
+            kelasDB.delete(classModel);
+            return true;
+        }
+
+        return false;
+    }
+
+
 }
