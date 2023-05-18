@@ -232,7 +232,7 @@ public class KelasServiceImpl implements KelasService {
             tempKelas.setId(kelas.getId());
             tempKelas.setNamaKelas(kelas.getNamaKelas());
             tempKelas.setSemesterId(kelas.getSemester().getId());
-            //tempKelas.setSemester(kelas.getSemester().getSemester());
+            tempKelas.setNamaGuru(kelas.getGuru().getNama());
             listKelasRequest.add(tempKelas);
         }
         return listKelasRequest;
@@ -342,10 +342,10 @@ public class KelasServiceImpl implements KelasService {
         DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("MM/yyyy");
         LocalDate today = LocalDate.now();
         String formattedDateToday = today.format(formatterTime);
+        KelasModel kelasModel = new KelasModel();
 
-        KelasModel kelasTerakhir = allKelasBelongingToSiswa.get(allKelasBelongingToSiswa.size() - 1);
+        //KelasModel kelasTerakhir = allKelasBelongingToSiswa.get(allKelasBelongingToSiswa.size() - 1);
         for(KelasModel kelas : allKelasBelongingToSiswa) {
-            KelasModel kelasModel = new KelasModel();
             LocalDateTime akhirTahunAjaran = kelas.getSemester().getAkhirTahunAjaran();
             String formattedAkhirTahunAjaran = akhirTahunAjaran.format(formatterTime);
             String[] arrOfStrAkhirTahunAjaran = formattedAkhirTahunAjaran.split("/", 2);
@@ -358,22 +358,38 @@ public class KelasServiceImpl implements KelasService {
             }
         }
 
-        return kelasTerakhir;
+        return kelasModel;
     }
 
 
     @Override
-    public kelasAllRequest getKelasGuruCurrentSemester(String usernameGuru) {
-        KelasModel kelasModel = new KelasModel();
+    public kelasGuruResponse getKelasGuruCurrentSemester(String usernameGuru) {
+        kelasAllRequest kelasModel = new kelasAllRequest();
+        kelasGuruResponse kelasGuruResp = new kelasGuruResponse();
         List<kelasAllRequest> allKelasBelongingToGuru = kelasService.getListKelasByGuru(usernameGuru);
 
         DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("MM/yyyy");
         LocalDate today = LocalDate.now();
         String formattedDateToday = today.format(formatterTime);
 
-        kelasAllRequest kelasTerakhir = allKelasBelongingToGuru.get(allKelasBelongingToGuru.size() - 1);
+        for(kelasAllRequest kelas : allKelasBelongingToGuru) {
+            Long semesterId = kelas.getSemesterId();
+            LocalDateTime akhirTahunAjaran = semesterService.getSemesterById(semesterId).getAkhirTahunAjaran();
+            String formattedAkhirTahunAjaran = akhirTahunAjaran.format(formatterTime);
+            String[] arrOfStrAkhirTahunAjaran = formattedAkhirTahunAjaran.split("/", 2);
+            String[] arrOfStrToday = formattedDateToday.split("/", 2);
+            if(arrOfStrAkhirTahunAjaran[1].equals(arrOfStrToday[1])){
+                if(Integer.valueOf(arrOfStrAkhirTahunAjaran[0]) >= Integer.valueOf(arrOfStrToday[0])){
+                    kelasGuruResp.setNamaGuru(guruService.getGuruByUsername(usernameGuru).getNama());
+                    kelasGuruResp.setNamaKelas(kelas.getNamaKelas());
+                    kelasGuruResp.setSemesterId(kelas.getSemesterId());
+                    kelasGuruResp.setId(kelas.getId());
+                    return kelasGuruResp;
+                }
+            }
+        }
 
-        return kelasTerakhir;
+        return kelasGuruResp;
     }
 
     @Override

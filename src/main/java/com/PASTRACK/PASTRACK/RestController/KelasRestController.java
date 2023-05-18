@@ -231,7 +231,7 @@ public class KelasRestController {
     // View Current Kelas di Semester Ini By Guru
     @GetMapping(value = "/guru/currentClass/{username}")
     @PreAuthorize("hasRole('GURU')")
-    private kelasAllRequest currentKelasByGuru(@PathVariable("username") String usernameGuru) {
+    private kelasGuruResponse currentKelasByGuru(@PathVariable("username") String usernameGuru) {
         try {
             return kelasService.getKelasGuruCurrentSemester(usernameGuru);
         } catch (NoSuchElementException e) {

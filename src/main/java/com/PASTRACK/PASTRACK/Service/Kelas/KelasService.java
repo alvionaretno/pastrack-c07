@@ -26,7 +26,7 @@ public interface KelasService {
 
     KelasModel getKelasCurrentSemester(String usernameSiswa);
 
-    kelasAllRequest getKelasGuruCurrentSemester(String usernameGuru);
+    kelasGuruResponse getKelasGuruCurrentSemester(String usernameGuru);
 
     List<KelasModel> getAllKelasSiswa(String usernameSiswa);
 

@@ -9,10 +9,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class kelasAllRequest implements Serializable {
+public class kelasGuruResponse implements Serializable {
     Long id;
     String namaKelas;
     Long semesterId;
     String namaGuru;
-    //List<MataPelajaranModel> listMataPelajaran;
 }
