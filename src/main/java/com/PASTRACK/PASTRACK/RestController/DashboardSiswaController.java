@@ -72,4 +72,30 @@ public class DashboardSiswaController {
             );
         }
     }
+
+    //get student's ranking in angkatan
+    @GetMapping(value = "/ranking-angkatan/{angkatanId}/{usernameSiswa}")
+    //@PreAuthorize("hasRole('SISWA')")
+    private int getRankingInAngkatan(@PathVariable("angkatanId") Long angkatanId, @PathVariable("usernameSiswa") String usernameSiswa, Principal principal) {
+        try {
+            return dashboardSiswaService.getStudentRankingInAngkatan(usernameSiswa,angkatanId);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "not found"
+            );
+        }
+    }
+
+    //get student's ranking in kelas
+    @GetMapping(value = "/ranking-kelas/{usernameSiswa}")
+    //@PreAuthorize("hasRole('SISWA')")
+    private int getRankingInKelas(@PathVariable("usernameSiswa") String usernameSiswa, Principal principal) {
+        try {
+            return dashboardSiswaService.getStudentRankingInKelas(usernameSiswa);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "not found"
+            );
+        }
+    }
 }

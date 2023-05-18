@@ -1,23 +1,20 @@
 package com.PASTRACK.PASTRACK.Service.DashboardSiswa;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
+import com.PASTRACK.PASTRACK.DashboardGuruRequest.StudentAverageScoreResponse;
+import com.PASTRACK.PASTRACK.Model.*;
+import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
+import com.PASTRACK.PASTRACK.Service.DashboardGuru.DashboardGuruService;
+import com.PASTRACK.PASTRACK.Service.Kelas.KelasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
-import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
-import com.PASTRACK.PASTRACK.Model.PeminatanModel;
-import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
-import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.StudentDB;
@@ -46,6 +43,15 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
 
     @Autowired
     private PeminatanService peminatanService;
+
+    @Autowired
+    private DashboardGuruService dashboardGuruService;
+
+    @Autowired
+    private AngkatanService angkatanService;
+
+    @Autowired
+    private KelasService kelasService;
 
     @Override
     public AllDashboard getAllViewed(String username) {
@@ -93,4 +99,57 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
             studentMatpelDB.save(studentMatpel);
         }
     }
+
+    //Ranking Siswa di Angkatannya
+    public int getStudentRankingInAngkatan(String username, Long idAngkatan) {
+        AngkatanModel angkatanModel = angkatanService.getAngkatanById(idAngkatan);
+        List<StudentModel> siswaList = angkatanModel.getListStudent();
+        List<StudentAverageScoreResponse> result = new ArrayList<>();
+
+        // Populate the result list
+        for (StudentModel siswa : siswaList) {
+            double averageFinalScoreSiswa = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            result.add(new StudentAverageScoreResponse(siswa, averageFinalScoreSiswa));
+        }
+
+        // Sort the result by average score in descending order
+        Collections.sort(result, Collections.reverseOrder());
+
+        // Find the student's ranking by username
+        for (int i = 0; i < result.size(); i++) {
+            if (result.get(i).getStudent().getUsername().equals(username)) {
+                return i + 1; // Return the ranking (1-indexed)
+            }
+        }
+
+        // If the student is not found, return -1 or throw an exception indicating the student is not found
+        return -1;
+    }
+
+    //Ranking Siswa di Kelasnya semester ini
+    public int getStudentRankingInKelas(String username) {
+        KelasModel kelasModel = kelasService.getKelasCurrentSemester(username);
+        List<StudentModel> siswaList = kelasModel.getListMurid();
+        List<StudentAverageScoreResponse> result = new ArrayList<>();
+
+        // Populate the result list
+        for (StudentModel siswa : siswaList) {
+            double averageFinalScoreSiswa = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            result.add(new StudentAverageScoreResponse(siswa, averageFinalScoreSiswa));
+        }
+
+        // Sort the result by average score in descending order
+        Collections.sort(result, Collections.reverseOrder());
+
+        // Find the student's ranking by username
+        for (int i = 0; i < result.size(); i++) {
+            if (result.get(i).getStudent().getUsername().equals(username)) {
+                return i + 1; // Return the ranking (1-indexed)
+            }
+        }
+
+        // If the student is not found, return -1 or throw an exception indicating the student is not found
+        return -1;
+    }
+
 }

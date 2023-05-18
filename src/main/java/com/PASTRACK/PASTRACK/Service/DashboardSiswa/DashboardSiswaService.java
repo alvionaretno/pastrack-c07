@@ -13,4 +13,10 @@ public interface DashboardSiswaService {
     List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username);
     PencapaianNilaiAllMatpel getNilaiRataRata(String username);
     void generateAllNilaiMatpel(String usernameSiswa);
+
+    //get ranking student di angkatannya
+    int getStudentRankingInAngkatan(String username, Long idAngkatan);
+
+    //get ranking student di kelasnya
+    int getStudentRankingInKelas(String username);
 }
