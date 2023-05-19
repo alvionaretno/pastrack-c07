@@ -82,9 +82,9 @@ public class KelasRestController {
 
     //Get semua kelas di siswa
     @GetMapping (value = "/siswa/allKelas/{usernameSiswa}")
-    private List<KelasModel> retrieveAllKelasSiswa (@PathVariable("usernameSiswa") String usernameSiswa){
+    private List<addKelasResponse> retrieveAllKelasSiswa (@PathVariable("usernameSiswa") String usernameSiswa){
         try {
-            return kelasService.getAllKelasSiswa(usernameSiswa);
+            return kelasService.getAllKelasBySiswa(usernameSiswa);
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Belum ada Kelas"

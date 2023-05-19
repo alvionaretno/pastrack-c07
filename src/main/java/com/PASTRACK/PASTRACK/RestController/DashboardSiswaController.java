@@ -75,7 +75,7 @@ public class DashboardSiswaController {
 
     //get student's ranking in angkatan
     @GetMapping(value = "/ranking-angkatan/{angkatanId}/{usernameSiswa}")
-    //@PreAuthorize("hasRole('SISWA')")
+    @PreAuthorize("hasRole('SISWA')")
     private int getRankingInAngkatan(@PathVariable("angkatanId") Long angkatanId, @PathVariable("usernameSiswa") String usernameSiswa, Principal principal) {
         try {
             return dashboardSiswaService.getStudentRankingInAngkatan(usernameSiswa,angkatanId);
@@ -88,7 +88,7 @@ public class DashboardSiswaController {
 
     //get student's ranking in kelas
     @GetMapping(value = "/ranking-kelas/{usernameSiswa}")
-    //@PreAuthorize("hasRole('SISWA')")
+    @PreAuthorize("hasRole('SISWA')")
     private int getRankingInKelas(@PathVariable("usernameSiswa") String usernameSiswa, Principal principal) {
         try {
             return dashboardSiswaService.getStudentRankingInKelas(usernameSiswa);

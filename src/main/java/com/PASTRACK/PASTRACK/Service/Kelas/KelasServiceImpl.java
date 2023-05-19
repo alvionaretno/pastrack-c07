@@ -401,6 +401,21 @@ public class KelasServiceImpl implements KelasService {
     }
 
     @Override
+    public List<addKelasResponse> getAllKelasBySiswa(String usernameMurid) {
+        Optional<StudentModel> siswa = studentService.getUserById(usernameMurid);
+        StudentModel siswaModel = siswa.get();
+
+        List<KelasModel> allKelasBelongingToSiswa = siswaModel.getListKelas();
+        List<addKelasResponse> response = new ArrayList<>();
+
+        for(KelasModel kelas:allKelasBelongingToSiswa){
+            addKelasResponse responseKelas = new addKelasResponse(kelas.getId(), kelas.getNamaKelas(), kelas.getSemester().getId(), kelas.getGuru().getUsername(), kelas.getListMurid(), kelas.getListMataPelajaran());
+            response.add(responseKelas);
+        }
+        return response;
+    }
+
+    @Override
     public MataPelajaranModel getMatpelById(Long id) {
         // TODO Auto-generated method stub
         return matpelDB.findById(id);
