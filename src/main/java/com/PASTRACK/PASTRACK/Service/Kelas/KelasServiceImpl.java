@@ -401,15 +401,15 @@ public class KelasServiceImpl implements KelasService {
     }
 
     @Override
-    public List<addKelasResponse> getAllKelasBySiswa(String usernameMurid) {
+    public List<kelasResponse> getAllKelasBySiswa(String usernameMurid) {
         Optional<StudentModel> siswa = studentService.getUserById(usernameMurid);
         StudentModel siswaModel = siswa.get();
 
         List<KelasModel> allKelasBelongingToSiswa = siswaModel.getListKelas();
-        List<addKelasResponse> response = new ArrayList<>();
+        List<kelasResponse> response = new ArrayList<>();
 
         for(KelasModel kelas:allKelasBelongingToSiswa){
-            addKelasResponse responseKelas = new addKelasResponse(kelas.getId(), kelas.getNamaKelas(), kelas.getSemester().getId(), kelas.getGuru().getUsername(), kelas.getListMurid(), kelas.getListMataPelajaran());
+            kelasResponse responseKelas = new kelasResponse(kelas.getId(), kelas.getNamaKelas(), kelas.getSemester().getId(), kelas.getGuru().getUsername(), kelas.getListMurid(), kelas.getListMataPelajaran());
             response.add(responseKelas);
         }
         return response;

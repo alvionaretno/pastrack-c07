@@ -29,7 +29,7 @@ public interface KelasService {
     kelasGuruResponse getKelasGuruCurrentSemester(String usernameGuru);
 
     List<KelasModel> getAllKelasSiswa(String usernameSiswa);
-    List<addKelasResponse> getAllKelasBySiswa(String usernameSiswa);
+    List<kelasResponse> getAllKelasBySiswa(String usernameSiswa);
 
     MataPelajaranModel getMatpelById(Long id);
     List<kelasAllRequest> getListKelasByGuru(String usernameGuru);

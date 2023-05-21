@@ -82,7 +82,7 @@ public class KelasRestController {
 
     //Get semua kelas di siswa
     @GetMapping (value = "/siswa/allKelas/{usernameSiswa}")
-    private List<addKelasResponse> retrieveAllKelasSiswa (@PathVariable("usernameSiswa") String usernameSiswa){
+    private List<kelasResponse> retrieveAllKelasSiswa (@PathVariable("usernameSiswa") String usernameSiswa){
         try {
             return kelasService.getAllKelasBySiswa(usernameSiswa);
         } catch (NoSuchElementException e){
