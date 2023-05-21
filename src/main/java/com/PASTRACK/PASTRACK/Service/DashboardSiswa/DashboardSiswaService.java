@@ -5,6 +5,7 @@ import java.util.List;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.allRankingSiswa;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 
 public interface DashboardSiswaService {
@@ -15,8 +16,14 @@ public interface DashboardSiswaService {
     void generateAllNilaiMatpel(String usernameSiswa);
 
     //get ranking student di angkatannya
-    int getStudentRankingInAngkatan(String username, Long idAngkatan);
+    int getStudentRankingInAngkatan(String username);
 
     //get ranking student di kelasnya
     int getStudentRankingInKelas(String username);
+
+    double getRataRataNilaiSiswaCurrentSemester(String usernameSiswa);
+
+    int getStudentRankingInAngkatanCurrentSemester(String username);
+
+    allRankingSiswa getAllRankingSiswa(String usernameSiswa);
 }

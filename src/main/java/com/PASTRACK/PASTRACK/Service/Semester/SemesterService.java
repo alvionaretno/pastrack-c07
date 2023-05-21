@@ -11,4 +11,6 @@ public interface SemesterService {
     SemesterModel getSemesterById(Long id);
     addSemesterResponse createSemester(addSemesterRequest semesterRequest);
 
+    SemesterModel getCurrentSemester();
+
 }

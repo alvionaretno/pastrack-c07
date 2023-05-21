@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.allRankingSiswa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,12 +74,25 @@ public class DashboardSiswaController {
         }
     }
 
-    //get student's ranking in angkatan
-    @GetMapping(value = "/ranking-angkatan/{angkatanId}/{usernameSiswa}")
+    // get all ranking siswa
+    @GetMapping(value = "/all-ranking/{usernameSiswa}")
     @PreAuthorize("hasRole('SISWA')")
-    private int getRankingInAngkatan(@PathVariable("angkatanId") Long angkatanId, @PathVariable("usernameSiswa") String usernameSiswa, Principal principal) {
+    private allRankingSiswa getAllRankingSiswa(@PathVariable("usernameSiswa") String usernameSiswa, Principal principal) {
         try {
-            return dashboardSiswaService.getStudentRankingInAngkatan(usernameSiswa,angkatanId);
+            return dashboardSiswaService.getAllRankingSiswa(usernameSiswa);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "not found"
+            );
+        }
+    }
+
+    //get student's ranking in angkatan
+    @GetMapping(value = "/ranking-angkatan/{usernameSiswa}")
+    @PreAuthorize("hasRole('SISWA')")
+    private int getRankingInAngkatan(@PathVariable("usernameSiswa") String usernameSiswa, Principal principal) {
+        try {
+            return dashboardSiswaService.getStudentRankingInAngkatan(usernameSiswa);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "not found"

@@ -1,6 +1,8 @@
 package com.PASTRACK.PASTRACK.Service.Semester;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -47,6 +49,23 @@ public class SemesterServiceImpl implements SemesterService {
         semesterDb.save(semester);
         addSemesterResponse semesterResp = new addSemesterResponse(semester.getId(), semester.getSemester(), semester.getAwalTahunAjaran(), semester.getAkhirTahunAjaran());
         return semesterResp;
+    }
+
+    public SemesterModel getCurrentSemester() {
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        List<SemesterModel> semesters = semesterDb.findAll();
+        for (SemesterModel semester : semesters) {
+            LocalDateTime startDate = semester.getAwalTahunAjaran();
+            LocalDateTime endDate = semester.getAkhirTahunAjaran();
+
+            // Check if the current date falls within the start and end dates of the semester
+            if (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) {
+                return semester;
+            }
+        }
+
+        throw new NoSuchElementException("No current semester found");
     }
 
 }
