@@ -17,6 +17,7 @@ import com.PASTRACK.PASTRACK.Model.GuruModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.Model.SemesterModel;
+import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.PeminatanDB;
 import com.PASTRACK.PASTRACK.Repository.SemesterDB;

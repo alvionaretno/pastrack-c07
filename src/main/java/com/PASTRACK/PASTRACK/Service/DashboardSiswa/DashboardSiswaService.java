@@ -6,6 +6,7 @@ import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.allRankingSiswa;
+import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 
 public interface DashboardSiswaService {
@@ -26,4 +27,6 @@ public interface DashboardSiswaService {
     int getStudentRankingInAngkatanCurrentSemester(String username);
 
     allRankingSiswa getAllRankingSiswa(String usernameSiswa);
+
+    PencapaianNilaiPerMatpel getNilaiMatpel(String username, String namaPeminatan);
 }
