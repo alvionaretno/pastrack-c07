@@ -55,7 +55,9 @@ public class StudentMatpelServiceImpl implements StudentMatpelService {
         List<getComponent> listAllKomponenSiswa = komponenDB.getAllKomponenSiswa(student, matpel);
         int nilaiMatpel = 0;
         for (getComponent komponen : listAllKomponenSiswa) {
-            int calc = komponen.getBobot() * komponen.getNilai() * (1/100);
+            int bobot = komponen.getBobot();
+            int nilai = komponen.getNilai();
+            int calc = ((bobot * nilai)/100);
             nilaiMatpel += calc;
         }
         studentMatpel.setNilai_komponen(nilaiMatpel);

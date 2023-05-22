@@ -24,6 +24,7 @@ import com.PASTRACK.PASTRACK.Repository.KomponenDB;
 import com.PASTRACK.PASTRACK.Repository.SemesterDB;
 import com.PASTRACK.PASTRACK.Repository.StudentDB;
 import com.PASTRACK.PASTRACK.Repository.StudentKomponenDB;
+import com.PASTRACK.PASTRACK.Repository.StudentMatpelDB;
 import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 
 @Service
@@ -43,6 +44,9 @@ public class KomponenServiceImpl implements KomponenService {
 
     @Autowired
     private StudentDB studentDB;
+
+    @Autowired
+    private StudentMatpelDB studentMatpelDB;
 
     @Autowired
     private StudentMatpelService studentMatpelService;
@@ -121,6 +125,7 @@ public class KomponenServiceImpl implements KomponenService {
         studentKomponenDB.save(studentKomponen);
         StudentMataPelajaranModel sm = studentMatpelService.getStudentMatpel(studentKomponen.getStudent(), studentKomponen.getKomponen().getMatapelajaran());
         studentMatpelService.generateNilaiStudentMatpel(sm);
+        studentMatpelDB.save(sm);
         return komponenModel;
     }
 
