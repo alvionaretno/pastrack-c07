@@ -210,13 +210,13 @@ public class MatpelRestController {
 
     @GetMapping(value = "/{idMatpel}/siswa/{username}")
     @PreAuthorize("hasRole('GURU')")
-    private listKomponenSiswaResponse getListKomponenSiswa(@PathVariable("idMatpel") String idMatpel,
+    private List<getComponent> getListKomponenSiswa(@PathVariable("idMatpel") String idMatpel,
             @PathVariable("username") String username) {
         Optional<StudentModel> student = studentService.getUserById(username);
 
         MataPelajaranModel mataPelajaran = matpelService.getMatpelById(Long.parseLong(idMatpel));
         try {
-            return komponenService.getListKomponenNilaiAkhir(student.get(), mataPelajaran);
+            return komponenService.getListKomponen(student.get(), mataPelajaran);
         } catch (NullPointerException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Komponen " + idMatpel + " not found");
