@@ -77,10 +77,25 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
         List<PencapaianNilaiPerMatpel> listPencapaian = new ArrayList<PencapaianNilaiPerMatpel>();
         Optional<StudentModel> x = studentService.getUserById(username);
         StudentModel student = x.get();
-        List<PeminatanModel> peminatanInSiswa = student.getListPeminatan();
-
-        for (StudentMataPelajaranModel studentMatpel : student.getNilaiAkhir()) {
-            
+        List<PeminatanModel> peminatanInSiswa = peminatanService.listPeminatanModelInSiswa(username);
+        // Map<PeminatanModel, List<StudentMataPelajaranModel>> map = new HashMap<>();
+        for (PeminatanModel peminatan : peminatanInSiswa) {
+            List<StudentMataPelajaranModel> listSM = studentMatpelService.getListStudentMatpelByPeminatan(peminatan, student);
+            // map.put(peminatan, listSM);
+            // Sorting sesuai urutan semester
+            Map<String, Integer> nilaiPerSemester = new HashMap<>();
+            List<SemesterModel> listSemester = new ArrayList<>();
+            for (StudentMataPelajaranModel sm : listSM) {
+                listSemester.add(sm.getMatapelajaran().getSemester());
+            }
+            semesterService.sortSemester(listSemester);
+            for (StudentMataPelajaranModel studentMatpel : listSM) {
+                int index = listSemester.indexOf(studentMatpel.getMatapelajaran().getSemester());
+                String labelSemester = "Semester " + index;
+                nilaiPerSemester.put(labelSemester, studentMatpel.getNilai_komponen());
+            }
+            PencapaianNilaiPerMatpel pencapaian = new PencapaianNilaiPerMatpel(nilaiPerSemester, peminatan);
+            listPencapaian.add(pencapaian);
         }
         return listPencapaian;
     }

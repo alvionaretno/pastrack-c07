@@ -20,7 +20,9 @@ import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
+import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.Service.DashboardSiswa.DashboardSiswaService;
+import com.PASTRACK.PASTRACK.Service.Peminatan.PeminatanService;
 import com.PASTRACK.PASTRACK.Service.Peminatan.PeminatanService;
 import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
 

@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.PASTRACK.PASTRACK.Service.StudentKomponen.StudentKomponenService;
+import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.SemesterModel;
 import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
+import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Repository.KomponenDB;
 import com.PASTRACK.PASTRACK.Repository.SemesterDB;
@@ -40,6 +43,9 @@ public class KomponenServiceImpl implements KomponenService {
 
     @Autowired
     private StudentDB studentDB;
+
+    @Autowired
+    private StudentMatpelService studentMatpelService;
     
     @Override
     public KomponenModel getKomponenByKode(Long kode) {
@@ -113,6 +119,8 @@ public class KomponenServiceImpl implements KomponenService {
         KomponenModel komponenModel = getKomponenByKode(komponenId);
         komponenModel.setNilaiComponent(nilai);
         studentKomponenDB.save(studentKomponen);
+        StudentMataPelajaranModel sm = studentMatpelService.getStudentMatpel(studentKomponen.getStudent(), studentKomponen.getKomponen().getMatapelajaran());
+        studentMatpelService.generateNilaiStudentMatpel(sm);
         return komponenModel;
     }
 
