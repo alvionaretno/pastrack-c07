@@ -12,13 +12,13 @@ import lombok.Data;
 public class PencapaianNilaiPerMatpel implements Serializable {
     // Long id;
     Map<String, Integer> nilaiPerSemester;
-    PeminatanModel peminatan;
+    // PeminatanModel peminatan;
 
     public PencapaianNilaiPerMatpel(
-        Map<String, Integer> nilaiPerSemester,
-        PeminatanModel peminatan
+        Map<String, Integer> nilaiPerSemester
+        // PeminatanModel peminatan
     ) {
         this.nilaiPerSemester = nilaiPerSemester;
-        this.peminatan = peminatan;
+        // this.peminatan = peminatan;
     }
 }

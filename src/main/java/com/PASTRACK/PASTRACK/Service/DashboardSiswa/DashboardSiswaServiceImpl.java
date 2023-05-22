@@ -99,7 +99,7 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
                 String labelSemester = "Semester " + index;
                 nilaiPerSemester.put(labelSemester, studentMatpel.getNilai_komponen());
             }
-            PencapaianNilaiPerMatpel pencapaian = new PencapaianNilaiPerMatpel(nilaiPerSemester, peminatan);
+            PencapaianNilaiPerMatpel pencapaian = new PencapaianNilaiPerMatpel(nilaiPerSemester);
             listPencapaian.add(pencapaian);
         }
         return listPencapaian;
@@ -267,5 +267,23 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
         return -1;
     }
 
+    public PencapaianNilaiPerMatpel getNilaiMatpel(String username, String namaPeminatan) {
+        Optional<StudentModel> x = studentService.getUserById(username);
+        StudentModel student = x.get();
+        PeminatanModel peminatan = peminatanService.getPeminatanByNama(namaPeminatan);
+        List<StudentMataPelajaranModel> listSM = studentMatpelService.getListStudentMatpelByPeminatan(peminatan, student);
+        Map<String, Integer> nilaiPerSemester = new HashMap<>();
+        List<SemesterModel> listSemester = new ArrayList<>();
+        for (StudentMataPelajaranModel sm : listSM) {
+            listSemester.add(sm.getMatapelajaran().getSemester());
+        }
+        semesterService.sortSemester(listSemester);
+        for (StudentMataPelajaranModel studentMatpel : listSM) {
+            int index = listSemester.indexOf(studentMatpel.getMatapelajaran().getSemester()) + 1;
+            String labelSemester = "Semester " + index;
+            nilaiPerSemester.put(labelSemester, studentMatpel.getNilai_komponen());
+        }
+        return new PencapaianNilaiPerMatpel(nilaiPerSemester);
+    }
 
 }
