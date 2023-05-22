@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenRequest;
 import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
+import com.PASTRACK.PASTRACK.KomponenRequest.listKomponenSiswaResponse;
 import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.SemesterModel;
@@ -138,5 +139,14 @@ public class KomponenServiceImpl implements KomponenService {
         studentKomponen.setNilaiKomponen(0);
         student.getNilai().add(studentKomponen);
         return studentKomponenDB.save(studentKomponen);
+    }
+
+    @Override
+    public listKomponenSiswaResponse getListKomponenNilaiAkhir(StudentModel student, MataPelajaranModel matpel) {
+        listKomponenSiswaResponse responseKomponen = new listKomponenSiswaResponse();
+        responseKomponen.setListKomponenSiswa(getListKomponen(student, matpel));
+        StudentMataPelajaranModel sm = studentMatpelService.getStudentMatpel(student, matpel);
+        responseKomponen.setNilaiAkhir(sm.getNilai_komponen());
+        return responseKomponen;
     }
 }
