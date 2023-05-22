@@ -58,10 +58,6 @@ public class KomponenModel implements Serializable {
     private int bobot;
 
 
-    //baru
-    @Column(nullable = false, name = "nilai_komponen")
-    private Integer nilaiComponent;
-
     // @NotNull
     // @Column(nullable = false, name = "akhir_tahun_ajaran")
     // @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")

@@ -8,7 +8,9 @@ import javax.transaction.Transactional;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.MatpelAverageScore;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.StudentAverageScoreResponse;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.allRankingSiswa;
+import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.Model.*;
+import com.PASTRACK.PASTRACK.Repository.KomponenDB;
 import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
 import com.PASTRACK.PASTRACK.Service.DashboardGuru.DashboardGuruService;
 import com.PASTRACK.PASTRACK.Service.Kelas.KelasService;
@@ -35,6 +37,9 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
 
     @Autowired
     private StudentDB studentDB;
+
+    @Autowired
+    private KomponenDB komponenDB;
 
     @Autowired
     private StudentMatpelDB studentMatpelDB;
@@ -142,7 +147,7 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
 
         // Populate the result list
         for (StudentModel siswa : siswaList) {
-            double averageFinalScoreSiswa = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            double averageFinalScoreSiswa = dashboardGuruService.getRataRataNilaiSiswaDirectly(siswa.getUsername());
             result.add(new StudentAverageScoreResponse(siswa, averageFinalScoreSiswa));
         }
 
@@ -168,7 +173,7 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
 
         // Populate the result list
         for (StudentModel siswa : siswaList) {
-            double averageFinalScoreSiswa = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            double averageFinalScoreSiswa = dashboardGuruService.getRataRataNilaiSiswaDirectly(siswa.getUsername());
             result.add(new StudentAverageScoreResponse(siswa, averageFinalScoreSiswa));
         }
 
@@ -212,9 +217,10 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
         List<MatpelAverageScore> listNilaiAkhirMatpel = new ArrayList<>();
         for (MataPelajaranModel matpels : mataPelajaranSiswa) {
             nilaiAkhir = 0.0; // initialize the nilaiAkhir variable here
-            for (KomponenModel komponen : matpels.getListKomponen()) {
+            List<getComponent> listKomponen = komponenDB.getAllKomponenSiswa(studentX, matpels);
+            for (getComponent komponen : listKomponen) {
                 double bobot = komponen.getBobot();
-                double nilai = komponen.getNilaiComponent();
+                double nilai = komponen.getNilai();
                 double nilaiPembobotan = (bobot * nilai) / 100;
 
                 // Store the result in the variable

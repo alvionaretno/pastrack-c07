@@ -65,7 +65,7 @@ public class KomponenServiceImpl implements KomponenService {
         komponenModel.setIsReleased(false);
         komponenModel.setDueDate(komponenReq.getDueDate().atStartOfDay());
         komponenModel.setBobot(komponenReq.getBobot());
-        komponenModel.setNilaiComponent(0);
+        //komponenModel.setNilaiComponent(0);
         // komponenModel.setAkhirTahunAjaran(matpelModel.getAkhirTahunAjaran());
         // komponenModel.setAwalTahunAjaran(matpelModel.getAwalTahunAjaran());
         komponenModel.setMatapelajaran(matpelModel);
@@ -121,7 +121,7 @@ public class KomponenServiceImpl implements KomponenService {
         StudentKomponenModel studentKomponen = studentKomponenOp.get();
         studentKomponen.setNilaiKomponen(nilai);
         KomponenModel komponenModel = getKomponenByKode(komponenId);
-        komponenModel.setNilaiComponent(nilai);
+        //komponenModel.setNilaiComponent(nilai);
         studentKomponenDB.save(studentKomponen);
         StudentMataPelajaranModel sm = studentMatpelService.getStudentMatpel(studentKomponen.getStudent(), studentKomponen.getKomponen().getMatapelajaran());
         studentMatpelService.generateNilaiStudentMatpel(sm);

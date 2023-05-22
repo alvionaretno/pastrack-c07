@@ -15,7 +15,7 @@ import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 
 public interface DashboardGuruService {
 
-    double getRataRataNilaiSiswax(String usernameSiswa);
+    //double getRataRataNilaiSiswax(String usernameSiswa);
     //ArrayList<Integer> rankingSiswa(String tahunMasuk);
 
     List<StudentModel> getSiswaByTahunMasuk(Long angkatanId);
@@ -43,6 +43,8 @@ public interface DashboardGuruService {
 
     //PBI 50-51
     List<StudentAverageScoreResponse> getPerankinganSiswa(Long idAngkatan, int page, int size);
+
+    double getRataRataNilaiSiswaDirectly(String usernameSiswa);
 
 
 }

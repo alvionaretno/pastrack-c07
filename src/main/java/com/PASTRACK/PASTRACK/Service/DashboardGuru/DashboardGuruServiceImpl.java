@@ -5,9 +5,11 @@ import javax.transaction.Transactional;
 
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.*;
 import com.PASTRACK.PASTRACK.KelasRequest.addMatpelKelasRequest;
+import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Repository.AngkatanDB;
+import com.PASTRACK.PASTRACK.Repository.KomponenDB;
 import com.PASTRACK.PASTRACK.Repository.NilaiAngkatanDB;
 import com.PASTRACK.PASTRACK.Repository.StudentDB;
 import com.PASTRACK.PASTRACK.Service.Angkatan.AngkatanService;
@@ -28,6 +30,9 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
     @Autowired
     private StudentDB studentDB;
+
+    @Autowired
+    private KomponenDB komponenDB;
 
     @Autowired
     private StudentService studentService;
@@ -85,10 +90,10 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
                 double nilaiAkhir = 0.0;
                 //int numKomponen = mataPelajaran.getListKomponen().size();
-
-                for (KomponenModel komponen : mataPelajaran.getListKomponen()) {
+                List<getComponent> listKomponen = komponenDB.getAllKomponenSiswa(studentMataPelajaran, mataPelajaran);
+                for (getComponent komponen : listKomponen) {
                     double bobot = komponen.getBobot();
-                    double nilai = komponen.getNilaiComponent();
+                    double nilai = komponen.getNilai();
                     double nilaiPembobotan = (bobot * nilai)/100;
                     nilaiAkhir += nilaiPembobotan;
 
@@ -127,7 +132,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
             List<StudentModel> listStudent = angkatanX.getListStudent();
 
             for (StudentModel student : listStudent) {
-                double studentScore = getRataRataNilaiSiswax(student.getUsername());
+                double studentScore = getRataRataNilaiSiswaDirectly(student.getUsername());
                 sum += studentScore;
                 count++;
             }
@@ -149,7 +154,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         Integer banyakSiswaAngkatanX = 0;
         List<StudentModel> listSiswaInAngkatanX = dashboardGuruService.getSiswaByTahunMasuk(angkatanId);
         for (StudentModel siswa:listSiswaInAngkatanX) {
-            double rataRataNilai = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            double rataRataNilai = dashboardGuruService.getRataRataNilaiSiswaDirectly(siswa.getUsername());
             sumNilai += rataRataNilai;
             banyakSiswaAngkatanX++;
         }
@@ -190,13 +195,26 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         Map<String, Integer> frequencyMap = new HashMap<>();
         List<StudentModel> students = studentDB.findByTahunMasuk(idAngkatan);
 
+        // Initialize frequency map with all score ranges and frequency of zero
+        initializeFrequencyMap(frequencyMap);
+
         for (StudentModel student : students) {
-            double averageScore = getRataRataNilaiSiswax(student.getUsername());
+            double averageScore = getRataRataNilaiSiswaDirectly(student.getUsername());
             String range = getScoreRange(averageScore);
             frequencyMap.merge(range, 1, Integer::sum);
         }
 
         return frequencyMap;
+    }
+
+    private void initializeFrequencyMap(Map<String, Integer> frequencyMap) {
+        // Define all score ranges
+        String[] scoreRanges = {"91-100", "81-90", "71-80", "61-70", "41-60", "11-40", "0-10"};
+
+        // Initialize frequency of each score range as zero
+        for (String range : scoreRanges) {
+            frequencyMap.put(range, 0);
+        }
     }
 
     private String getScoreRange(double score) {
@@ -226,7 +244,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         List<StudentModel> siswaInAngkatanX = dashboardGuruService.getSiswaByTahunMasuk(angkatanId);
 
         for(StudentModel siswa : siswaInAngkatanX){
-            double nilaiAkhirSemester = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            double nilaiAkhirSemester = dashboardGuruService.getRataRataNilaiSiswaDirectly(siswa.getUsername());
             listNamaNamaAllAngkatanX.add(siswa.getNama());
             listRataRataNilaiAllAngkatanX.add(nilaiAkhirSemester);
         }
@@ -240,7 +258,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         List<StudentModel> siswaInAngkatanX = dashboardGuruService.getSiswaByTahunMasuk(angkatanId);
 
         for(StudentModel siswa : siswaInAngkatanX){
-            double nilaiAkhirSemester = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            double nilaiAkhirSemester = dashboardGuruService.getRataRataNilaiSiswaDirectly(siswa.getUsername());
             nilaiAkhirSemesterModel.setNilaiAkhirSemester(nilaiAkhirSemester);
             nilaiAkhirSemesterModel.setAngkatan(angkatanService.getAngkatanById(angkatanId));
             nilaiAkhirSemesterModel.setStudent(siswa);
@@ -249,8 +267,9 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     //PBI 50-51
+
     @Override
-    public double getRataRataNilaiSiswax(String usernameSiswa) {
+    public double getRataRataNilaiSiswaDirectly(String usernameSiswa) {
 
         //get student dan kelas nya
         Optional<StudentModel> student = studentService.getUserById(usernameSiswa);
@@ -272,9 +291,10 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         List<MatpelAverageScore> listNilaiAkhirMatpel = new ArrayList<>();
         for(MataPelajaranModel matpels:mataPelajaranSiswa){
             nilaiAkhir = 0.0; // initialize the nilaiAkhir variable here
-            for (KomponenModel komponen : matpels.getListKomponen()) {
+            List<getComponent> listKomponenSiswa = komponenDB.getAllKomponenSiswa(studentX, matpels);
+            for (getComponent komponen : listKomponenSiswa) {
                 double bobot = komponen.getBobot();
-                double nilai = komponen.getNilaiComponent();
+                double nilai = komponen.getNilai();
                 double nilaiPembobotan = (bobot * nilai)/100;
 
                 //disimpen dimana?
@@ -289,12 +309,14 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         double sumNilai = 0;
         Integer count = 0;
         for(MatpelAverageScore nilaiAkhirMatpel: listNilaiAkhirMatpel){
-           sumNilai += nilaiAkhirMatpel.getNilaiAkhirMatpel();
-           count++;
+            sumNilai += nilaiAkhirMatpel.getNilaiAkhirMatpel();
+            count++;
         }
 
         double nilaiRataRataAkhir = sumNilai/count;
         return nilaiRataRataAkhir;
+
+
     }
 
 
@@ -309,7 +331,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
         StudentMataPelajaranModel studentMatpel = new StudentMataPelajaranModel();
         studentMatpelService.generateNilaiStudentMatpel(studentMatpel);
         for (StudentModel siswa : siswaList) {
-            double averageFinalScoreSiswa = dashboardGuruService.getRataRataNilaiSiswax(siswa.getUsername());
+            double averageFinalScoreSiswa = dashboardGuruService.getRataRataNilaiSiswaDirectly(siswa.getUsername());
             result.add(new StudentAverageScoreResponse(siswa, averageFinalScoreSiswa));
         }
 
