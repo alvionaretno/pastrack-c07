@@ -20,7 +20,7 @@ public interface StudentMatpelService {
 
     List<StudentModel> getStudentsByMataPelajaran(MataPelajaranModel mataPelajaranId);
 
-    List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(PeminatanModel peminatan, StudentModel student);
+    List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(String namaPeminatan, StudentModel student);
     StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel);
 
 }

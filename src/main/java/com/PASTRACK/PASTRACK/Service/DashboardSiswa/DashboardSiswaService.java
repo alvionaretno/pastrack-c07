@@ -10,9 +10,9 @@ import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 
 public interface DashboardSiswaService {
-    AllDashboard getAllViewed(String username);
+    // AllDashboard getAllViewed(String username);
     // PBI 34 - 35
-    List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username);
+    // List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username);
     PencapaianNilaiAllMatpel getNilaiRataRata(String username);
     void generateAllNilaiMatpel(String usernameSiswa);
 
@@ -28,5 +28,5 @@ public interface DashboardSiswaService {
 
     allRankingSiswa getAllRankingSiswa(String usernameSiswa);
 
-    PencapaianNilaiPerMatpel getNilaiMatpel(String username, String namaPeminatan);
+    List<PencapaianNilaiPerMatpel> getNilaiMatpel(String username, String namaPeminatan);
 }
