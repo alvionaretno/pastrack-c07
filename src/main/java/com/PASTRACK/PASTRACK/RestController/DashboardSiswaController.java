@@ -7,6 +7,8 @@ import java.util.NoSuchElementException;
 import javax.validation.Valid;
 
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.allRankingSiswa;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.pencapaianReq;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,18 +44,18 @@ public class DashboardSiswaController {
     @Autowired
     private PeminatanService peminatanService;
     
-    @GetMapping(value = "/{username}")
-    @PreAuthorize("hasRole('SISWA')")
-    private AllDashboard getRataRataAllMatpel(@PathVariable("username") String usernameSiswa, Principal principal) {
-        try {
-            dashboardSiswaService.generateAllNilaiMatpel(usernameSiswa);
-            return dashboardSiswaService.getAllViewed(usernameSiswa);
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "not found"
-            );
-        }
-    }
+    // @GetMapping(value = "/{username}")
+    // @PreAuthorize("hasRole('SISWA')")
+    // private AllDashboard getRataRataAllMatpel(@PathVariable("username") String usernameSiswa, Principal principal) {
+    //     try {
+    //         dashboardSiswaService.generateAllNilaiMatpel(usernameSiswa);
+    //         return dashboardSiswaService.getAllViewed(usernameSiswa);
+    //     } catch (NoSuchElementException e) {
+    //         throw new ResponseStatusException(
+    //             HttpStatus.NOT_FOUND, "not found"
+    //         );
+    //     }
+    // }
 
     @GetMapping(value = "/{username}/{idPeminatan}")
     @PreAuthorize("hasRole('SISWA')")
@@ -120,9 +122,9 @@ public class DashboardSiswaController {
 
     @GetMapping(value = "/{username}/perkembangan")
     @PreAuthorize("hasRole('SISWA')")
-    private PencapaianNilaiPerMatpel pencapaianNilai(@PathVariable("username") String usernameSiswa, @Valid @RequestBody String namaPeminatan, Principal principal) {
+    private List<PencapaianNilaiPerMatpel> pencapaianNilai(@PathVariable("username") String usernameSiswa, @Valid @RequestBody pencapaianReq namaPeminatan, Principal principal) {
         try {
-            return dashboardSiswaService.getNilaiMatpel(usernameSiswa, namaPeminatan);
+            return dashboardSiswaService.getNilaiMatpel(usernameSiswa, namaPeminatan.getNamaPeminatan());
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "not found"
