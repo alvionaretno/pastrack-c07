@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
+import com.PASTRACK.PASTRACK.Model.SemesterModel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
@@ -88,6 +89,7 @@ public class StudentMatpelServiceImpl implements StudentMatpelService {
         return listStudentMatpel;
     }
 
+    @Override
     public List<StudentModel> getStudentsByMataPelajaran(MataPelajaranModel mataPelajaranId) {
         List<StudentModel> students = new ArrayList<>();
         List<StudentMataPelajaranModel> studentMataPelajaranList = studentMatpelDB.getStudentsByMataPelajaran(mataPelajaranId);
@@ -97,4 +99,20 @@ public class StudentMatpelServiceImpl implements StudentMatpelService {
         return students;
     }
 
+    @Override
+    public List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(PeminatanModel peminatan, StudentModel student) {
+        List<StudentMataPelajaranModel> listSMInPeminatan = new ArrayList<>();
+        List<StudentMataPelajaranModel> listAllSM = student.getNilaiAkhir();
+        for (StudentMataPelajaranModel sm : listAllSM) {
+            if (sm.getMatapelajaran().getPeminatan() == peminatan) {
+                listSMInPeminatan.add(sm);
+            }
+        }
+        return listSMInPeminatan;
+    }
+
+    @Override
+    public StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel) {
+        return studentMatpelDB.findStudentMatpel(student, matpel);
+    }
 }

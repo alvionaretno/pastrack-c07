@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
+import com.PASTRACK.PASTRACK.Model.SemesterModel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
@@ -18,4 +19,8 @@ public interface StudentMatpelService {
     List<StudentMataPelajaranModel> getListStudentMatpelByStudent(String siswaId);
 
     List<StudentModel> getStudentsByMataPelajaran(MataPelajaranModel mataPelajaranId);
+
+    List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(PeminatanModel peminatan, StudentModel student);
+    StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel);
+
 }

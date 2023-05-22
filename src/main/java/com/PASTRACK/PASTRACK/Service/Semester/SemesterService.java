@@ -10,6 +10,8 @@ public interface SemesterService {
     List<SemesterModel> findAll();
     SemesterModel getSemesterById(Long id);
     addSemesterResponse createSemester(addSemesterRequest semesterRequest);
+    List<SemesterModel> sortSemester(List<SemesterModel> listSemester);
+    // int compare(SemesterModel a, SemesterModel b);
 
     SemesterModel getCurrentSemester();
 

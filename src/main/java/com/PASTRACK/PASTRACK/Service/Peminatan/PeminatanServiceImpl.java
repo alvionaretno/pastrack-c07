@@ -79,4 +79,18 @@ public class PeminatanServiceImpl implements PeminatanService {
         }
         return listResponses;
     }
+
+    @Override
+    public List<PeminatanModel> listPeminatanModelInSiswa(String username) {
+        Optional<StudentModel> x = studentService.getUserById(username);
+        StudentModel student = x.get();
+        List<PeminatanModel> allPeminatan = getAllPeminatanModel();
+        List<PeminatanModel> peminatanInSiswa = new ArrayList<>();
+        for (PeminatanModel peminatan : allPeminatan) {
+            if (peminatan.getListMurid().contains(student)) {
+                peminatanInSiswa.add(peminatan);
+            }
+        }
+        return peminatanInSiswa;
+    }
 }

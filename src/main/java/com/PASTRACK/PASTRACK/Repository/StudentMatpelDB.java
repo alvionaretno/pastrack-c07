@@ -29,4 +29,10 @@ public interface StudentMatpelDB extends JpaRepository<StudentMataPelajaranModel
     List<StudentMataPelajaranModel> getStudentsByMataPelajaran(
             @Param("matapelajaran") MataPelajaranModel matapelajaran
     );
+
+    @Query("SELECT SM FROM StudentMataPelajaranModel SM WHERE SM.matapelajaran = :matapelajaran AND SM.student = :student")
+    StudentMataPelajaranModel findStudentMatpel(
+        @Param("student") StudentModel student,
+        @Param("matapelajaran") MataPelajaranModel matapelajaran
+    );
 }

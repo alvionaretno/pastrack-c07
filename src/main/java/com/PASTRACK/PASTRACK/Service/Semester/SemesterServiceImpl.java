@@ -1,9 +1,14 @@
 package com.PASTRACK.PASTRACK.Service.Semester;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
@@ -51,6 +56,25 @@ public class SemesterServiceImpl implements SemesterService {
         return semesterResp;
     }
 
+    @Override
+    public List<SemesterModel> sortSemester(List<SemesterModel> listSemester) {
+        Collections.sort(listSemester, new mySort());
+        return listSemester;
+    }
+
+    // @Override
+    // public int compare(SemesterModel A, SemesterModel B) {
+    //     LocalDateTime awalA = A.getAwalTahunAjaran();
+    //     LocalDateTime akhirA = A.getAkhirTahunAjaran();
+    //     Boolean semesterA = A.getSemester();
+    //     LocalDateTime awalB = B.getAwalTahunAjaran();
+    //     LocalDateTime akhirB = B.getAkhirTahunAjaran();
+    //     Boolean semesterB = B.getSemester();
+    //     if (awalA.getYear() == awalB.getYear() && akhirA.getYear() == akhirB.getYear()) {
+    //         return semesterB.compareTo(semesterA);
+    //     }
+    //     return awalA.getYear() - awalB.getYear();
+    // }
     public SemesterModel getCurrentSemester() {
         LocalDateTime currentDate = LocalDateTime.now();
 
@@ -68,4 +92,19 @@ public class SemesterServiceImpl implements SemesterService {
         throw new NoSuchElementException("No current semester found");
     }
 
+}
+
+class mySort implements Comparator<SemesterModel> {
+    public int compare(SemesterModel A, SemesterModel B) {
+        LocalDateTime awalA = A.getAwalTahunAjaran();
+        LocalDateTime akhirA = A.getAkhirTahunAjaran();
+        Boolean semesterA = A.getSemester();
+        LocalDateTime awalB = B.getAwalTahunAjaran();
+        LocalDateTime akhirB = B.getAkhirTahunAjaran();
+        Boolean semesterB = B.getSemester();
+        if (awalA.getYear() == awalB.getYear() && akhirA.getYear() == akhirB.getYear()) {
+            return semesterB.compareTo(semesterA);
+        }
+        return awalA.getYear() - awalB.getYear();
+    }
 }
