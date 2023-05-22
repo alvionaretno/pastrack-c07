@@ -27,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.PASTRACK.PASTRACK.KomponenRequest.UpdateKomponenSiswaRequest;
 import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenRequest;
 import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
+import com.PASTRACK.PASTRACK.KomponenRequest.listKomponenSiswaResponse;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
 import com.PASTRACK.PASTRACK.MatpelRequest.addMatpelRequest;
 
@@ -34,6 +35,7 @@ import com.PASTRACK.PASTRACK.Model.KomponenModel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.Model.StudentKomponenModel;
+import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanRequest;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
@@ -42,6 +44,7 @@ import com.PASTRACK.PASTRACK.Service.MataPelajaran.MatpelService;
 import com.PASTRACK.PASTRACK.Service.Peminatan.PeminatanService;
 import com.PASTRACK.PASTRACK.Service.Student.StudentService;
 import com.PASTRACK.PASTRACK.Service.StudentKomponen.StudentKomponenService;
+import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
 
 
 @RestController
@@ -63,6 +66,9 @@ public class MatpelRestController {
 
     @Autowired
     private PeminatanService peminatanService;
+
+    @Autowired
+    private StudentMatpelService studentMatpelService;
 
     // Viewall
     @GetMapping(value = "/guru/{username}")
@@ -204,13 +210,13 @@ public class MatpelRestController {
 
     @GetMapping(value = "/{idMatpel}/siswa/{username}")
     @PreAuthorize("hasRole('GURU')")
-    private List<getComponent> getListKomponenSiswa(@PathVariable("idMatpel") String idMatpel,
+    private listKomponenSiswaResponse getListKomponenSiswa(@PathVariable("idMatpel") String idMatpel,
             @PathVariable("username") String username) {
         Optional<StudentModel> student = studentService.getUserById(username);
 
         MataPelajaranModel mataPelajaran = matpelService.getMatpelById(Long.parseLong(idMatpel));
         try {
-            return komponenService.getListKomponen(student.get(), mataPelajaran);
+            return komponenService.getListKomponenNilaiAkhir(student.get(), mataPelajaran);
         } catch (NullPointerException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Komponen " + idMatpel + " not found");
