@@ -54,20 +54,20 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
 
     //Get all data so multiple dashboard can use one API only
-    @Override
-    public DashboardGuruResponse getAllData(DashboardGuruRequest request) {
-        List<MatpelAverageScore> pbi4041 = getAverageScoreByMataPelajaranAndTeacher(request.getUsernameGuru());
+    //@Override
+    //public DashboardGuruResponse getAllData(DashboardGuruRequest request) {
+    //    List<MatpelAverageScore> pbi4041 = getAverageScoreByMataPelajaranAndTeacher(request.getUsernameGuru());
 
         //PBI 42-43
-        List<AngkatanAverageScore> pbi4243 = getAverageScoreByAngkatan();
+    //    List<AngkatanAverageScore> pbi4243 = getAverageScoreByAngkatan();
 
-        Map<String, Integer> pbi4445 = getScoreRangeFrequency(request.getAngkatanId());
+    //    Map<String, Integer> pbi4445 = getScoreRangeFrequency(new NilaiAngkatanRequest(request.getAngkatanId()));
 
-        List<StudentAverageScoreResponse> pbi5051 = getPerankinganSiswa(request.getAngkatanId(),request.getPage(), request.getSize());
+    //    List<StudentAverageScoreResponse> pbi5051 = getPerankinganSiswa(request.getAngkatanId(),request.getPage(), request.getSize());
 
-        DashboardGuruResponse dashboardGuruResponse = new DashboardGuruResponse(pbi4041, pbi4243,pbi4445,pbi5051);
-        return dashboardGuruResponse;
-    }
+    //    DashboardGuruResponse dashboardGuruResponse = new DashboardGuruResponse(pbi4041, pbi4243,pbi4445,pbi5051);
+    //    return dashboardGuruResponse;
+    //}
 
     //PBI 40-41
     @Override
@@ -191,15 +191,20 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     //PBI 44-45
-    public Map<String, Integer> getScoreRangeFrequency(Long idAngkatan) {
+    public Map<String, Integer> getScoreRangeFrequency(NilaiAngkatanRequest idAngkatan) {
         Map<String, Integer> frequencyMap = new HashMap<>();
-        List<StudentModel> students = studentDB.findByTahunMasuk(idAngkatan);
+        AngkatanModel angkatanModel = angkatanService.getAngkatanById(idAngkatan.getAngkatanId());
+        //List<StudentModel> siswaList = angkatanModel.getListStudent();
+        List<StudentModel> students = angkatanModel.getListStudent();
+        System.out.println("Number of students: " + students.size());
 
         // Initialize frequency map with all score ranges and frequency of zero
         initializeFrequencyMap(frequencyMap);
 
         for (StudentModel student : students) {
+            System.out.println("Username: " + student.getUsername());
             double averageScore = getRataRataNilaiSiswaDirectly(student.getUsername());
+            System.out.println(averageScore);
             String range = getScoreRange(averageScore);
             frequencyMap.merge(range, 1, Integer::sum);
         }
@@ -218,17 +223,17 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     private String getScoreRange(double score) {
-        if (score >= 91 && score <= 100) {
+        if (score >= 91.0 && score <= 100.0) {
             return "91-100";
-        } else if (score >= 81 && score <= 90) {
+        } else if (score >= 81.0 && score <= 90.0) {
             return "81-90";
-        } else if (score >= 71 && score <= 80) {
+        } else if (score >= 71.0 && score <= 80.0) {
             return "71-80";
-        } else if (score >= 61 && score <= 70) {
+        } else if (score >= 61.0 && score <= 70.0) {
             return "61-70";
-        } else if (score >= 41 && score <= 60) {
+        } else if (score >= 41.0 && score <= 60.0) {
             return "41-60";
-        } else if (score >= 11 && score <= 40) {
+        } else if (score >= 11.0 && score <= 40.0) {
             return "11-40";
         } else {
             return "0-10";

@@ -30,7 +30,7 @@ public interface DashboardGuruService {
 
     List<NilaiAngkatanModel> getNilaiAkhirPerAngkatan(NilaiAngkatanRequest[] listAngkatan);
 
-    DashboardGuruResponse getAllData(DashboardGuruRequest request);
+    //DashboardGuruResponse getAllData(DashboardGuruRequest request);
 
     //PBI 40-41
     List<MatpelAverageScore> getAverageScoreByMataPelajaranAndTeacher(String kodeGuru);
@@ -39,7 +39,7 @@ public interface DashboardGuruService {
     List<AngkatanAverageScore> getAverageScoreByAngkatan();
 
     //PBI 44-45
-    public Map<String, Integer> getScoreRangeFrequency(Long idAngkatan);
+    public Map<String, Integer> getScoreRangeFrequency(NilaiAngkatanRequest idAngkatan);
 
     //PBI 50-51
     List<StudentAverageScoreResponse> getPerankinganSiswa(Long idAngkatan, int page, int size);
