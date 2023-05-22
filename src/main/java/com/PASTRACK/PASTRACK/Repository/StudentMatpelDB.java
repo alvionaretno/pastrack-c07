@@ -3,12 +3,14 @@ package com.PASTRACK.PASTRACK.Repository;
 import java.util.Optional;
 import java.util.List;
 
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
+import com.PASTRACK.PASTRACK.Model.SemesterModel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.StudentModel;
 
@@ -34,5 +36,10 @@ public interface StudentMatpelDB extends JpaRepository<StudentMataPelajaranModel
     StudentMataPelajaranModel findStudentMatpel(
         @Param("student") StudentModel student,
         @Param("matapelajaran") MataPelajaranModel matapelajaran
+    );
+    @Query("SELECT SM FROM StudentMataPelajaranModel SM WHERE SM.matapelajaran.semester = :semester AND SM.student = :student")
+    List<StudentMataPelajaranModel> findListStudentMatpelBySemester(
+        @Param("semester") SemesterModel semester,
+        @Param("student") StudentModel student
     );
 }

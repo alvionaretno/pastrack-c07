@@ -117,4 +117,11 @@ public class StudentMatpelServiceImpl implements StudentMatpelService {
     public StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel) {
         return studentMatpelDB.findStudentMatpel(student, matpel);
     }
+
+    @Override
+    public List<StudentMataPelajaranModel> getListStudentMatpelBySemester(SemesterModel semester, String username) {
+        Optional<StudentModel> x = studentService.getUserById(username);
+        StudentModel student = x.get();
+        return studentMatpelDB.findListStudentMatpelBySemester(semester, student);
+    }
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
 import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
@@ -125,6 +126,18 @@ public class DashboardSiswaController {
     private List<PencapaianNilaiPerMatpel> pencapaianNilai(@PathVariable("username") String usernameSiswa, @Valid @RequestBody pencapaianReq namaPeminatan, Principal principal) {
         try {
             return dashboardSiswaService.getNilaiMatpel(usernameSiswa, namaPeminatan.getNamaPeminatan());
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "not found"
+            );
+        }
+    }
+
+    @GetMapping(value = "/{username}/avg-linechart")
+    @PreAuthorize("hasRole('SISWA')")
+    private List<PencapaianNilaiAllMatpel> avgLineChart(@PathVariable("username") String usernameSiswa, Principal principal) {
+        try {
+            return dashboardSiswaService.getNilaiRataRata(usernameSiswa);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "not found"
