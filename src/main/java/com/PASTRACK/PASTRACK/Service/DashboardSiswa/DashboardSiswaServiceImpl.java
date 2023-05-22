@@ -107,13 +107,27 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
 
     // PBI 46 - 47
     @Override
-    public PencapaianNilaiAllMatpel getNilaiRataRata(String username) {
+    public List<PencapaianNilaiAllMatpel> getNilaiRataRata(String username) {
         Optional<StudentModel> student = studentService.getUserById(username);
         StudentModel siswa = student.get();
-        List<StudentMataPelajaranModel> listStudentMatpel = siswa.getNilaiAkhir();
-        Map<String, Integer> nilaiSemester = new HashMap<>();
-        
-        return new PencapaianNilaiAllMatpel(nilaiSemester);
+        List<SemesterModel> listSemester = semesterService.getListSortedSemesterInStudent(siswa);
+        List<PencapaianNilaiAllMatpel> listAllPencapaian = new ArrayList<>();
+        int counter = 0;
+        for (SemesterModel smstr : listSemester) {
+            counter++;
+            List<StudentMataPelajaranModel> listSMInSemester = studentMatpelService.getListStudentMatpelBySemester(smstr, username);
+            int sumNilai = 0;
+            for (StudentMataPelajaranModel sm : listSMInSemester) {
+                int valueNilai = sm.getNilai_komponen();
+                sumNilai += valueNilai;
+            }
+            int pembagi = listSMInSemester.size();
+            int result = sumNilai/pembagi;
+            String namaSemester = "Semester " + counter;
+            PencapaianNilaiAllMatpel pencapaian = new PencapaianNilaiAllMatpel(namaSemester, result);
+            listAllPencapaian.add(pencapaian);
+        }
+        return listAllPencapaian;
     }
 
     @Override

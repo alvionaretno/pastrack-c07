@@ -2,6 +2,7 @@ package com.PASTRACK.PASTRACK.Service.StudentMatpel;
 
 import java.util.List;
 
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
 import com.PASTRACK.PASTRACK.Model.MataPelajaranModel;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
 import com.PASTRACK.PASTRACK.Model.SemesterModel;
@@ -23,4 +24,5 @@ public interface StudentMatpelService {
     List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(String namaPeminatan, StudentModel student);
     StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel);
 
+    List<StudentMataPelajaranModel> getListStudentMatpelBySemester(SemesterModel semester, String username);
 }

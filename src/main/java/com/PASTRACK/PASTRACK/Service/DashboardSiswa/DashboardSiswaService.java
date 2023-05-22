@@ -13,7 +13,7 @@ public interface DashboardSiswaService {
     // AllDashboard getAllViewed(String username);
     // PBI 34 - 35
     // List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username);
-    PencapaianNilaiAllMatpel getNilaiRataRata(String username);
+    List<PencapaianNilaiAllMatpel> getNilaiRataRata(String username);
     void generateAllNilaiMatpel(String usernameSiswa);
 
     //get ranking student di angkatannya

@@ -13,6 +13,7 @@ import java.util.*;
 import javax.transaction.Transactional;
 
 import com.PASTRACK.PASTRACK.Model.SemesterModel;
+import com.PASTRACK.PASTRACK.Model.StudentModel;
 import com.PASTRACK.PASTRACK.Repository.SemesterDB;
 import com.PASTRACK.PASTRACK.SemesterRequest.addSemesterRequest;
 import com.PASTRACK.PASTRACK.SemesterRequest.addSemesterResponse;
@@ -62,19 +63,6 @@ public class SemesterServiceImpl implements SemesterService {
         return listSemester;
     }
 
-    // @Override
-    // public int compare(SemesterModel A, SemesterModel B) {
-    //     LocalDateTime awalA = A.getAwalTahunAjaran();
-    //     LocalDateTime akhirA = A.getAkhirTahunAjaran();
-    //     Boolean semesterA = A.getSemester();
-    //     LocalDateTime awalB = B.getAwalTahunAjaran();
-    //     LocalDateTime akhirB = B.getAkhirTahunAjaran();
-    //     Boolean semesterB = B.getSemester();
-    //     if (awalA.getYear() == awalB.getYear() && akhirA.getYear() == akhirB.getYear()) {
-    //         return semesterB.compareTo(semesterA);
-    //     }
-    //     return awalA.getYear() - awalB.getYear();
-    // }
     public SemesterModel getCurrentSemester() {
         LocalDateTime currentDate = LocalDateTime.now();
 
@@ -90,6 +78,17 @@ public class SemesterServiceImpl implements SemesterService {
         }
 
         throw new NoSuchElementException("No current semester found");
+    }
+
+    public List<SemesterModel> getListSortedSemesterInStudent(StudentModel student) {
+        List<SemesterModel> listAllSortedSemester = sortSemester(findAll());
+        List<SemesterModel> listSortedSemesterInSiswa = new ArrayList<>();
+        for (SemesterModel semester : listAllSortedSemester) {
+            if (semester.getAwalTahunAjaran().getYear() >= Integer.valueOf(student.getAngkatan().getAngkatan())) {
+                listSortedSemesterInSiswa.add(semester);
+            }
+        }
+        return listSortedSemesterInSiswa;
     }
 
 }

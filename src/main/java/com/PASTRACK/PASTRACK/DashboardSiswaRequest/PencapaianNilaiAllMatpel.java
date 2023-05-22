@@ -9,11 +9,16 @@ import lombok.Data;
 @Data
 public class PencapaianNilaiAllMatpel implements Serializable {
     // String namaSiswa;
-    Map<String, Integer> nilaiSemester;
+    String semester;
+    int avgScore;
+
+    public PencapaianNilaiAllMatpel(){}
 
     public PencapaianNilaiAllMatpel(
-        Map<String, Integer> nilaiSemester
+        String semester,
+        int avgScore
     ) {
-        this.nilaiSemester = nilaiSemester;
+        this.semester = semester;
+        this.avgScore = avgScore;
     }
 }
