@@ -114,4 +114,16 @@ public class DashboardSiswaController {
             );
         }
     }
+
+    @GetMapping(value = "/{username}/perkembangan")
+    @PreAuthorize("hasRole('SISWA')")
+    private List<PencapaianNilaiPerMatpel> pencapaianNilai(@PathVariable("username") String usernameSiswa, Principal principal) {
+        try {
+            return dashboardSiswaService.getNilaiPerMatpel(usernameSiswa);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "not found"
+            );
+        }
+    }
 }
