@@ -39,7 +39,7 @@ public interface DashboardGuruService {
     List<AngkatanAverageScore> getAverageScoreByAngkatan();
 
     //PBI 44-45
-    public Map<String, Integer> getScoreRangeFrequency(NilaiAngkatanRequest idAngkatan);
+    public Map<String, Integer> getScoreRangeFrequency(Long idAngkatan);
 
     //PBI 50-51
     List<StudentAverageScoreResponse> getPerankinganSiswa(Long idAngkatan, int page, int size);

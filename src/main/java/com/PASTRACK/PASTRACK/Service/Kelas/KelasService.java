@@ -12,7 +12,7 @@ import com.PASTRACK.PASTRACK.RequestAuthentication.addMuridRequest;
 
 
 public interface KelasService {
-    
+
     addKelasResponse createKelas(addKelasRequest kelas);
 
     List<addKelasResponse> getAllKelas();
@@ -36,11 +36,14 @@ public interface KelasService {
 
     List<kelasAllRequest> getListKelasBySiswa(String usernameSiswa);
 
-    Boolean cekIfSiswaHasBeenAssigned(List<KelasModel> listKelasInSiswa);
+    //Boolean cekIfSiswaHasBeenAssigned(List<KelasModel> listKelasInSiswa);
 
-    List<StudentModel> getNotAssignedStudents(List<StudentModel> listSiswa);
+    //List<StudentModel> getNotAssignedStudents(List<StudentModel> listSiswa);
+
+    //List<StudentModel> getNotAssignedStudents();
 
     List<StudentModel> getNotAssignedStudents();
+    boolean isSiswaAssignedToClassThisSemester(StudentModel student);
 
     List<StudentModel> getListSiswaInKelasX(String idKelas);
 
@@ -53,5 +56,6 @@ public interface KelasService {
     StudentMataPelajaranModel createStudentMatpel(StudentModel student, MataPelajaranModel matpel);
 
     boolean deleteClass(Long classId);
-   
+
+
 }

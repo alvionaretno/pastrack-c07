@@ -24,4 +24,7 @@ public class PencapaianNilaiPerMatpel implements Serializable {
         this.semester = semester;
         this.nilaiAkhir = nilaiAkhir;
     }
+
+    public PencapaianNilaiPerMatpel(Map<String, Integer> nilaiPerSemester, PeminatanModel peminatan) {
+    }
 }

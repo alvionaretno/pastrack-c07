@@ -92,10 +92,10 @@ public class DashboardGuruController {
     }
 
     //PBI 44-45
-    @GetMapping (value = "/distribusi-nilai-angkatan")
+    @GetMapping (value = "/distribusi-nilai-angkatan/{idAngkatan}")
     @PreAuthorize("hasRole('GURU')")
     //private NilaiAngkatanModel getNilaiAkhirPerAngkatan(@RequestBody NilaiAngkatanRequest[] angkatan) {
-    private Map<String, Integer> getDistribusiNilai(@RequestBody NilaiAngkatanRequest idAngkatan) {
+    private Map<String, Integer> getDistribusiNilai(@PathVariable Long idAngkatan) {
         try{
             //return dashboardGuruService.getNilaiAkhirPerAngkatan(angkatan);
             return dashboardGuruService.getScoreRangeFrequency(idAngkatan);

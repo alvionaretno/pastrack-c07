@@ -256,56 +256,43 @@ public class KelasServiceImpl implements KelasService {
     }
 
 
-    //Checking if certain Siswa is already assigned to particular class in current semester
     @Override
-    public Boolean cekIfSiswaHasBeenAssigned(List<KelasModel> listKelasInSiswa) {
-        //List<kelasAllRequest> listKelasSiswa = new ArrayList<kelasAllRequest>();
-        Boolean hasBeenAssigned = false;
+    public List<StudentModel> getNotAssignedStudents() {
+        List<StudentModel> allSiswa = studentService.getAllSiswa();
+        List<StudentModel> notAssignedSiswa = new ArrayList<>();
 
+        for (StudentModel student : allSiswa) {
+            boolean isAssigned = isSiswaAssignedToClassThisSemester(student);
+            if (!isAssigned) {
+                notAssignedSiswa.add(student);
+            }
+        }
+
+        return notAssignedSiswa;
+    }
+
+    public boolean isSiswaAssignedToClassThisSemester(StudentModel student) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/yyyy");
         LocalDate today = LocalDate.now();
         String formattedDateToday = today.format(dateTimeFormatter);
 
-        for(KelasModel kelas : listKelasInSiswa) {
-            //LocalDateTime awalTahunAjaran = kelas.getAwalTahunAjaran();
-            //String formattedAwalTahunAjaran = awalTahunAjaran.format(dateTimeFormatter);
-            //String[] arrOfStrTahunAjaran = formattedAwalTahunAjaran.split("/", 2);
+        for (KelasModel kelas : student.getListKelas()) {
             LocalDateTime awalTahunAjaran = kelas.getSemester().getAwalTahunAjaran();
             String formattedAwalTahunAjaran = awalTahunAjaran.format(dateTimeFormatter);
-            System.out.println((formattedAwalTahunAjaran));
+
             String[] arrOfStrTahunAjaran = formattedAwalTahunAjaran.split("/", 2);
             String[] arrOfStrToday = formattedDateToday.split("/", 2);
-            if(arrOfStrTahunAjaran[1].equals(arrOfStrToday[1])){
-                if(Integer.valueOf(arrOfStrTahunAjaran[0]) <= Integer.valueOf(arrOfStrToday[0])){
-                   //hasBeenAssigned = true;
+
+            if (arrOfStrTahunAjaran[1].equals(arrOfStrToday[1])) {
+                if (Integer.valueOf(arrOfStrTahunAjaran[0]) <= Integer.valueOf(arrOfStrToday[0])) {
+                    return true; // The student has been assigned to a class this semester
                 }
             }
-
         }
-        return hasBeenAssigned;
+
+        return false; // The student has not been assigned to any class this semester
     }
 
-    //Retrieve All Siswa yang belum di assign ke kelas manapun (method helper)
-    @Override
-    public List<StudentModel> getNotAssignedStudents() {
-        List<StudentModel> allSiswa = studentService.getAllSiswa();
-        return kelasService.getNotAssignedStudents(allSiswa);
-    }
-
-    //Retrieve All Siswa yang belum di assign ke kelas manapun
-    @Override
-    public List<StudentModel> getNotAssignedStudents(List<StudentModel> listSiswa) {
-        List<StudentModel> listNotAssignedSiswa = new ArrayList<StudentModel>();
-        for(StudentModel student : listSiswa) {
-            List<KelasModel> kelasSiswa = student.getListKelas();
-            Boolean isAssigned = kelasService.cekIfSiswaHasBeenAssigned(kelasSiswa);
-            if(isAssigned==false) {
-                listNotAssignedSiswa.add(student);
-            }
-
-        }
-        return listNotAssignedSiswa;
-    }
 
     @Override
     public List<StudentModel> getListSiswaInKelasX(String idKelas) {
@@ -437,7 +424,7 @@ public class KelasServiceImpl implements KelasService {
         Optional<KelasModel> classOptional = kelasDB.findById(classId);
 
         if (classOptional.isPresent()) {
-           KelasModel classModel = classOptional.get();
+            KelasModel classModel = classOptional.get();
             kelasDB.delete(classModel);
             return true;
         }

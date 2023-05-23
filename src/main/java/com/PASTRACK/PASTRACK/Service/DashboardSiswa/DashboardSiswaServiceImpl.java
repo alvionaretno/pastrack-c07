@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.MatpelAverageScore;
 import com.PASTRACK.PASTRACK.DashboardGuruRequest.StudentAverageScoreResponse;
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.allRankingSiswa;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.*;
 import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.Model.*;
 import com.PASTRACK.PASTRACK.Repository.KomponenDB;
@@ -18,9 +18,6 @@ import com.PASTRACK.PASTRACK.Service.Semester.SemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.Repository.MatpelDB;
 import com.PASTRACK.PASTRACK.Repository.StudentDB;
@@ -65,47 +62,34 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
     @Autowired
     private SemesterService semesterService;
 
-    // @Override
-    // public AllDashboard getAllViewed(String username) {
-    //     Optional<StudentModel> user = studentService.getUserById(username);
-    //     StudentModel student = user.get();
-    //     List<PencapaianNilaiPerMatpel> perkembanganNilai = getNilaiPerMatpel(username);
-    //     PencapaianNilaiAllMatpel pencapaianNilai = getNilaiRataRata(username);
-    //     int rankingKelas = 0; // PBI 52
-    //     int rankingSemester = 0; // PBI 53
-    //     return new AllDashboard(student.getId(), perkembanganNilai, pencapaianNilai, rankingKelas, rankingSemester);
-    // }
+    @Override
+    public List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username) {
+        List<PencapaianNilaiPerMatpel> listPencapaian = new ArrayList<PencapaianNilaiPerMatpel>();
+        Optional<StudentModel> x = studentService.getUserById(username);
+        StudentModel student = x.get();
+        List<PeminatanModel> peminatanInSiswa = peminatanService.listPeminatanModelInSiswa(username);
+        // Map<PeminatanModel, List<StudentMataPelajaranModel>> map = new HashMap<>();
+        for (PeminatanModel peminatan : peminatanInSiswa) {
+            List<StudentMataPelajaranModel> listSM = studentMatpelService.getListStudentMatpelByPeminatan(String.valueOf(peminatan), student);
+            // map.put(peminatan, listSM);
+            // Sorting sesuai urutan semester
+            Map<String, Integer> nilaiPerSemester = new HashMap<>();
+            List<SemesterModel> listSemester = new ArrayList<>();
+            for (StudentMataPelajaranModel sm : listSM) {
+                listSemester.add(sm.getMatapelajaran().getSemester());
+            }
+            semesterService.sortSemester(listSemester);
+            for (StudentMataPelajaranModel studentMatpel : listSM) {
+                int index = listSemester.indexOf(studentMatpel.getMatapelajaran().getSemester());
+                String labelSemester = "Semester " + index;
+                nilaiPerSemester.put(labelSemester, studentMatpel.getNilai_komponen());
+            }
+            PencapaianNilaiPerMatpel pencapaian = new PencapaianNilaiPerMatpel(nilaiPerSemester, peminatan);
+            listPencapaian.add(pencapaian);
+        }
+        return listPencapaian;
+    }
 
-    // PBI 34 - 35
-    // @Override
-    // public List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username) {
-    //     List<PencapaianNilaiPerMatpel> listPencapaian = new ArrayList<PencapaianNilaiPerMatpel>();
-    //     Optional<StudentModel> x = studentService.getUserById(username);
-    //     StudentModel student = x.get();
-    //     List<PeminatanModel> peminatanInSiswa = peminatanService.listPeminatanModelInSiswa(username);
-    //     // Map<PeminatanModel, List<StudentMataPelajaranModel>> map = new HashMap<>();
-    //     for (PeminatanModel peminatan : peminatanInSiswa) {
-    //         List<StudentMataPelajaranModel> listSM = studentMatpelService.getListStudentMatpelByPeminatan(peminatan, student);
-    //         // map.put(peminatan, listSM);
-    //         // Sorting sesuai urutan semester
-    //         Map<String, Integer> nilaiPerSemester = new HashMap<>();
-    //         List<SemesterModel> listSemester = new ArrayList<>();
-    //         for (StudentMataPelajaranModel sm : listSM) {
-    //             listSemester.add(sm.getMatapelajaran().getSemester());
-    //         }
-    //         semesterService.sortSemester(listSemester);
-    //         for (StudentMataPelajaranModel studentMatpel : listSM) {
-    //             int index = listSemester.indexOf(studentMatpel.getMatapelajaran().getSemester());
-    //             String labelSemester = "Semester " + index;
-    //             nilaiPerSemester.put(labelSemester, studentMatpel.getNilai_komponen());
-    //         }
-    //         PencapaianNilaiPerMatpel pencapaian = new PencapaianNilaiPerMatpel(nilaiPerSemester);
-    //         listPencapaian.add(pencapaian);
-    //     }
-    //     return listPencapaian;
-    // }
-
-    // PBI 46 - 47
     @Override
     public List<PencapaianNilaiAllMatpel> getNilaiRataRata(String username) {
         Optional<StudentModel> student = studentService.getUserById(username);
@@ -305,5 +289,72 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
         }
         return listPencapaian;
     }
+
+    // PBI 46-47
+    // calculate score in given semester
+    @Override
+    public double getRataRataNilaiSiswaGivenSemester(String usernameSiswa, SemesterModel semester) {
+        // Get the student by username
+        Optional<StudentModel> student = studentService.getUserById(usernameSiswa);
+        StudentModel studentX = student.get();
+        List<KelasModel> listKelasSiswaX = studentX.getListKelas();
+
+        // Loop through each class and calculate the score for the given semester
+        List<MataPelajaranModel> mataPelajaranSiswa = new ArrayList<>();
+        for (KelasModel kelasSiswa : listKelasSiswaX) {
+            if (kelasSiswa.getSemester().equals(semester)) {
+                List<MataPelajaranModel> listMatpelInClass = kelasSiswa.getListMataPelajaran();
+                mataPelajaranSiswa.addAll(listMatpelInClass);
+            }
+        }
+
+        double nilaiAkhir = 0.0;
+        List<MatpelAverageScore> listNilaiAkhirMatpel = new ArrayList<>();
+        for (MataPelajaranModel matpel : mataPelajaranSiswa) {
+            nilaiAkhir = 0.0;
+            List<getComponent> listKomponen = komponenDB.getAllKomponenSiswa(studentX, matpel);
+            for (getComponent komponen : listKomponen) {
+                double bobot = komponen.getBobot();
+                double nilai = komponen.getNilai();
+                double nilaiPembobotan = (bobot * nilai) / 100;
+                nilaiAkhir += nilaiPembobotan;
+            }
+            MatpelAverageScore nilaiAkhirMatpel = new MatpelAverageScore(matpel, nilaiAkhir);
+            listNilaiAkhirMatpel.add(nilaiAkhirMatpel);
+        }
+
+        double sumNilai = 0;
+        Integer count = 0;
+        for (MatpelAverageScore nilaiAkhirMatpel : listNilaiAkhirMatpel) {
+            sumNilai += nilaiAkhirMatpel.getNilaiAkhirMatpel();
+            count++;
+        }
+
+        double nilaiRataRataAkhir = sumNilai / count;
+        return nilaiRataRataAkhir;
+    }
+    public List<StudentScoreDTO> getStudentScoresBySemester(String username) {
+        // Get the student by username
+        Optional<StudentModel> student = studentService.getUserById(username);
+        StudentModel studentX = student.get();
+
+        // Get the list of classes for the student
+        List<KelasModel> listKelasSiswaX = studentX.getListKelas();
+
+        // Initialize the result list
+        List<StudentScoreDTO> scores = new ArrayList<>();
+
+        // Loop through each class and calculate the score for each semester
+        for (KelasModel kelasSiswa : listKelasSiswaX) {
+            SemesterModel semester = kelasSiswa.getSemester();
+            double averageScore = getRataRataNilaiSiswaGivenSemester(studentX.getUsername(), semester);
+            StudentScoreDTO scoreDTO = new StudentScoreDTO(semester.getId(), averageScore);
+            scores.add(scoreDTO);
+        }
+
+        return scores;
+    }
+
+
 
 }

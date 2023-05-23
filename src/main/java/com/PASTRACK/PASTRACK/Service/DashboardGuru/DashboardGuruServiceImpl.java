@@ -58,7 +58,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     //public DashboardGuruResponse getAllData(DashboardGuruRequest request) {
     //    List<MatpelAverageScore> pbi4041 = getAverageScoreByMataPelajaranAndTeacher(request.getUsernameGuru());
 
-        //PBI 42-43
+    //PBI 42-43
     //    List<AngkatanAverageScore> pbi4243 = getAverageScoreByAngkatan();
 
     //    Map<String, Integer> pbi4445 = getScoreRangeFrequency(new NilaiAngkatanRequest(request.getAngkatanId()));
@@ -191,9 +191,9 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
     }
 
     //PBI 44-45
-    public Map<String, Integer> getScoreRangeFrequency(NilaiAngkatanRequest idAngkatan) {
+    public Map<String, Integer> getScoreRangeFrequency(Long idAngkatan) {
         Map<String, Integer> frequencyMap = new HashMap<>();
-        AngkatanModel angkatanModel = angkatanService.getAngkatanById(idAngkatan.getAngkatanId());
+        AngkatanModel angkatanModel = angkatanService.getAngkatanById(idAngkatan);
         //List<StudentModel> siswaList = angkatanModel.getListStudent();
         List<StudentModel> students = angkatanModel.getListStudent();
         System.out.println("Number of students: " + students.size());

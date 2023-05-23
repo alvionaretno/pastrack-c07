@@ -7,12 +7,12 @@ import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.allRankingSiswa;
 import com.PASTRACK.PASTRACK.Model.PeminatanModel;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.*;
+import com.PASTRACK.PASTRACK.Model.SemesterModel;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 
 public interface DashboardSiswaService {
-    // AllDashboard getAllViewed(String username);
-    // PBI 34 - 35
-    // List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username);
+
     List<PencapaianNilaiAllMatpel> getNilaiRataRata(String username);
     void generateAllNilaiMatpel(String usernameSiswa);
 
@@ -28,5 +28,10 @@ public interface DashboardSiswaService {
 
     allRankingSiswa getAllRankingSiswa(String usernameSiswa);
 
+    List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username);
+
     List<PencapaianNilaiPerMatpel> getNilaiMatpel(String username, String namaPeminatan);
+    List<StudentScoreDTO> getStudentScoresBySemester(String username);
+
+    double getRataRataNilaiSiswaGivenSemester(String usernameSiswa, SemesterModel semester);
 }
