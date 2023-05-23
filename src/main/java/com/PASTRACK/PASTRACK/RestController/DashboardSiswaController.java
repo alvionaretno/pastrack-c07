@@ -1,3 +1,5 @@
+package com.PASTRACK.PASTRACK.RestController;
+
 import com.PASTRACK.PASTRACK.DashboardSiswaRequest.*;
 import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
@@ -40,18 +42,6 @@ public class DashboardSiswaController {
         }
     }
 
-    // @GetMapping(value = "/{username}")
-    // @PreAuthorize("hasRole('SISWA')")
-    // private AllDashboard getRataRataAllMatpel(@PathVariable("username") String usernameSiswa, Principal principal) {
-    //     try {
-    //         dashboardSiswaService.generateAllNilaiMatpel(usernameSiswa);
-    //         return dashboardSiswaService.getAllViewed(usernameSiswa);
-    //     } catch (NoSuchElementException e) {
-    //         throw new ResponseStatusException(
-    //             HttpStatus.NOT_FOUND, "not found"
-    //         );
-    //     }
-    // }
 
     @GetMapping(value = "/{username}/{idPeminatan}")
     @PreAuthorize("hasRole('SISWA')")
