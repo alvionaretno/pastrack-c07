@@ -1,36 +1,19 @@
-package com.PASTRACK.PASTRACK.RestController;
-
-import java.security.Principal;
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import javax.validation.Valid;
-
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.allRankingSiswa;
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.pencapaianReq;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
-import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.*;
 import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
-import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.Service.DashboardSiswa.DashboardSiswaService;
 import com.PASTRACK.PASTRACK.Service.Peminatan.PeminatanService;
-import com.PASTRACK.PASTRACK.Service.Peminatan.PeminatanService;
 import com.PASTRACK.PASTRACK.Service.StudentMatpel.StudentMatpelService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin
@@ -44,7 +27,19 @@ public class DashboardSiswaController {
 
     @Autowired
     private PeminatanService peminatanService;
-    
+
+    @GetMapping(value = "/nilai-per-semester/{username}")
+    @PreAuthorize("hasRole('SISWA')")
+    private List<StudentScoreDTO> getNilaiEachSemester(@PathVariable("username") String usernameSiswa, Principal principal) {
+        try {
+            return dashboardSiswaService.getStudentScoresBySemester(usernameSiswa);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "not found"
+            );
+        }
+    }
+
     // @GetMapping(value = "/{username}")
     // @PreAuthorize("hasRole('SISWA')")
     // private AllDashboard getRataRataAllMatpel(@PathVariable("username") String usernameSiswa, Principal principal) {
@@ -65,7 +60,7 @@ public class DashboardSiswaController {
             return studentMatpelService.getListStudentMatpelByPeminatan(usernameSiswa, idPeminatan);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "not found"
+                    HttpStatus.NOT_FOUND, "not found"
             );
         }
     }
@@ -77,7 +72,7 @@ public class DashboardSiswaController {
             return peminatanService.getListPeminatanInSiswa(usernameSiswa);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "not found"
+                    HttpStatus.NOT_FOUND, "not found"
             );
         }
     }
