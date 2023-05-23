@@ -15,13 +15,12 @@ public interface StudentMatpelService {
     int getNilaiMatpel(StudentMataPelajaranModel studentMatpel);
     // StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel);
     List<getStudentMatpelByPeminatan> getListStudentMatpelByPeminatan(String username, String idPeminatan);
-    // List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(String username, String idPeminatan);
 
     List<StudentMataPelajaranModel> getListStudentMatpelByStudent(String siswaId);
 
     List<StudentModel> getStudentsByMataPelajaran(MataPelajaranModel mataPelajaranId);
 
-    List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(String namaPeminatan, StudentModel student);
+    List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(Long idPeminatan, StudentModel student);
     StudentMataPelajaranModel getStudentMatpel(StudentModel student, MataPelajaranModel matpel);
 
     List<StudentMataPelajaranModel> getListStudentMatpelBySemester(SemesterModel semester, String username);

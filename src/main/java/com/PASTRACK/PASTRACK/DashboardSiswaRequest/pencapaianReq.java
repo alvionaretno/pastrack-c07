@@ -6,5 +6,5 @@ import lombok.Data;
 
 @Data
 public class pencapaianReq implements Serializable {
-    String namaPeminatan;
+    String idPeminatan;
 }
