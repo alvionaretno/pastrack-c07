@@ -1,6 +1,30 @@
 package com.PASTRACK.PASTRACK.RestController;
 
-import com.PASTRACK.PASTRACK.DashboardSiswaRequest.*;
+import java.security.Principal;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import javax.validation.Valid;
+
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.allRankingSiswa;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.pencapaianReq;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.AllDashboard;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiAllMatpel;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.PencapaianNilaiPerMatpel;
+import com.PASTRACK.PASTRACK.DashboardSiswaRequest.StudentScoreDTO;
+import com.PASTRACK.PASTRACK.Model.StudentMataPelajaranModel;
 import com.PASTRACK.PASTRACK.MuridMatpelRequest.getStudentMatpelByPeminatan;
 import com.PASTRACK.PASTRACK.PeminatanRequest.PeminatanResponse;
 import com.PASTRACK.PASTRACK.Service.DashboardSiswa.DashboardSiswaService;
@@ -106,11 +130,11 @@ public class DashboardSiswaController {
         }
     }
 
-    @GetMapping(value = "/{username}/perkembangan")
+    @GetMapping(value = "/{username}/perkembangan/{idPeminatan}")
     @PreAuthorize("hasRole('SISWA')")
-    private List<PencapaianNilaiPerMatpel> pencapaianNilai(@PathVariable("username") String usernameSiswa, @Valid @RequestBody pencapaianReq namaPeminatan, Principal principal) {
+    private List<PencapaianNilaiPerMatpel> pencapaianNilai(@PathVariable("username") String usernameSiswa, @PathVariable("idPeminatan") String idPeminatan, Principal principal) {
         try {
-            return dashboardSiswaService.getNilaiMatpel(usernameSiswa, namaPeminatan.getNamaPeminatan());
+            return dashboardSiswaService.getNilaiMatpel(usernameSiswa, idPeminatan);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "not found"

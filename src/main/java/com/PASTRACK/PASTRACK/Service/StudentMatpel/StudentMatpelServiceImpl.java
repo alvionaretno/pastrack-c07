@@ -102,11 +102,11 @@ public class StudentMatpelServiceImpl implements StudentMatpelService {
     }
 
     @Override
-    public List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(String namaPeminatan, StudentModel student) {
+    public List<StudentMataPelajaranModel> getListStudentMatpelByPeminatan(Long idPeminatan, StudentModel student) {
         List<StudentMataPelajaranModel> listSMInPeminatan = new ArrayList<>();
         List<StudentMataPelajaranModel> listAllSM = student.getNilaiAkhir();
         for (StudentMataPelajaranModel sm : listAllSM) {
-            if (sm.getMatapelajaran().getPeminatan().getNamaPeminatan().equals(namaPeminatan)) {
+            if (sm.getMatapelajaran().getPeminatan().getId() == idPeminatan) {
                 listSMInPeminatan.add(sm);
             }
         }

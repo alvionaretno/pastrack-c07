@@ -63,34 +63,6 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
     private SemesterService semesterService;
 
     @Override
-    public List<PencapaianNilaiPerMatpel> getNilaiPerMatpel(String username) {
-        List<PencapaianNilaiPerMatpel> listPencapaian = new ArrayList<PencapaianNilaiPerMatpel>();
-        Optional<StudentModel> x = studentService.getUserById(username);
-        StudentModel student = x.get();
-        List<PeminatanModel> peminatanInSiswa = peminatanService.listPeminatanModelInSiswa(username);
-        // Map<PeminatanModel, List<StudentMataPelajaranModel>> map = new HashMap<>();
-        for (PeminatanModel peminatan : peminatanInSiswa) {
-            List<StudentMataPelajaranModel> listSM = studentMatpelService.getListStudentMatpelByPeminatan(String.valueOf(peminatan), student);
-            // map.put(peminatan, listSM);
-            // Sorting sesuai urutan semester
-            Map<String, Integer> nilaiPerSemester = new HashMap<>();
-            List<SemesterModel> listSemester = new ArrayList<>();
-            for (StudentMataPelajaranModel sm : listSM) {
-                listSemester.add(sm.getMatapelajaran().getSemester());
-            }
-            semesterService.sortSemester(listSemester);
-            for (StudentMataPelajaranModel studentMatpel : listSM) {
-                int index = listSemester.indexOf(studentMatpel.getMatapelajaran().getSemester());
-                String labelSemester = "Semester " + index;
-                nilaiPerSemester.put(labelSemester, studentMatpel.getNilai_komponen());
-            }
-            PencapaianNilaiPerMatpel pencapaian = new PencapaianNilaiPerMatpel(nilaiPerSemester, peminatan);
-            listPencapaian.add(pencapaian);
-        }
-        return listPencapaian;
-    }
-
-    @Override
     public List<PencapaianNilaiAllMatpel> getNilaiRataRata(String username) {
         Optional<StudentModel> student = studentService.getUserById(username);
         StudentModel siswa = student.get();
@@ -138,6 +110,7 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
 
 
     //Ranking Siswa di Angkatannya All Semester
+    @Override
     public int getStudentRankingInAngkatan(String username) {
         AngkatanModel angkatanModel = studentService.getUserById(username).get().getAngkatan();
         List<StudentModel> siswaList = angkatanModel.getListStudent();
@@ -164,6 +137,7 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
     }
 
     //Ranking Siswa di Kelasnya semester ini
+    @Override
     public int getStudentRankingInKelas(String username) {
         KelasModel kelasModel = kelasService.getKelasCurrentSemester(username);
         List<StudentModel> siswaList = kelasModel.getListMurid();
@@ -240,6 +214,7 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
     }
 
     //ranking student di angkatannya pada semester ini
+    @Override
     public int getStudentRankingInAngkatanCurrentSemester(String username) {
         AngkatanModel angkatanModel = studentService.getUserById(username).get().getAngkatan();
         List<StudentModel> siswaList = angkatanModel.getListStudent();
@@ -265,11 +240,12 @@ public class DashboardSiswaServiceImpl implements DashboardSiswaService {
         return -1;
     }
 
-    public List<PencapaianNilaiPerMatpel> getNilaiMatpel(String username, String namaPeminatan) {
+    @Override
+    public List<PencapaianNilaiPerMatpel> getNilaiMatpel(String username, String idPeminatan) {
         Optional<StudentModel> x = studentService.getUserById(username);
         StudentModel student = x.get();
         // PeminatanModel peminatan = peminatanService.getPeminatanByNama(namaPeminatan);
-        List<StudentMataPelajaranModel> listSM = studentMatpelService.getListStudentMatpelByPeminatan(namaPeminatan, student);
+        List<StudentMataPelajaranModel> listSM = studentMatpelService.getListStudentMatpelByPeminatan(Long.parseLong(idPeminatan), student);
         List<SemesterModel> listSemester = new ArrayList<>();
         for (StudentMataPelajaranModel sm : listSM) {
             listSemester.add(sm.getMatapelajaran().getSemester());
