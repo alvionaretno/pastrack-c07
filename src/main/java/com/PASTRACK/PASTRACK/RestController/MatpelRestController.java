@@ -26,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.PASTRACK.PASTRACK.KomponenRequest.UpdateKomponenSiswaRequest;
 import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenRequest;
+import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenResponse;
 import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.KomponenRequest.listKomponenSiswaResponse;
 import com.PASTRACK.PASTRACK.MatpelRequest.MatpelAllRequest;
@@ -98,14 +99,15 @@ public class MatpelRestController {
     // Create
     @PostMapping(value = "/{id}/komponen")
     @PreAuthorize("hasRole('GURU')")
-    private ResponseEntity<KomponenModel> createKomponen(@PathVariable("id") String id,
+    private addKomponenResponse createKomponen(@PathVariable("id") String id,
             @Valid @RequestBody addKomponenRequest komponen, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field.");
         } else {
-            KomponenModel newKomponen = komponenService.createKomponen(id, komponen);
-            return ResponseEntity.ok().body(newKomponen);
+            // KomponenModel newKomponen = komponenService.createKomponen(id, komponen);
+            // return ResponseEntity.ok().body(newKomponen);
+            return komponenService.createKomponen(id, komponen);
         }
     }
 

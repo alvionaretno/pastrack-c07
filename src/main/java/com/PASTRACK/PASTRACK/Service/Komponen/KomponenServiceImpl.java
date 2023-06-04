@@ -1,5 +1,6 @@
 package com.PASTRACK.PASTRACK.Service.Komponen;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenRequest;
+import com.PASTRACK.PASTRACK.KomponenRequest.addKomponenResponse;
 import com.PASTRACK.PASTRACK.KomponenRequest.getComponent;
 import com.PASTRACK.PASTRACK.KomponenRequest.listKomponenSiswaResponse;
 import com.PASTRACK.PASTRACK.Model.KomponenModel;
@@ -58,7 +60,7 @@ public class KomponenServiceImpl implements KomponenService {
     }
 
     @Override
-    public KomponenModel createKomponen(String id, addKomponenRequest komponenReq) {
+    public addKomponenResponse createKomponen(String id, addKomponenRequest komponenReq) {
         MataPelajaranModel matpelModel = matpelService.getMatpelById(Long.parseLong(id));
         KomponenModel komponenModel = new KomponenModel();
         komponenModel.setTitle(komponenReq.getNamaKomponen());
@@ -77,7 +79,14 @@ public class KomponenServiceImpl implements KomponenService {
                 createStudentKomponen(student, komponenModel);
             }
         }
-        return komponenDB.save(komponenModel);
+        komponenDB.save(komponenModel);
+        // response
+        Long idKomponen = komponenModel.getKode();
+        String namaKomponen = komponenModel.getTitle();
+        String desc = komponenModel.getDescription();
+        LocalDateTime dueDate = komponenModel.getDueDate();
+        int bobot = komponenModel.getBobot();
+        return new addKomponenResponse(idKomponen, namaKomponen, desc, dueDate, bobot);
     }
 
     @Override
