@@ -191,7 +191,6 @@ public class MatpelRestController {
             @PathVariable("kodeKomponen") String kodeKomponen,
             @PathVariable("username") String username, 
             @Valid @RequestBody UpdateKomponenSiswaRequest nilai, BindingResult bindingResult) {
-                System.out.println(nilai);
         Optional<StudentModel> student = studentService.getUserById(username);
         Optional<StudentKomponenModel> studentKomponen = studentKomponenService.getById(Long.parseLong(kodeKomponen));
         if (student.get() == studentKomponen.get().getStudent()) {
