@@ -120,21 +120,23 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
 
 
     //PBI 42-43
-
     public List<AngkatanAverageScore> getAverageScoreByAngkatan() {
         List<AngkatanModel> listAngkatan = angkatanDB.findAll();
         List<AngkatanAverageScore> result = new ArrayList<>();
 
-        double sum = 0.0;
-        int count = 0;
-
         for (AngkatanModel angkatanX : listAngkatan) {
             List<StudentModel> listStudent = angkatanX.getListStudent();
 
+            double sum = 0.0;
+            int count = 0;
+
             for (StudentModel student : listStudent) {
                 double studentScore = getRataRataNilaiSiswaDirectly(student.getUsername());
-                sum += studentScore;
-                count++;
+
+                if (!Double.isNaN(studentScore)) { // Check if studentScore is not NaN
+                    sum += studentScore;
+                    count++;
+                }
             }
 
             if (count > 0) {
@@ -143,6 +145,7 @@ public class DashboardGuruServiceImpl implements DashboardGuruService {
                 result.add(angkatanAverageScore);
             }
         }
+
         return result;
     }
 
