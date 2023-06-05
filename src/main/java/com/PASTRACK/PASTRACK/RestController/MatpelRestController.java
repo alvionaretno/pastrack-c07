@@ -232,16 +232,16 @@ public class MatpelRestController {
     //     return new ArrayList<MatpelAllRequest>();
     // }
 
-    @GetMapping(value = "/guru/{username}/listMatpel")
-    @PreAuthorize("hasRole('GURU')")
-    private List<MatpelAllRequest> listAllMataPelajaran(@PathVariable("username") String username, Principal principal) {
-        try {
-            return matpelService.getListAllMatpelInGuru(username);
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "not found.");
-        }
-    }
+    // @GetMapping(value = "/guru/{username}/listMatpel")
+    // @PreAuthorize("hasRole('GURU')")
+    // private List<MatpelAllRequest> listAllMataPelajaran(@PathVariable("username") String username, Principal principal) {
+    //     try {
+    //         return matpelService.getListAllMatpelInGuru(username);
+    //     } catch (NoSuchElementException e) {
+    //         throw new ResponseStatusException(
+    //                 HttpStatus.NOT_FOUND, "not found.");
+    //     }
+    // }
 
     @GetMapping(value = "/peminatan")
     @PreAuthorize("hasRole('GURU')")
