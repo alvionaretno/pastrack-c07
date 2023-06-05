@@ -1,5 +1,6 @@
 package com.PASTRACK.PASTRACK.RestController;
 
+import java.io.Console;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -224,6 +225,24 @@ public class MatpelRestController {
         }
     }
 
+    // @GetMapping(value = "/guru/{username}/listMatpel")
+    // @PreAuthorize("hasRole('GURU')")
+    // private List<MatpelAllRequest> viewallMatpel(@PathVariable("username") String username) {
+    //     System.out.println(username);
+    //     return new ArrayList<MatpelAllRequest>();
+    // }
+
+    @GetMapping(value = "/guru/{username}/listMatpel")
+    @PreAuthorize("hasRole('GURU')")
+    private List<MatpelAllRequest> listAllMataPelajaran(@PathVariable("username") String username, Principal principal) {
+        try {
+            return matpelService.getListAllMatpelInGuru(username);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "not found.");
+        }
+    }
+
     @GetMapping(value = "/peminatan")
     @PreAuthorize("hasRole('GURU')")
     private List<PeminatanResponse> getListPeminatan(Principal principal) {
@@ -238,6 +257,7 @@ public class MatpelRestController {
                     HttpStatus.NOT_FOUND, "not found.");
         }
     }
+    
 
     // Viewall
     @GetMapping(value = "/guru/{username}/viewall")
