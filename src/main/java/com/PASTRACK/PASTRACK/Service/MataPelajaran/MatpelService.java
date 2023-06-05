@@ -23,4 +23,5 @@ public interface MatpelService {
 
     Long getIdMatpel(addMatpelKelasRequest matpel);
     List<SemesterModel> getAllSemester();
+    List<MatpelAllRequest> getListAllMatpelInGuru(String username);
 }
