@@ -30,5 +30,8 @@ public interface MatpelDB extends JpaRepository<MataPelajaranModel, String> {
 
     @Query("SELECT id FROM MataPelajaranModel")
     Long findIdMatpel();
-
+    @Query("SELECT M FROM MataPelajaranModel M WHERE M.guru = :guru")
+    List<MataPelajaranModel> findListAllMatpelInGuru(
+        @Param("guru") GuruModel guru
+    );
 }

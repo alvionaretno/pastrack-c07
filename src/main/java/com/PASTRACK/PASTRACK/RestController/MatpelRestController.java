@@ -239,4 +239,16 @@ public class MatpelRestController {
         }
     }
 
+    // Viewall
+    @GetMapping(value = "/guru/{username}/viewall")
+    @PreAuthorize("hasRole('GURU')")
+    private List<MatpelAllRequest> listAllMataPelajaran(@PathVariable("username") String username, Principal principal) {
+        try {
+            return matpelService.getListAllMatpelInGuru(username);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "not found.");
+        }
+    }
+
 }
